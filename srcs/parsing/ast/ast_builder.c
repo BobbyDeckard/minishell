@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../incl/minishell.h"
 
 t_ast	*create_ast(t_token **token_list)
 {

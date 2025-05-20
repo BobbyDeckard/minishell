@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../incl/minishell.h"
 
 t_shell_data	g_shell = {NULL, NULL, 0};
 

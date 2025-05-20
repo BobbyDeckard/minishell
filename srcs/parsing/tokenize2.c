@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../incl/minishell.h"
 
 t_token	*tokenize_special_caracter(char **command, t_token *token)
 {

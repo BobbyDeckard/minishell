@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../incl/minishell.h"
 
 //Token allocation and initialisation
 t_token	*create_token(void)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../incl/minishell.h"
 
 int syntax_is_valid(t_token **token_list)
 {

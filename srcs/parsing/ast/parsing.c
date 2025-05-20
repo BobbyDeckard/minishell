@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../incl/minishell.h"
 
 int	get_operator_precedence(t_token_type type)
 {

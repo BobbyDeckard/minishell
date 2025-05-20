@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../incl/minishell.h"
 
 int	is_space(char c)
 {

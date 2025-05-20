@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../incl/minishell.h"
 
 t_ast	*create_ast_node(t_node_type type, t_ast *root)
 {

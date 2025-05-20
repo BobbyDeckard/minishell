@@ -52,38 +52,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef enum e_node_type
-{
-	NODE_CMD = 1,
-	NODE_PIPE = 2,
-	NODE_AND_IF = 3,
-	NODE_OR_IF = 4,
-	NODE_SUBSHELL = 5,
-	NODE_REDIR_IN = 6,
-	NODE_REDIR_OUT = 7,
-	NODE_REDIR_APPEND = 8,
-	NODE_HEREDOC = 9
-}	t_node_type;
-
-typedef struct s_cmd
-{
-	char	**args;
-	char	*path;
-	int		fd_in;
-	int		fd_out;
-}	t_cmd;
-
-typedef struct s_ast
-{
-	t_node_type		type;
-	char			*file;
-	t_cmd			cmd;
-	struct s_ast	**children;
-	struct s_ast	*root;
-	char			**envp;
-	char			**paths;
-}	t_ast;
-
 t_token		**tokenize_input(char *command);
 t_token		**extract_token(char **command, t_token_type type,
 				t_token **token_list);

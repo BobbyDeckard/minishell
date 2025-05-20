@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../incl/minishell.h"
 
 void	free_ast(t_ast *node)
 {

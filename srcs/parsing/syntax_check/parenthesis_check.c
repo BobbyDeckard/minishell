@@ -12,7 +12,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../incl/minishell.h"
 
 int count_tokens(t_token **token_list)
 {
