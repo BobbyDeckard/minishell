@@ -25,7 +25,6 @@ endif
 # SOURCES
 SRCS = $(addprefix $(PATH_SRCS), $(SRCS_FILES))
 SRCS_FILES = main.c \
-			 $(PSEUDO) \
 			 $(EXEC) \
 			 $(UTILS) \
 			 $(BUILTINS)
@@ -34,8 +33,8 @@ PATH_OBJS = objs/
 OBJS = $(patsubst $(PATH_SRCS)%.c, $(PATH_OBJS)%.o, $(SRCS))
 
 # SOURCE FILES
-PSEUDO = $(addprefix pseudo_parsing/, $(PSEUDO_FILES))
-PSEUDO_FILES = presets.c
+# PSEUDO = $(addprefix pseudo_parsing/, $(PSEUDO_FILES))
+# PSEUDO_FILES = presets.c
 EXEC = $(addprefix exec/, $(EXEC_FILES))
 EXEC_FILES = exec.c \
 			 exec_utils.c \
