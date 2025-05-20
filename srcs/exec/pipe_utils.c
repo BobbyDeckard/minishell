@@ -55,6 +55,7 @@ int	count_nodes(t_ast **children)
 {
 	int	i;
 
+	i = 0;
 	while (children[i])
 		i++;
 	return (i);
