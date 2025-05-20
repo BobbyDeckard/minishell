@@ -42,7 +42,8 @@ minishell
 *.su
 *.idb
 *.pdb
-srcs/pseudo_parsing/gpt_parsing.c
+file
+infile
 outfile
 
 # Kernel Module Compile Results
