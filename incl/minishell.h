@@ -23,6 +23,8 @@
 # include <stdbool.h>			// autorisé ?
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <errno.h>
+# include <signal.h>
 # include "../libft/libft.h"
 
 # ifndef SUCCESS
@@ -105,6 +107,15 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
+
+typedef struct s_shell_data
+{
+	char	**envp;
+	char	**paths;
+	int		exit_status;
+}	t_shell_data;
+
+extern t_shell_data	g_shell;
 
 /* Pseudo parsing functions */
 t_ast	*make_ast(int  mode);
