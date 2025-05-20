@@ -72,10 +72,13 @@ int main(int ac, char **av, char **envp)
 		{
 			add_history(command);
 			ast = parse_input(command);
-			ast->paths = get_paths();
 			free(command);
-			exec_ast(ast);
-			cleanup(ast->root);
+			if (ast)
+			{
+				ast->paths = get_paths();
+				exec_ast(ast);
+				cleanup(ast->root);
+			}
 		}
 		else
 			break;
