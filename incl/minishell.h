@@ -35,6 +35,14 @@
 #  define FAILURE 1
 # endif
 
+# ifndef ANSI_CYAN
+#  define ANSI_CYAN "\x1b[36m"
+# endif
+
+# ifndef ANSI_RESET
+#  define ANSI_RESET "\x1b[0m"
+# endif
+
 /* Enums */
 typedef enum e_node_type
 {

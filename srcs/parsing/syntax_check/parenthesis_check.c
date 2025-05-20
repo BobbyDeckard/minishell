@@ -63,7 +63,7 @@ int	paren_syntax_is_valid(t_token **token_list)
 
 	t_token *temp = *token_list;
 	while (temp) {
-    printf("Token type: %d, content: %s\n", temp->type, temp->content);
+//    printf("Token type: %d, content: %s\n", temp->type, temp->content);
     temp = temp->next;
 }
 	top = -1;

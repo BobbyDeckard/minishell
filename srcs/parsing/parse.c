@@ -29,15 +29,15 @@ t_ast *parse_input(char *command)
 		free_token_list(token_list);
 		return (printf("Syntax error in command\n"), NULL);
 	}
-	print_token_list(token_list);
+//	print_token_list(token_list);
 	ast_root = create_ast(token_list);
 	if (!ast_root)
 	{
 		free_token_list(token_list);
 		return (printf("Failed to create AST\n"), NULL);
 	}
-	printf("\n--- AST Structure ---\n");
-	print_ast(ast_root, 0);
+//	printf("\n--- AST Structure ---\n");
+//	print_ast(ast_root, 0);
 //	free_ast(ast_root);
 	free_token_list(token_list);
 	return (ast_root);

@@ -18,6 +18,7 @@ char	*trunc_cwd(char *full)
     char    *ptr;
     int     len;
     int     i;
+	int		j;
 
     ptr = full;
     while (*ptr)
@@ -26,15 +27,22 @@ char	*trunc_cwd(char *full)
         ptr--;
     ptr++;
     len = ft_strlen(ptr);
-    cwd = (char *) malloc((len + 4) * sizeof(char));
+    cwd = (char *) malloc((len + 19) * sizeof(char));
     if (!cwd)
         exit (1);
-    i = -1;
-    while (++i < len)
-        cwd[i] = ptr[i];
-    cwd[i++] = ' ';
-    cwd[i++] = '>';
-    cwd[i] = ' ';
+	i = 0;
+	while (i < len + 19)
+		cwd[i++] = 0;
+	ft_strlcat(cwd, "\x1b[36m", len + 19);
+    i = 0;
+	j = ft_strlen(cwd);
+    while (i < len)
+        cwd[j++] = ptr[i++];
+	ft_strlcat(cwd, "\x1b[0m", len + 19);
+	j = ft_strlen(cwd);
+    cwd[j++] = ' ';
+    cwd[j++] = '>';
+    cwd[j] = ' ';
     free(full);
     return (cwd);
 }
