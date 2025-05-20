@@ -85,30 +85,3 @@ int main(int ac, char **av, char **envp)
 	}
 	return (0);
 }
-
-/*
-int main(int ac, char **av, char **envp)
-{
-	t_ast	*ast;
-	char	**paths;
-	int		mode;
-
-	if (ac != 2)
-		return (1);
-	mode = ft_atoi(av[1]);
-	if (mode > 188888888)
-	{
-		printf("Invalid preset\n");
-		return (1);
-	}
-	print_cmd(mode);
-	paths = get_paths();
-	ast = make_ast(mode);
-	ast->paths = paths;
-	ast->envp = envp;
-//	print_tree(ast);
-	exec_ast(ast);
-	cleanup(ast);
-	return (0);
-}
-*/
