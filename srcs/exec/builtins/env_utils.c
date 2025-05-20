@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 char	*get_str(const char *name)
 {

@@ -27,7 +27,6 @@ SRCS = $(addprefix $(PATH_SRCS), $(SRCS_FILES))
 SRCS_FILES = main.c \
 			 $(EXEC) \
 			 $(UTILS) \
-			 $(BUILTINS) \
 			 $(PARSING)
 PATH_SRCS = srcs/
 PATH_OBJS = objs/
@@ -46,14 +45,8 @@ EXEC_FILES = exec.c \
 			 pipe_utils2.c \
 			 redirs.c \
 			 redirs_utils.c \
-			 subshell.c
-UTILS = $(addprefix utils/, $(UTILS_FILES))
-UTILS_FILES = ast_utils.c \
-			  cleanup.c \
-			  cwd.c \
-			  errors.c \
-			  ft_split_path.c \
-			  print.c
+			 subshell.c \
+			 $(BUILTINS)
 BUILTINS = $(addprefix builtins/, $(BLTIN_FILES))
 BLTIN_FILES = builtins.c \
 			  cd.c \
@@ -61,6 +54,11 @@ BLTIN_FILES = builtins.c \
 			  env_utils.c \
 			  echo.c \
 			  pwd.c
+UTILS = $(addprefix utils/, $(UTILS_FILES))
+UTILS_FILES = cleanup.c \
+			  cwd.c \
+			  errors.c \
+			  ft_split_path.c
 PARSING = $(addprefix parsing/, $(PARS_FILES))
 PARS_FILES = caracter_type.c \
 			 caracter_type2.c \

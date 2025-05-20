@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 int	exec_builtin(t_ast *node)
 {

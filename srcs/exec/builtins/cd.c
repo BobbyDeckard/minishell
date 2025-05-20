@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 char	*cd_error(t_ast	*node)
 {

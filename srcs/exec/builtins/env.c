@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 void	print_variable(t_ast *node, const char *name)
 {
