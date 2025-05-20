@@ -27,7 +27,9 @@ SRCS = $(addprefix $(PATH_SRCS), $(SRCS_FILES))
 SRCS_FILES = main.c \
 			 $(EXEC) \
 			 $(UTILS) \
-			 $(BUILTINS)
+			 $(BUILTINS) \
+			 $(PARSING) \
+			 $(READLINE)
 PATH_SRCS = srcs/
 PATH_OBJS = objs/
 OBJS = $(patsubst $(PATH_SRCS)%.c, $(PATH_OBJS)%.o, $(SRCS))
@@ -60,6 +62,30 @@ BLTIN_FILES = builtins.c \
 			  env_utils.c \
 			  echo.c \
 			  pwd.c
+PARSING = $(addprefix parsing/, $(PARS_FILES))
+PARS_FILES = caracter_type.c \
+			 caracter_type2.c \
+			 helpers.c \
+			 parse.c \
+			 parsing.c \
+			 retrieve.c \
+			 tokenize.c \
+			 tokenize2.c \
+			 tokens.c \
+			 $(AST) \
+			 $(SYNTAX)
+AST = $(addprefix, ast/, $(AST_FILES))
+AST_FILES = ast_builder.c \
+			nodes.c \
+			parsing.c \
+			simple_command.c \
+			utils.c
+SYNTAX = $(addprefix syntax_check/, $(SYNT_FILES))
+SYNT_FILES = other_type_check.c \
+			 parenthesis_check.c \
+			 syntax_check.c
+READLINE = $(addprefix readline/, $(READ_FILES))
+READ_FILES = readline.c
 
 # INCLUDES
 HEADERS = incl/minishell.h
