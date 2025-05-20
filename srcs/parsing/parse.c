@@ -12,35 +12,35 @@
 
 #include "../../incl/minishell.h"
 
-int	parse_input(char *command)
+t_ast *parse_input(char *command)
 {
 	t_token	**token_list;
 	t_ast	*ast_root;
 	int		syntax_valid;
 
 	if (!command)
-		return (1);
+		return (NULL);
 	token_list = tokenize_input(command);
 	if (!token_list)
-		return (1);
+		return (NULL);
 	syntax_valid = syntax_is_valid(token_list);
 	if (!syntax_valid)
 	{
 		free_token_list(token_list);
-		return (printf("Syntax error in command\n"), 1);
+		return (printf("Syntax error in command\n"), NULL);
 	}
 	print_token_list(token_list);
 	ast_root = create_ast(token_list);
 	if (!ast_root)
 	{
 		free_token_list(token_list);
-		return (printf("Failed to create AST\n"), 1);
+		return (printf("Failed to create AST\n"), NULL);
 	}
 	printf("\n--- AST Structure ---\n");
 	print_ast(ast_root, 0);
-	free_ast(ast_root);
+//	free_ast(ast_root);
 	free_token_list(token_list);
-	return (0);
+	return (ast_root);
 }
 
 void	print_token_list(t_token **token_list)

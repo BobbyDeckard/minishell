@@ -50,16 +50,19 @@
  * 3)	Si aucune commande n'est reçue, la boucle est brisée et le programme se termine.
 */
 
+t_shell_data	g_shell = {NULL, NULL, 0};
+
 int main(int ac, char **av, char **envp)
 {
 	t_ast	*ast;
 	char	*command;
 	char	*cwd;
-	int		preset;
 
 	(void) ac;
 	(void) av;
 	
+	g_shell.envp = envp;
+	g_shell.exit_status = 0;
 	while (1)
 	{
 		cwd = make_cwd();
@@ -67,23 +70,11 @@ int main(int ac, char **av, char **envp)
 		free(cwd);
 		if (command)
 		{
-			preset = ft_atoi(command);
 			add_history(command);
-			if (preset > 18 || !ft_isdigit(command[0]))
-			{
-				print_options();
-				free(command);
-			}
-			else
-			{
-				free(command);
-				print_cmd(preset);
-				ast = make_ast(preset);
-				ast->paths = get_paths();
-				ast->envp = envp;
-				exec_ast(ast);
-				cleanup(ast->root);
-			}
+			ast = parse_input(command);
+			free(command);
+			exec_ast(ast);
+			cleanup(ast->root);
 		}
 		else
 			break;

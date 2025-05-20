@@ -14,6 +14,7 @@
 
 t_shell_data	g_shell = {NULL, NULL, 0};
 
+/*
 int	main(int argc, char **argv, char **envp)
 {
 	char	*command;
@@ -36,3 +37,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+*/
