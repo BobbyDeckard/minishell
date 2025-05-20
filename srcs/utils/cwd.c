@@ -27,21 +27,25 @@ char	*trunc_cwd(char *full)
         ptr--;
     ptr++;
     len = ft_strlen(ptr);
-    cwd = (char *) malloc((len + 19) * sizeof(char));
+    cwd = (char *) malloc(256 * sizeof(char));
     if (!cwd)
         exit (1);
 	i = 0;
 	while (i < len + 19)
 		cwd[i++] = 0;
-	ft_strlcat(cwd, "\x1b[36m", len + 19);
+	ft_strlcat(cwd, "\e[1;36m", 256);
     i = 0;
 	j = ft_strlen(cwd);
     while (i < len)
         cwd[j++] = ptr[i++];
-	ft_strlcat(cwd, "\x1b[0m", len + 19);
+	ft_strlcat(cwd, "\x1b[0m", 256);
+//	j = ft_strlen(cwd);
+//	cwd[j] = ' ';
+//	ft_strlcat(cwd, "\x1b[0m", 256);
+//	j = ft_strlen(cwd);
+//	cwd[j] = '>';
+//	ft_strlcat(cwd, "\x1b[0m", 256);
 	j = ft_strlen(cwd);
-    cwd[j++] = ' ';
-    cwd[j++] = '>';
     cwd[j] = ' ';
     free(full);
     return (cwd);
