@@ -95,13 +95,16 @@ RESET = \033[0m
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
+	echo "$(YELLOW)compiling $(NAME)$(RESET)"
 	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(LIBFT) -o $(NAME)
 	echo "$(GREEN)$(NAME) compiled!$(RESET)"
 
 $(PATH_OBJS)%.o: $(PATH_SRCS)%.c $(HEADERS) $(LIBFT)
+	echo "$(YELLOW)compiling $<$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
+	echo "$(YELLOW)compiling libft$(RESET)"
 	$(MAKE) -C libft --no-print-directory
 
 clean:
