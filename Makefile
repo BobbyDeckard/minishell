@@ -6,7 +6,7 @@
 #    By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 14:35:02 by imeulema          #+#    #+#              #
-#    Updated: 2025/05/13 19:42:01 by imeulema         ###   ########.fr        #
+#    Updated: 2025/05/21 11:02:38 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,6 +83,7 @@ SYNT_FILES = other_type_check.c \
 			 syntax_check.c
 DEBUG = $(addprefix debug/, $(DBG_FILES))
 DBG_FILES = ast_utils.c \
+			debug.c \
 			presets.c \
 			print.c
 

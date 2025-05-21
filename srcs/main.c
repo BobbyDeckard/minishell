@@ -6,11 +6,13 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:47:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 19:52:27 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:02:19 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
+
+void	run_debug(char **envp, char *command);
 
 t_shell_data	g_shell = {NULL, NULL, 0};
 
@@ -33,14 +35,19 @@ int main(int ac, char **av, char **envp)
 		free(cwd);
 		if (command)
 		{
-			add_history(command);
-			ast = parse_input(command);
-			free(command);
-			if (ast)
+			if (ft_isdigit(*command))
+				run_debug(envp, command);
+			else
 			{
-				ast->paths = get_paths();
-				exec_ast(ast);
-				cleanup(ast->root);
+					add_history(command);
+				ast = parse_input(command);
+				free(command);
+				if (ast)
+				{
+					ast->paths = get_paths();
+					exec_ast(ast);
+					cleanup(ast->root);
+				}
 			}
 		}
 		else
