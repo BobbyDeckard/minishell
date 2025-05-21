@@ -21,11 +21,14 @@ t_ast	*create_ast(t_token **token_list)
 
 	if (!token_list || !*token_list)
 		return (NULL);
+
+	// jsp si c'est nécessaire de garder la node root
 	root = create_ast_node(NODE_CMD, NULL);
 	if (!root)
 		return (NULL);
 	root->root = root;
 	root->envp = g_shell.envp;
+
 	token_count = count_tokens(token_list);
 	tree = parse_command_line(token_list, 0, token_count - 1, root);
 	if (!tree)
@@ -35,7 +38,9 @@ t_ast	*create_ast(t_token **token_list)
 	}
 	tree->envp = g_shell.envp;
 	free(root);
-	set_root_node(tree, tree);
+	set_root_node(tree, tree);		// fonction qui initialise le pointeur root
+									// de toutes les nodes de l'arbre à la node
+									// passée en 2e argument
 	return (tree);
 }
 
