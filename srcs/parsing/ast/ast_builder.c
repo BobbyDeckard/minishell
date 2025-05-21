@@ -12,6 +12,34 @@
 
 #include "../../../incl/minishell.h"
 
+/* Je retire la node root et renvoie la node tree à la place */
+t_ast	*create_ast(t_token **token_list)
+{
+	t_ast	*root;
+	t_ast	*tree;
+	int		token_count;
+
+	if (!token_list || !*token_list)
+		return (NULL);
+	root = create_ast_node(NODE_CMD, NULL);
+	if (!root)
+		return (NULL);
+	root->root = root;
+	root->envp = g_shell.envp;
+	token_count = count_tokens(token_list);
+	tree = parse_command_line(token_list, 0, token_count - 1, root);
+	if (!tree)
+	{
+		free_ast(root);
+		return (NULL);
+	}
+	tree->envp = g_shell.envp;
+	free(root);
+	set_root_node(tree, tree);
+	return (tree);
+}
+
+/*
 t_ast	*create_ast(t_token **token_list)
 {
 	t_ast	*root;
@@ -50,6 +78,7 @@ t_ast	*create_ast(t_token **token_list)
 	root->children[1] = NULL;
 	return (root);
 }
+*/
 
 t_token	*get_token_at_index(t_token **token_list, int index)
 {

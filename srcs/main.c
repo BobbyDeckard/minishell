@@ -44,6 +44,7 @@ int main(int ac, char **av, char **envp)
 				if (ast)
 				{
 					ast->paths = get_paths();
+					print_tree(ast);
 					exec_ast(ast);
 					cleanup(ast->root);
 				}
