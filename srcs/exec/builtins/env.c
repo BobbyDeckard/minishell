@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:37:39 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 13:31:08 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:33:34 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ char	*get_variable(t_ast *node, char *full)
 		malloc_error(node);
 	i = -1;
 	while (full[++i] && full[i] != '=')
-	{
 		var[i] = full[i];
-	}
 	var[i] = 0;
 	return (var);
 }
@@ -83,10 +81,7 @@ char	**get_env_variables(t_ast *node, int count)
 	{
 		variables[i] = get_variable(node, node->root->envp[i]);
 		if (!variables[i])
-		{
-			printf("get_variable error ?\n");
 			break ;
-		}
 	}
 	return (variables);
 }
@@ -103,7 +98,7 @@ int	env(t_ast *node)
 	if (count)
 		variables = get_env_variables(node, count);
 	i = -1;
-	while (++i < count)
+	while (++i < count && variables[i])
 	{
 		print_variable(node, variables[i]);
 		free(variables[i]);
