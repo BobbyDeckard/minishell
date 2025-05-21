@@ -27,7 +27,8 @@ SRCS = $(addprefix $(PATH_SRCS), $(SRCS_FILES))
 SRCS_FILES = main.c \
 			 $(EXEC) \
 			 $(UTILS) \
-			 $(PARSING)
+			 $(PARSING) \
+			 $(DEBUG)
 PATH_SRCS = srcs/
 PATH_OBJS = objs/
 OBJS = $(patsubst $(PATH_SRCS)%.c, $(PATH_OBJS)%.o, $(SRCS))
@@ -80,6 +81,10 @@ SYNTAX = $(addprefix syntax_check/, $(SYNT_FILES))
 SYNT_FILES = other_type_check.c \
 			 parenthesis_check.c \
 			 syntax_check.c
+DEBUG = $(addprefix debug/, $(DBG_FILES))
+DBG_FILES = ast_utils.c \
+			presets.c \
+			print.c
 
 # INCLUDES
 HEADERS = incl/minishell.h
