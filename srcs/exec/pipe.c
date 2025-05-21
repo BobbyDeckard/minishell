@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 21:22:44 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 19:42:20 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:03:26 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	exec_pipe_and(t_ast *node)
 	{
 		if (node->children[i]->type == NODE_CMD)
 		{
+			// make_redirs here ?
 			pid = make_fork();
 			if (pid == 0)
 				exec_pipe_cmd(node->children[i]);
@@ -57,7 +58,10 @@ void	exec_pipe_or(t_ast *node)
 	{
 		if (node->children[i]->type == NODE_CMD)
 		{
-			pid = make_fork();
+			// make_redirs here ?
+			pid = make_fork();			// those forks seem to be essential to
+										// execute the logical operation further
+										// down the process
 			if (pid == 0)
 				exec_pipe_cmd(node->children[i]);
 			waitpid(pid, &status, 0);
@@ -89,7 +93,9 @@ int	run_pipe(t_ast **child, int *pids, int count)
 		if (child[i] == NODE_CMD && is_builtin(child[i]->cmd))
 			exec_builtin(child[i]);
 		else
-			pids[i] = make_fork();
+			pids[i] = make_fork();		// why are we forking here ?
+										// actually seems like a good thing but need
+										// to be wary of further forks happening
 		if (pids[i] == 0)
 			exec_pipe_child(child[i]);
 		close_pipes(fd, i, count);
