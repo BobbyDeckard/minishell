@@ -1,0 +1,8 @@
+1. Remove temp file from heredoc in pipes without breaking everything that's working now
+2. Check leaks for existing builtins
+3. Make remaining builtins
+4. Check error management and leaks on errors
+5. It should be possible to call a command using it's absolute path.
+	For example: < file /usr/bin/grep foo is a valid command.
+	+ calling a command this way should bypass the removal of the PATH env variable.
+6. Modify command arguments parsing to not split when encountering '=', or at least make it stick for the export command
