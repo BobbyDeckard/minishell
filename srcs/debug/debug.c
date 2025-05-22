@@ -18,7 +18,7 @@ void	run_debug(char **envp, char *command)
 	int		preset;
 
 	preset = ft_atoi(command);
-	if (preset > 18)
+	if (preset > 19)
 	{
 		print_options();
 		free(command);

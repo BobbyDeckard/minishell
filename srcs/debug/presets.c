@@ -1077,6 +1077,23 @@ t_ast	*make_heredoc_ast(void)
 	return (grep);
 }
 
+t_ast	*make_sleep(void)
+{
+	t_ast	*sleep;
+	sleep = (t_ast *) malloc(sizeof(t_ast));
+	if (!sleep)
+		exit (1);
+	sleep->type = NODE_CMD;
+	sleep->cmd.args = make_args(2, "sleep", "3");
+	sleep->cmd.fd_in = STDIN_FILENO;
+	sleep->cmd.fd_out = STDOUT_FILENO;
+	sleep->children = NULL;
+	sleep->file = NULL;
+
+	set_root_node(sleep, sleep);
+	return (sleep);
+}
+
 t_ast	*make_ast(int mode)
 {
 	if (mode == 0)
@@ -1117,6 +1134,8 @@ t_ast	*make_ast(int mode)
 		return (make_subshell());
 	else if (mode == 18)
 		return (make_heredoc_ast());
+	else if (mode == 19)
+		return (make_sleep());
 	return (NULL);
 }
 

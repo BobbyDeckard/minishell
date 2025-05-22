@@ -36,7 +36,7 @@ void	print_options(void)
 	printf("16:\tenv\n");
 	printf("17:\t[subshell]\n");
 	printf("18:\t<< end grep foo\n");
-
+	printf("19:\tsleep 3\n");
 }
 
 void	print_cmd(int mode)
@@ -80,6 +80,8 @@ void	print_cmd(int mode)
 		printf("[subshell]\n");
 	else if (mode == 18)
 		printf("<< end grep foo\n");
+	else if (mode == 19)
+		printf("sleep 3\n");
 	printf("\n");
 }
 
