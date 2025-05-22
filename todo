@@ -6,3 +6,6 @@
 	For example: < file /usr/bin/grep foo is a valid command.
 	+ calling a command this way should bypass the removal of the PATH env variable.
 6. Modify command arguments parsing to not split when encountering '=', or at least make it stick for the export command
+7. Make sure we correctly free the new_env tab
+	At the end of the program
+	In case of an error in related builtins and functions
