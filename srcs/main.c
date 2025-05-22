@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:47:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 11:06:38 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:13:02 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int main(int ac, char **av, char **envp)
 				if (ast)
 				{
 					ast->paths = get_paths();
+					ast->envp = envp;			// retirer g_shell: structure globale interdite
 					exec_ast(ast);
 					cleanup(ast->root);
 				}
