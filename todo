@@ -9,3 +9,6 @@
 7. Make sure we correctly free the new_env tab
 	At the end of the program
 	In case of an error in related builtins and functions
+8. Change $PWD in case of cd
+9. Investigate and handle $SHLVL and $BASH_SUBSHELL
+10. Implement solo redirs
