@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:37:39 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 15:01:10 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:43:37 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	env(t_ast *node)
 	if (make_redirs(node) == FAILURE)
 		return (FAILURE);
 	count = count_variables(node);
+	printf("env counted %d environment variables\n", count);
 	if (count)
 		variables = get_env_variables(node, count);
 	i = -1;

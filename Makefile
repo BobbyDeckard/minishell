@@ -6,7 +6,7 @@
 #    By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 14:35:02 by imeulema          #+#    #+#              #
-#    Updated: 2025/05/22 11:05:22 by imeulema         ###   ########.fr        #
+#    Updated: 2025/05/22 11:34:30 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,16 +51,18 @@ EXEC_FILES = exec.c \
 BUILTINS = $(addprefix builtins/, $(BLTIN_FILES))
 BLTIN_FILES = builtins.c \
 			  cd.c \
+			  echo.c \
 			  env.c \
 			  env_utils.c \
-			  echo.c \
+			  export.c \
 			  pwd.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 UTILS_FILES = cleanup.c \
 			  cwd.c \
 			  env_cpy.c \
 			  errors.c \
-			  ft_split_path.c
+			  ft_split_path.c \
+			  general_utils.c
 PARSING = $(addprefix parsing/, $(PARS_FILES))
 PARS_FILES = caracter_type.c \
 			 caracter_type2.c \

@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:47:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:05:42 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:48:14 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int main(int ac, char **av, char **envp)
 				run_debug(envp, command);
 			else
 			{
-					add_history(command);
+				add_history(command);
 				ast = parse_input(command);
 				free(command);
 				if (ast)
@@ -48,6 +48,7 @@ int main(int ac, char **av, char **envp)
 					ast->paths = get_paths();
 					ast->envp = env_cpy;
 					exec_ast(ast);
+					env_cpy = ast->envp;
 					cleanup(ast->root);
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:05:00 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:33:56 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int		exec_subshell(t_ast *node);
 int		make_redirs(t_ast *ast);
 
 /* Utilities functions */
+void	clean_env_cpy(char **env_cpy, int i);
 void	clean_exit(t_ast *root, int status);
 void	cleanup(t_ast *ast);
 void	print_cmd(int mode);
@@ -149,6 +150,7 @@ void	set_root_node(t_ast *ast, t_ast *root);
 char	**init_env_cpy(char **envp);
 char	*make_cwd(void);
 int		fork_error(void);
+int		ft_char_tab_len(char **tab);
 
 /* Pipe functions */
 void	close_pipes(int fd[2][2], int i, int count);
@@ -170,6 +172,7 @@ int		cd(t_ast *node);
 int		echo(t_ast	*node);
 int		env(t_ast *node);
 int		exec_builtin(t_ast *node);
+int		export_bltn(t_ast *node);
 int		is_builtin(t_cmd cmd);
 int		pwd(t_ast *node);
 //int		unset(t_ast *node);

@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:57:09 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:04:23 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:30:28 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**init_env_cpy(char **envp)
 	env_cpy = (char **) malloc(i * sizeof(char *));
 	if (!env_cpy)
 		malloc_error(NULL);
-	printf("Allocated %d pointers in env_cpy, ready to copy\n", i);
+	printf("\nAllocated %d pointers in env_cpy, ready to copy\n", i);
 	i = -1;
 	while (envp[++i])
 	{
@@ -45,6 +45,7 @@ char	**init_env_cpy(char **envp)
 		ft_strlcat(env_cpy[i], envp[i], ft_strlen(envp[i]));
 		printf("Copied entry no. %d: %s\n", i, env_cpy[i]);
 	}
+	printf("\n");
 	env_cpy[i] = NULL;
 	return (env_cpy);
 }
