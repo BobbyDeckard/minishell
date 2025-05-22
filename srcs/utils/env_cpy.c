@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:57:09 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 14:56:26 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:08:41 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ char	**copy_env(char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	env_cpy = (char **) malloc(i * sizeof(char *));
+	printf("copy_env fount envp to have %d elements\n", i);
+	env_cpy = (char **) malloc(++i * sizeof(char *));
 	if (!env_cpy)
 		malloc_error(NULL);
 	i = -1;
 	while (envp[++i])
 	{
+		printf("About to copy envp[%d]\n", i);
 		env_cpy[i] = (char *) malloc((ft_strlen(envp[i]) + 1) * sizeof(char));
 		if (!env_cpy[i])
 		{
@@ -49,6 +51,8 @@ char	**copy_env(char **envp)
 		}
 		ft_strlcat(env_cpy[i], envp[i], ft_strlen(envp[i]) + 1);
 	}
+	printf("Copied all elements, about to NULL-terminate tab\n");
 	env_cpy[i] = NULL;
+	printf("NULL-terminated env_cpy\n");
 	return (env_cpy);
 }
