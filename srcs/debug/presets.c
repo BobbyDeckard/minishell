@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:07:27 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 16:11:58 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:14:45 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1031,21 +1031,6 @@ t_ast	*make_env(void)
 	return (env);
 }
 
-t_ast	*make_subshell(void)
-{
-	t_ast	*sub;
-	sub = (t_ast *) malloc(sizeof(t_ast));
-	if (!sub)
-		exit(1);
-	sub->type = NODE_SUBSHELL;
-	sub->cmd.args = NULL;
-	sub->children = NULL;
-	sub->file = NULL;
-
-	set_root_node(sub, sub);
-	return (sub);
-}
-
 t_ast	*make_heredoc_ast(void)
 {
 	// << end grep foo
@@ -1082,7 +1067,7 @@ t_ast	*make_sleep(void)
 	t_ast	*sleep;
 	sleep = (t_ast *) malloc(sizeof(t_ast));
 	if (!sleep)
-		exit (1);
+		exit(1);
 	sleep->type = NODE_CMD;
 	sleep->cmd.args = make_args(2, "sleep", "3");
 	sleep->cmd.fd_in = STDIN_FILENO;
@@ -1092,6 +1077,150 @@ t_ast	*make_sleep(void)
 
 	set_root_node(sleep, sleep);
 	return (sleep);
+}
+
+t_ast	*make_export(void)
+{
+	// export foo=42 && env && export foo=13 && env && unset foo && env
+
+	t_ast	*export1;
+	export1 = (t_ast *) malloc(sizeof(t_ast));
+	if (!export1)
+		exit(1);
+	export1->type = NODE_CMD;
+	export1->cmd.args = make_args(2, "export", "foo=42");
+	export1->cmd.fd_in = STDIN_FILENO;
+	export1->cmd.fd_out = STDOUT_FILENO;
+	export1->children = NULL;
+	export1->file = NULL;
+
+	t_ast	*export2;
+	export2 = (t_ast *) malloc(sizeof(t_ast));
+	if (!export2)
+		exit(1);
+	export2->type = NODE_CMD;
+	export2->cmd.args = make_args(2, "export", "foo=13");
+	export2->cmd.fd_in = STDIN_FILENO;
+	export2->cmd.fd_out = STDOUT_FILENO;
+	export2->children = NULL;
+	export2->file = NULL;
+
+	t_ast	*env1;
+	env1 = (t_ast *) malloc(sizeof(t_ast));
+	if (!env1)
+		exit(1);
+	env1->type = NODE_CMD;
+	env1->cmd.args = make_args(1, "env");
+	env1->cmd.fd_in = STDIN_FILENO;
+	env1->cmd.fd_out = STDOUT_FILENO;
+	env1->children = NULL;
+	env1->file = NULL;
+
+	t_ast	*env2;
+	env2 = (t_ast *) malloc(sizeof(t_ast));
+	if (!env2)
+		exit(1);
+	env2->type = NODE_CMD;
+	env2->cmd.args = make_args(1, "env");
+	env2->cmd.fd_in = STDIN_FILENO;
+	env2->cmd.fd_out = STDOUT_FILENO;
+	env2->children = NULL;
+	env2->file = NULL;
+
+	t_ast	*env3;
+	env3 = (t_ast *) malloc(sizeof(t_ast));
+	if (!env3)
+		exit(1);
+	env3->type = NODE_CMD;
+	env3->cmd.args = make_args(1, "env");
+	env3->cmd.fd_in = STDIN_FILENO;
+	env3->cmd.fd_out = STDOUT_FILENO;
+	env3->children = NULL;
+	env3->file = NULL;
+
+	t_ast	*unset;
+	unset = (t_ast *) malloc(sizeof(t_ast));
+	if (!unset)
+		exit(1);
+	unset->type = NODE_CMD;
+	unset->cmd.args = make_args(2, "unset", "foo");
+	unset->cmd.fd_in = STDIN_FILENO;
+	unset->cmd.fd_out = STDOUT_FILENO;
+	unset->children = NULL;
+	unset->file = NULL;
+
+	t_ast	*and1;
+	and1 = (t_ast *) malloc(sizeof(t_ast));
+	if (!and1)
+		exit(1);
+	and1->type = NODE_AND_IF;
+	and1->cmd.args = NULL;
+	and1->children = (t_ast **) malloc(3 * sizeof(t_ast *));
+	if (!and1->children)
+		exit(1);
+	and1->children[0] = export1;
+	and1->children[1] = env1;
+	and1->children[2] = NULL;
+	and1->file = NULL;
+
+	t_ast	*and2;
+	and2 = (t_ast *) malloc(sizeof(t_ast));
+	if (!and2)
+		exit(1);
+	and2->type = NODE_AND_IF;
+	and2->cmd.args = NULL;
+	and2->children = (t_ast **) malloc(3 * sizeof(t_ast *));
+	if (!and2->children)
+		exit(1);
+	and2->children[0] = and1;
+	and2->children[1] = export2;
+	and2->children[2] = NULL;
+	and2->file = NULL;
+
+	t_ast	*and3;
+	and3 = (t_ast *) malloc(sizeof(t_ast));
+	if (!and3)
+		exit(1);
+	and3->type = NODE_AND_IF;
+	and3->cmd.args = NULL;
+	and3->children = (t_ast **) malloc(3 * sizeof(t_ast *));
+	if (!and3->children)
+		exit(1);
+	and3->children[0] = and2;
+	and3->children[1] = env2;
+	and3->children[2] = NULL;
+	and3->file = NULL;
+
+	t_ast	*and4;
+	and4 = (t_ast *) malloc(sizeof(t_ast));
+	if (!and4)
+		exit(1);
+	and4->type = NODE_AND_IF;
+	and4->cmd.args = NULL;
+	and4->children = (t_ast **) malloc(3 * sizeof(t_ast *));
+	if (!and4->children)
+		exit(1);
+	and4->children[0] = and3;
+	and4->children[1] = unset;
+	and4->children[2] = NULL;
+	and4->file = NULL;
+
+	t_ast	*and5;
+	and5 = (t_ast *) malloc(sizeof(t_ast));
+	if (!and5)
+		exit(1);
+	and5->type = NODE_AND_IF;
+	and5->cmd.args = NULL;
+	and5->children = (t_ast **) malloc(3 * sizeof(t_ast *));
+	if (!and5->children)
+		exit(1);
+	and5->children[0] = and4;
+	and5->children[1] = env3;
+	and5->children[2] = NULL;
+	and5->file = NULL;
+
+	set_root_node(and5, and5);
+	return (and5);
 }
 
 t_ast	*make_ast(int mode)
@@ -1130,10 +1259,12 @@ t_ast	*make_ast(int mode)
 		return (make_cd_pwd());
 	else if (mode == 16)
 		return (make_env());
-	else if (mode == 18)
+	else if (mode == 17)
 		return (make_heredoc_ast());
-	else if (mode == 19)
+	else if (mode == 18)
 		return (make_sleep());
+	else if (mode == 19)
+		  return (make_export());
 	return (NULL);
 }
 

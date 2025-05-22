@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:15:47 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 15:48:12 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:37:29 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,43 @@ int	export_print(t_ast *node, int size)
 	return (SUCCESS);
 }
 
+int	has_equal(const char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '=')
+			return (1);
+	}
+	return (0);
+}
+
+int	assign_var(t_ast *node, int size)
+{
+	if (size)
+		return (FAILURE);
+	else if (node)
+		return (FAILURE);
+	else
+		return (FAILURE);
+}
+
+int	create_var(t_ast *node, int size)
+{
+	int	len;
+	
+	len = ft_strlen(node->cmd.args[1]) + 1;
+	node->root->envp = make_new_env(node, size + 1);
+	node->root->envp[size] = (char *) malloc(len * sizeof(char));
+	if (!node->root->envp[size])
+		malloc_error(node);
+	ft_strlcat(node->root->envp[size], node->cmd.args[1], len);
+	node->root->envp[++size] = NULL;
+	return (SUCCESS);
+}
+
 int	export_bltn(t_ast *node)
 {
 	int		size;
@@ -134,6 +171,10 @@ int	export_bltn(t_ast *node)
 		return (FAILURE);					// not sure this is the behaviour of export
 	else if (!node->cmd.args[1])
 		return (export_print(node, size));
+	else if (has_equal(node->cmd.args[1]))
+		return (assign_var(node, size));
+	else
+		return (create_var(node, size));
 	node->root->envp = make_new_env(node, size + 1);
 	node->root->envp[size] = (char *) malloc((ft_strlen(node->cmd.args[1]) + 1) * sizeof(char));
 	if (!node->root->envp[size])

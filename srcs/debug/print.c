@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 15:35:00 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 19:53:13 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:16:47 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	print_options(void)
 	printf("14:\techo hello there | wc -w\n");
 	printf("15:\tcd srcs && pwd || echo fail\n");
 	printf("16:\tenv\n");
-	printf("17:\t[subshell]\n");
-	printf("18:\t<< end grep foo\n");
-	printf("19:\tsleep 3\n");
+	printf("17:\t<< end grep foo\n");
+	printf("18:\tsleep 3\n");
+	printf("19:\texport foo=42 && env && export foo=13 && env && unset foo && env\n");
 }
 
 void	print_cmd(int mode)
@@ -77,11 +77,11 @@ void	print_cmd(int mode)
 	else if (mode == 16)
 		printf("env\n");
 	else if (mode == 17)
-		printf("[subshell]\n");
-	else if (mode == 18)
 		printf("<< end grep foo\n");
-	else if (mode == 19)
+	else if (mode == 18)
 		printf("sleep 3\n");
+	else if (mode == 19)
+		printf("export foo=42 && env && export foo=13 && env && unset foo && env\n");
 	printf("\n");
 }
 
