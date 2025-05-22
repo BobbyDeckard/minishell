@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 14:58:12 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:05:00 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	dup2_error(void);
 void	malloc_error(t_ast *ast);
 void	print_tree(t_ast *ast);
 void	set_root_node(t_ast *ast, t_ast *root);
+char	**init_env_cpy(char **envp);
 char	*make_cwd(void);
 int		fork_error(void);
 

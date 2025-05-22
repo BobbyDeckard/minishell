@@ -6,7 +6,7 @@
 #    By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 14:35:02 by imeulema          #+#    #+#              #
-#    Updated: 2025/05/21 11:02:38 by imeulema         ###   ########.fr        #
+#    Updated: 2025/05/22 11:05:22 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ BLTIN_FILES = builtins.c \
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 UTILS_FILES = cleanup.c \
 			  cwd.c \
+			  env_cpy.c \
 			  errors.c \
 			  ft_split_path.c
 PARSING = $(addprefix parsing/, $(PARS_FILES))

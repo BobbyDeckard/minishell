@@ -25,5 +25,6 @@ int	pipe_error(int *pids, int fd[2][2], int i, int count)
 void	malloc_error(t_ast *node)
 {
 	perror("malloc");
-	clean_exit(node->root, FAILURE);
+	if (node)
+		clean_exit(node->root, FAILURE);
 }

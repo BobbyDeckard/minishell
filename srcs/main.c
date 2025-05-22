@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:47:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 15:13:02 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 11:05:42 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ t_shell_data	g_shell = {NULL, NULL, 0};
 int main(int ac, char **av, char **envp)
 {
 	t_ast	*ast;
+	char	**env_cpy;
 	char	*command;
 	char	*cwd;
 
 	(void) ac;
 	(void) av;
 	
-	g_shell.envp = envp;
-	g_shell.exit_status = 0;
+	g_shell.envp = envp;					// à retirer
+	g_shell.exit_status = 0;				// à retirer
+	env_cpy = init_env_cpy(envp);
 	while (1)
 	{
 		cwd = make_cwd();
@@ -44,7 +46,7 @@ int main(int ac, char **av, char **envp)
 				if (ast)
 				{
 					ast->paths = get_paths();
-					ast->envp = envp;			// retirer g_shell: structure globale interdite
+					ast->envp = env_cpy;
 					exec_ast(ast);
 					cleanup(ast->root);
 				}
@@ -53,5 +55,6 @@ int main(int ac, char **av, char **envp)
 		else
 			break;
 	}
+	free(env_cpy);
 	return (0);
 }
