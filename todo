@@ -12,3 +12,4 @@
 8. Change $PWD in case of cd
 9. Investigate and handle $SHLVL and $BASH_SUBSHELL
 10. Implement solo redirs
+11. WHY DOES CLEAR NOT WORK WITH THE COPIED ENVP????????
