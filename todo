@@ -13,3 +13,6 @@
 9. Investigate and handle $SHLVL and $BASH_SUBSHELL
 10. Implement solo redirs
 11. Check builtin args for unexpected scenarios (example export without any argument prints env in alphabetical order)
+12. Make sure we free envp when an error occurs
+	Maybe distinguish between a full_clean func and a partial_clean func
+13. Subshell
