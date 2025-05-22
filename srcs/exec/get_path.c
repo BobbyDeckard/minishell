@@ -31,13 +31,14 @@ void	get_cmd_path(t_cmd *cmd, char **paths)
 
 	name = cmd->args[0];
 	i = -1;
-	while (paths[++i])
+	while (paths && paths[++i])
 	{
 		full_path = ft_strjoin(paths[i], name);
 		if (access(full_path, F_OK) == 0)
 			return (found_path(cmd, full_path));
 		free(full_path);
 	}
+	cmd->path = NULL;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd(": command not found\n", 2);
@@ -49,6 +50,8 @@ char	**get_paths(void)
 	char	*all_paths;
 
 	all_paths = getenv("PATH");
+	if (!all_paths)
+		return (NULL);
 	paths = ft_split_path(all_paths, ':');	// need to secure those functions
 	return (paths);
 }

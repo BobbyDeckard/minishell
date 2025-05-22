@@ -12,7 +12,7 @@
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wextra -Wall -Werror -g
+CFLAGS = -Wextra -Wall -Werror -g 
 LFLAGS = -lreadline
 RM = rm
 RMFLAGS = -f
