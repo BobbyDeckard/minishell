@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:15:47 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 15:01:07 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:48:12 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	create_env_cpy(t_ast *node)
 		free(env_cpy);
 		malloc_error(node);
 	}
+	env_cpy[0] = node->cmd.args[1];
 	env_cpy[1] = NULL;
 	node->root->envp = env_cpy;
 	return (SUCCESS);
@@ -61,13 +62,78 @@ char	**make_new_env(t_ast *node, int size)
 	return (new_env);
 }
 
+void	order(char **ordered)
+{
+	char	*ptr;
+	int		i;
+	int		j;
+
+	i = -1;
+	while (ordered[++i])
+	{
+		j = i;
+		while (ordered[++j])
+		{
+			if (ft_strncmp(ordered[i], ordered[j], ft_strlen(ordered[i]) + 1) > 0)
+			{
+				ptr = ordered[i];
+				ordered[i] = ordered[j];
+				ordered[j] = ptr;
+			}
+		}	
+	}
+}
+
+void	print_export(t_ast *node, char **ordered)
+{
+	int	i;
+
+	i = -1;
+	while (ordered[++i])
+	{
+		ft_putstr_fd("declare -x ", node->cmd.fd_out);
+		ft_putstr_fd(ordered[i], node->cmd.fd_out);
+		ft_putchar_fd('\n', node->cmd.fd_out);
+	}
+}
+
+int	export_print(t_ast *node, int size)
+{
+	char	**ordered;
+	int		i;
+
+	ordered = (char **) malloc((size + 1) * sizeof(char *));
+	if (!ordered)
+		malloc_error(node);
+	i = -1;
+	while (node->root->envp[++i])
+	{
+		ordered[i] = (char *) malloc((ft_strlen(node->root->envp[i]) + 1) * sizeof(char));
+		if (!ordered[i])
+		{
+			clean_env_cpy(ordered, i);
+			malloc_error(node);
+		}
+		ft_strlcat(ordered[i], node->root->envp[i], ft_strlen(node->root->envp[i]) + 1);
+	}
+	ordered[i] = NULL;
+	order(ordered);
+	print_export(node, ordered);
+	clean_env_cpy(ordered, -1);
+	return (SUCCESS);
+}
+
 int	export_bltn(t_ast *node)
 {
 	int		size;
 
 	size = ft_char_tab_len(node->root->envp);
-	if (size == -1)
+	if (node->cmd.args[1] && size == -1)
 		return (create_env_cpy(node));
+	else if (size == -1)
+		return (FAILURE);					// not sure this is the behaviour of export
+	else if (!node->cmd.args[1])
+		return (export_print(node, size));
 	node->root->envp = make_new_env(node, size + 1);
 	node->root->envp[size] = (char *) malloc((ft_strlen(node->cmd.args[1]) + 1) * sizeof(char));
 	if (!node->root->envp[size])
