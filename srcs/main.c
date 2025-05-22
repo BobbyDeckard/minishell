@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:47:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:48:14 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:05:59 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int ac, char **av, char **envp)
 	
 	g_shell.envp = envp;					// à retirer
 	g_shell.exit_status = 0;				// à retirer
-	env_cpy = init_env_cpy(envp);
+	env_cpy = copy_env(envp);
 	while (1)
 	{
 		cwd = make_cwd();
@@ -56,6 +56,6 @@ int main(int ac, char **av, char **envp)
 		else
 			break;
 	}
-	free(env_cpy);
+	clean_env_cpy(env_cpy, -1);
 	return (0);
 }
