@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 20:11:00 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:58:12 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,12 +165,13 @@ int		waitpids(int *pids, int count);
 
 /* Builtins functions */
 char	*get_str(const char *name);
-int		cd(t_ast *cd);
-int		echo(t_ast	*echo);
-int		env(t_ast *env);
-int		exec_builtin(t_ast *cmd);
+int		cd(t_ast *node);
+int		echo(t_ast	*node);
+int		env(t_ast *node);
+int		exec_builtin(t_ast *node);
 int		is_builtin(t_cmd cmd);
-int		pwd(t_ast *pwd);
+int		pwd(t_ast *node);
+//int		unset(t_ast *node);
 
 /* Parsing functions */
 t_node_type	token_to_node_type(t_token_type type);

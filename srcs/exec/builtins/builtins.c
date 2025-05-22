@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:37:06 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 15:58:03 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:04:41 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	exec_builtin(t_ast *node)
 	else if (!ft_strncmp(name, "env", 4))
 		return (env(node));
 	else if (!ft_strncmp(name, "exit", 5))
-		return (1);
+		return (exit(1), FAILURE);
 	return (FAILURE);
 }
 
@@ -55,7 +55,7 @@ int	is_builtin(t_cmd cmd)
 //		return (1);
 	else if (!ft_strncmp(name, "env", 4))
 		return (1);
-//	else if (!ft_strncmp(name, "exit", 5))
-//		return (1);
+	else if (!ft_strncmp(name, "exit", 5))
+		return (1);
 	return (0);
 }
