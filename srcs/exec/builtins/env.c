@@ -103,7 +103,8 @@ int	env(t_ast *node)
 		print_variable(node, variables[i]);
 		free(variables[i]);
 	}
-	free(variables);
+	if (count)
+		free(variables);
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
 	return (SUCCESS);
