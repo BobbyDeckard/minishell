@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 10:58:07 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 11:03:02 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:12:33 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	run_debug(char **envp, char *command)
 	int		preset;
 
 	preset = ft_atoi(command);
-	if (preset > 19)
+	if (preset > 19 || preset == 17)
 	{
 		print_options();
 		free(command);

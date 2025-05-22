@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:07:27 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 19:52:12 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:11:58 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1130,8 +1130,6 @@ t_ast	*make_ast(int mode)
 		return (make_cd_pwd());
 	else if (mode == 16)
 		return (make_env());
-	else if (mode == 17)
-		return (make_subshell());
 	else if (mode == 18)
 		return (make_heredoc_ast());
 	else if (mode == 19)
