@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:37:39 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:43:37 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:17:02 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,10 @@ char	**get_env_variables(t_ast *node, int count)
 	if (!variables)
 		malloc_error(node);
 	i = -1;
+	printf("About to access node->root->envp[i] in get_env_variables\n");
 	while (node->root->envp[++i])
 	{
+		printf("About to set variables[%d]\n", i);
 		variables[i] = get_variable(node, node->root->envp[i]);
 		if (!variables[i])
 			break ;
@@ -95,7 +97,7 @@ int	env(t_ast *node)
 	if (make_redirs(node) == FAILURE)
 		return (FAILURE);
 	count = count_variables(node);
-	printf("env counted %d environment variables\n", count);
+	printf("env counted %d environment variables\n\n", count);
 	if (count)
 		variables = get_env_variables(node, count);
 	i = -1;

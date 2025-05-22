@@ -6,7 +6,7 @@
 #    By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 14:35:02 by imeulema          #+#    #+#              #
-#    Updated: 2025/05/22 11:34:30 by imeulema         ###   ########.fr        #
+#    Updated: 2025/05/22 12:02:57 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ BLTIN_FILES = builtins.c \
 			  env.c \
 			  env_utils.c \
 			  export.c \
-			  pwd.c
+			  pwd.c \
+			  unset.c
 UTILS = $(addprefix utils/, $(UTILS_FILES))
 UTILS_FILES = cleanup.c \
 			  cwd.c \

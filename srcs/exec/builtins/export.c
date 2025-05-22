@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:15:47 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:45:22 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:20:29 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	create_env_cpy(t_ast *node)
 	env_cpy = (char **) malloc(2 * sizeof(char *));
 	if (!env_cpy)
 		malloc_error(node);
-	env_cpy[0] = (char *) malloc(ft_strlen(node->cmd.args[1]) * sizeof(char));
+	env_cpy[0] = (char *) malloc((ft_strlen(node->cmd.args[1]) + 1) * sizeof(char));
 	if (!env_cpy[0])
 	{
 		free(env_cpy);
@@ -44,21 +44,21 @@ char	**make_new_env(t_ast *node, int size)
 	new_env = (char **) malloc(size * sizeof(char *));
 	if (!new_env)
 		malloc_error(node);
-	printf("\nAllocated %d pointer in new_env, ready to copy\n", size);
+//	printf("\nAllocated %d pointer in new_env, ready to copy\n", size);
 	i = -1;
 	while (node->root->envp[++i])
 	{
-		new_env[i] = (char *) malloc(ft_strlen(node->root->envp[i]) * sizeof(char));
+		new_env[i] = (char *) malloc((ft_strlen(node->root->envp[i]) + 1) * sizeof(char));
 		if (!new_env[i])
 		{
 			clean_env_cpy(new_env, i);
 			malloc_error(NULL);
 		}
 		ft_strlcat(new_env[i], node->root->envp[i], ft_strlen(node->root->envp[i]));
-		printf("Copied entry no. %d: %s\n", i, new_env[i]);
+//		printf("Copied entry no. %d: %s\n", i, new_env[i]);
 		free(node->root->envp[i]);
 	}
-	printf("\n");
+//	printf("\n");
 	new_env[i] = NULL;
 	free(node->root->envp);
 	return (new_env);
@@ -72,17 +72,13 @@ int	export_bltn(t_ast *node)
 	if (size == -1)
 		return (create_env_cpy(node));
 	node->root->envp = make_new_env(node, size + 1);
-	printf("Copied old env into new\n");
-	int y = -1;
-	while (node->root->envp[++y])
-		printf("node->root->envp[%d]: %s\n", y, node->root->envp[y]);
-	node->root->envp[size] = (char *) malloc(ft_strlen(node->cmd.args[1]) + 1 * sizeof(char));
+	printf("export:\n\tsize of old env: %d\n\tsize of new env: %d\n\n", size, size + 1);
+	node->root->envp[size] = (char *) malloc((ft_strlen(node->cmd.args[1]) + 1) * sizeof(char));
 	if (!node->root->envp[size])
 		malloc_error(node);
-	int x = -1;
-	while (node->cmd.args[++x])
-		printf("node->cmd.args[%d]: %s\n", x, node->cmd.args[x]);
 	ft_strlcat(node->root->envp[size], node->cmd.args[1], ft_strlen(node->cmd.args[1]) + 1);
 	printf("Added entry no. %d: %s\n", size, node->root->envp[size]);
+	node->root->envp[size + 1] = NULL;
+	printf("Set node->root->envp[%d] = NULL\n", size + 1);
 	return (SUCCESS);
 }

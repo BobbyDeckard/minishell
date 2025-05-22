@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:33:56 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:55:29 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int		make_redirs(t_ast *ast);
 
 /* Utilities functions */
 void	clean_env_cpy(char **env_cpy, int i);
+void	clean_envp(char **envp);
 void	clean_exit(t_ast *root, int status);
 void	cleanup(t_ast *ast);
 void	print_cmd(int mode);
@@ -147,7 +148,7 @@ void	dup2_error(void);
 void	malloc_error(t_ast *ast);
 void	print_tree(t_ast *ast);
 void	set_root_node(t_ast *ast, t_ast *root);
-char	**init_env_cpy(char **envp);
+char	**copy_env(char **envp);
 char	*make_cwd(void);
 int		fork_error(void);
 int		ft_char_tab_len(char **tab);
@@ -175,7 +176,7 @@ int		exec_builtin(t_ast *node);
 int		export_bltn(t_ast *node);
 int		is_builtin(t_cmd cmd);
 int		pwd(t_ast *node);
-//int		unset(t_ast *node);
+int		unset(t_ast *node);
 
 /* Parsing functions */
 t_node_type	token_to_node_type(t_token_type type);
