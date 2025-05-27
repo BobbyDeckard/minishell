@@ -6,7 +6,7 @@
 #    By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/27 14:35:02 by imeulema          #+#    #+#              #
-#    Updated: 2025/05/22 12:02:57 by imeulema         ###   ########.fr        #
+#    Updated: 2025/05/27 14:33:00 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ endif
 SRCS = $(addprefix $(PATH_SRCS), $(SRCS_FILES))
 SRCS_FILES = main.c \
 			 $(EXEC) \
-			 $(UTILS) \
 			 $(PARSING) \
 			 $(DEBUG)
 PATH_SRCS = srcs/
@@ -47,7 +46,8 @@ EXEC_FILES = exec.c \
 			 redirs.c \
 			 redirs_utils.c \
 			 subshell.c \
-			 $(BUILTINS)
+			 $(BUILTINS) \
+			 $(UTILS)
 BUILTINS = $(addprefix builtins/, $(BLTIN_FILES))
 BLTIN_FILES = builtins.c \
 			  cd.c \
