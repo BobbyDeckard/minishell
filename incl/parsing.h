@@ -6,25 +6,13 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/27 14:45:49 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:51:02 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include <unistd.h>
-# include <limits.h>			// autorisé ?
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <stdbool.h>			// autorisé ?
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <errno.h>
-# include <signal.h>
 # include "structs.h"
 
 /* Enums */

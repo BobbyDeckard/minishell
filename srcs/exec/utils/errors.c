@@ -1,4 +1,16 @@
-#include "../../incl/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/27 14:51:47 by imeulema          #+#    #+#             */
+/*   Updated: 2025/05/27 14:51:48 by imeulema         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../incl/minishell.h"
 
 // Returns FAILURE to keep the rest of the execution running.
 int	fork_error(void)

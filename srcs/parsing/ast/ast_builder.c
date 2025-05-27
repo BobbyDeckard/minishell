@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:30:21 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:39 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:52:22 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ast	*create_ast(t_token **token_list)
 	if (!root)
 		return (NULL);
 	root->root = root;
-	root->envp = g_shell.envp;
+//	root->envp = g_shell.envp;
 
 	token_count = count_tokens(token_list);
 	tree = parse_command_line(token_list, 0, token_count - 1, root);
@@ -36,7 +36,7 @@ t_ast	*create_ast(t_token **token_list)
 		free_ast(root);
 		return (NULL);
 	}
-	tree->envp = g_shell.envp;
+//	tree->envp = g_shell.envp;
 	free(root);
 	set_root_node(tree, tree);		// fonction qui initialise le pointeur root
 									// de toutes les nodes de l'arbre à la node

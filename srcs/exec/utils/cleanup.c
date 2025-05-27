@@ -6,11 +6,11 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 17:50:38 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 14:42:57 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:51:19 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 void	clean_envp(char **envp)
 {

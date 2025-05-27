@@ -6,11 +6,11 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:13:15 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 11:14:39 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:52:03 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 int	ft_char_tab_len(char **tab)
 {

@@ -6,11 +6,11 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:06:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/09 13:42:13 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/05/27 14:51:30 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
+#include "../../../incl/minishell.h"
 
 char	*trunc_cwd(char *full)
 {
