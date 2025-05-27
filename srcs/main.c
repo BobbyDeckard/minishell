@@ -12,6 +12,8 @@
 
 #include "../incl/minishell.h"
 
+// salut c'est un autre moi
+
 void	run_debug(char **envp, char *command);
 
 t_shell_data	g_shell = {NULL, NULL, 0};
