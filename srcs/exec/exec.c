@@ -12,8 +12,6 @@
 
 #include "../../incl/minishell.h"
 
-// modif
-
 void	exec_cmd(t_ast *node, t_cmd cmd)
 {
 	get_cmd_path(&cmd, node->root->paths);
