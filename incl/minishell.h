@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/27 14:50:50 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:15:31 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@
 # include "parsing.h"
 # include "exec.h"
 # include "../libft/libft.h"
+#include "signals.h"
+
+extern volatile sig_atomic_t g_signal_received;
 
 # ifndef SUCCESS
-#  define SUCCESS 0
+#  define SUCCESS 0 /*pas sur que cela respecte les contraintes du sujet */
 # endif
 
 # ifndef FAILURE
