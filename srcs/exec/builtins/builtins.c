@@ -60,7 +60,7 @@ int	exec_builtin(t_ast *node)
 	else if (!ft_strncmp(name, "env", 4))
 		return (env(node));
 	else if (!ft_strncmp(name, "exit", 5))
-		return (exit(1), SUCCESS);
+		return (exit_bltn(node), SUCCESS);
 	return (FAILURE);
 }
 

@@ -73,6 +73,7 @@ int		cd(t_ast *node);
 int		echo(t_ast	*node);
 int		env(t_ast *node);
 int		exec_builtin(t_ast *node);
+void	exit_bltn(t_ast *node);
 int		export_bltn(t_ast *node);
 int		is_builtin(t_cmd cmd);
 int		pwd(t_ast *node);

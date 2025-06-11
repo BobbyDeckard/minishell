@@ -54,6 +54,7 @@ BLTIN_FILES = builtins.c \
 			  echo.c \
 			  env.c \
 			  env_utils.c \
+			  exit.c \
 			  export.c \
 			  pwd.c \
 			  unset.c
