@@ -19,6 +19,7 @@
 14. Check incorrect file name errors
 15. Check the transmission of the exit status within pipes
 	Maybe ask about the global variable we're using ? Seems like it shares the use and could be very useful
+16. Check redirs in builtins
 
 Pour Pierre:
 -	parse les paths comme des strings séparées (fait une sorte de ft_split en utilisant les / comme séparateurs), ce qui fait que les commandes ne peuvent pas s'exécuter correctement (/bin/echo sera passé comme "bin", "echo" et une erreur indiquera bin: command not found)
