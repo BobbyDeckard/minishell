@@ -6,7 +6,7 @@
 #    By: pitran <pitran@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 11:50:43 by pitran            #+#    #+#              #
-#    Updated: 2025/06/11 11:58:33 by pitran           ###   ########.fr        #
+#    Updated: 2025/06/11 15:48:53 by pitran           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,7 @@ SRC_AST = srcs/$(AST_DIR)/ast_builder.c \
           srcs/$(AST_DIR)/simple_command.c \
           srcs/$(AST_DIR)/utils.c
 
-SRC_SIGNALS = srcs/$(SIGNALS_DIR)/signals_setup.c \
-              srcs/$(SIGNALS_DIR)/signals_handler.c
+SRC_SIGNALS = srcs/$(SIGNALS_DIR)/signals_handler.c
 
 SRC_DEBUG = srcs/debug/ast_utils.c \
             srcs/debug/debug.c \
