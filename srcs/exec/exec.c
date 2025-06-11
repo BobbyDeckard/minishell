@@ -84,7 +84,5 @@ int	exec_ast(t_ast *node)
 		return (exec_and_if(node->children));
 	else if (node->type == NODE_PIPE && node->children)
 		return (exec_pipe(node->children));
-	else if (node->type == NODE_SUBSHELL)
-		return (exec_subshell(node));
 	return (FAILURE);
 }
