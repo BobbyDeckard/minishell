@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/XX/XX XX:XX:XX by student          #+#    #+#             */
-/*   Updated: 2024/XX/XX XX:XX:XX by student         ###   ########.fr       */
+/*   Created: 2025/06/11 12:52:35 by pitran            #+#    #+#             */
+/*   Updated: 2025/06/11 12:52:42 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../incl/minishell.h"
-/* ========== NE PAS INCLURE minishell.h 2 fois ! ========== */
 
 /* ========== INITIALISATION COMPLÈTE ========== */
 t_shell_data g_shell = {
