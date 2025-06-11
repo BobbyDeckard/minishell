@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:37:44 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 20:12:18 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:08:06 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-// << word
-// reads input until it finds a line containing only word with no trailing blanks
+extern t_shell_data	g_shell;
 
 void	unlink_heredoc(t_ast *node)
 {
@@ -62,23 +61,50 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	int		len;
 
 	delimiter = node->file;
-	len = ft_strlen(delimiter) + 1;
-//	if (file_namer_2000(node, cmd) == FAILURE)
-//		return ;
+	len = ft_strlen(delimiter);
+	
 	if (!check_and_open("temp", node, cmd))
 		return ;
+	
+	g_shell.state = HEREDOC_MODE;
+	setup_heredoc_signals();  /* Setup special heredoc signals */
+	
 	while (1)
 	{
 		line = readline("> ");
-		if (!ft_strncmp(line, delimiter, len))
+		
+		/* Check for SIGINT or EOF */
+		if (g_signal_received == SIGINT || !line)
+		{
+			if (line)
+				free(line);
+			/* Cleanup on interruption */
+			close(cmd->fd_in);
+			unlink(node->file);
+			cmd->fd_in = -1;
+			g_shell.state = INTERACTIVE;
+			g_signal_received = 0;
+			setup_interactive_signals();  /* Restore normal signals */
+			return ;
+		}
+		
+		/* Check delimiter */
+		if (!ft_strncmp(line, delimiter, len + 1))
+		{
+			free(line);
 			break ;
+		}
+		
 		ft_putstr_fd(line, cmd->fd_in);
 		ft_putchar_fd('\n', cmd->fd_in);
 		free(line);
 	}
-	free(line);
+	
 	close(cmd->fd_in);
 	cmd->fd_in = open(node->file, O_RDONLY);
 	if (cmd->fd_in < 0)
 		perror(node->file);
+	
+	g_shell.state = INTERACTIVE;
+	setup_interactive_signals();  /* Restore normal signals */
 }
