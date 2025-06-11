@@ -96,8 +96,8 @@ int	run_pipe(t_ast **child, int *pids, int count)
 		}
 		if (child[i]->type == NODE_CMD && is_builtin(child[i]->cmd))
 		{
-			pids[i] = -1;
-			exec_builtin(child[i]);
+			if (exec_builtin(child[i]) == FAILURE)
+				pids[i] = -2;
 		}
 		else
 		{
@@ -106,7 +106,8 @@ int	run_pipe(t_ast **child, int *pids, int count)
 				if (make_redirs(child[i]) == FAILURE)
 					pids[i] = -2;
 			}
-			pids[i] = make_fork();
+			if (pids[i] != -2)
+				pids[i] = make_fork();
 		}
 		if (pids[i] == 0)
 			exec_pipe_child(child[i]);
@@ -170,7 +171,6 @@ int	exec_pipe(t_ast **children)
 	if (!pids)
 		return (FAILURE);
 	status = run_pipe(children, pids, count);
-	// unlink all heredocs here ? => recursive function
 	free(pids);
 	return (status);
 }
