@@ -61,7 +61,6 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	char	*delimiter;
 	int		len;
 
-	printf("Entered make_heredoc\n");
 	delimiter = node->file;
 	len = ft_strlen(delimiter) + 1;
 //	if (file_namer_2000(node, cmd) == FAILURE)

@@ -14,7 +14,6 @@
 
 void	run_debug(char **envp, char *command);
 
-t_shell_data	g_shell = {NULL, NULL, 0};
 
 int main(int ac, char **av, char **envp)
 {
@@ -26,8 +25,6 @@ int main(int ac, char **av, char **envp)
 	(void) ac;
 	(void) av;
 	
-	g_shell.envp = envp;					// à retirer
-	g_shell.exit_status = 0;				// à retirer
 	env_cpy = copy_env(envp);
 	while (1)
 	{
