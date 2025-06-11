@@ -55,6 +55,7 @@ int		ft_char_tab_len(char **tab);
 /* Pipe functions */
 void	close_pipes(int fd[2][2], int i, int count);
 void	exec_pipe_and(t_ast *node);
+void	exec_pipe_builtin(t_ast *node, int *pid, int i);
 void	exec_pipe_child(t_ast *child);
 void	exec_pipe_cmd(t_ast *node);
 void	exec_pipe_or(t_ast *node);

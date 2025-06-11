@@ -12,8 +12,6 @@
 
 #include "../../incl/minishell.h"
 
-// modif
-
 void	exec_cmd(t_ast *node, t_cmd cmd)
 {
 	get_cmd_path(&cmd, node->root->paths);
@@ -40,7 +38,6 @@ int	run_cmd(t_ast *node)
 	{
 		dup_fds(*node);
 		exec_cmd(node, node->cmd);
-		unlink_heredoc(node);
 		clean_exit(node->root, FAILURE);
 	}
 	close_redirs(node->cmd);

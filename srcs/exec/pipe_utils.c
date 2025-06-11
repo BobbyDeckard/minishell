@@ -37,17 +37,23 @@ int	waitpids(int *pids, int cmd_count)
 	int	status;
 	int	i;
 
+	printf("Entered waitpids()\n");
 	status = -1;
 	i = -1;
 	while (++i < cmd_count)
 	{
-		if (pids[i] < 0)
+		if (pids[i] < -1)
 			status = FAILURE;
+		else if (pids[i] == -1)
+			status = SUCCESS;
 		else
+		{
 			waitpid(pids[i], &status, 0);
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
+		}
+		printf("Retrieved exit status = %d for pid[%d]\n", status, i);
 	}
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
 	return (status);
 }
 

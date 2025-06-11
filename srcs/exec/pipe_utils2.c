@@ -31,6 +31,7 @@ int	*init_pids(int count)
 
 void	link_pipe(t_ast *cmd1, t_ast *cmd2, int fd[2][2], int i)
 {
+	// need to extend the reach of this function to all subsequent children until a new pipe is encountered ?
 	int	j;
 
 	if (cmd1->type == NODE_CMD)
@@ -51,12 +52,16 @@ void	link_pipe(t_ast *cmd1, t_ast *cmd2, int fd[2][2], int i)
 	}
 }
 
+
 void	exec_pipe_child(t_ast *node)
 {
+	int	status;
+
+	status = FAILURE;
 	if (node->type == NODE_CMD)
 		exec_pipe_cmd(node);
-	else if (node->type == NODE_AND_IF)
-		exec_pipe_and(node);
-	else if (node->type == NODE_OR_IF)
-		exec_pipe_or(node);
+	else
+		status = exec_ast(node);
+	exit(status);
 }
+

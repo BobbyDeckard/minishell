@@ -44,7 +44,7 @@ int	file_namer_2000(t_ast *node, t_cmd *cmd)
 	i = -1;
 	while (++i < 128)
 	{
-		j = 32;
+		j = 64;
 		while (++j < 128)
 		{
 			name[i] = j;
@@ -61,12 +61,16 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	char	*delimiter;
 	int		len;
 
+	printf("Entered make_heredoc\n");
 	delimiter = node->file;
 	len = ft_strlen(delimiter) + 1;
 //	if (file_namer_2000(node, cmd) == FAILURE)
 //		return ;
 	if (!check_and_open("temp", node, cmd))
-		return ;
+	{
+		if (!check_and_open("am1itlakjndlejbgfoaknmifubpqms", node, cmd))
+			return ;
+	}
 	while (1)
 	{
 		line = readline("> ");
