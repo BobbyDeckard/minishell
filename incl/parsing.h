@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/27 14:51:02 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:36:23 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "structs.h"
 
 /* Enums */
 typedef enum e_token_type
@@ -56,12 +55,6 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_shell_data
-{
-	char	**envp;
-	char	**paths;
-	int		exit_status;
-}	t_shell_data;
 
 /* Functions */
 /* Parsing functions */
@@ -87,7 +80,7 @@ t_ast		*create_operator_node(t_node_type type, t_ast *left, t_ast *right, t_ast 
 t_ast		*create_redirection_node(t_node_type type, char *file, t_ast *root);
 t_ast		*create_subshell_node(t_ast *child, t_ast *root);
 t_ast		*parse_command_line(t_token **tokens, int start, int end, t_ast *root);
-t_ast		*parse_input(char *command);
+t_ast 		*parse_input(char *command, t_shell_data *shell);
 t_ast		*parse_simple_command(t_token **tokens, int start, int end, t_ast *root);
 
 char		**extract_args(t_token **tokens, int start, int end);
@@ -129,5 +122,7 @@ int			paren_syntax_is_valid(t_token **token_list);
 int			quote_syntax_is_valid(t_token **token_list);
 int			redir_syntax_is_valid(t_token **token_list);
 int			syntax_is_valid(t_token **token_list);
+void 		set_root_node(t_ast *node, t_ast *root);
+char 		*get_str(const char *name);
 
 #endif

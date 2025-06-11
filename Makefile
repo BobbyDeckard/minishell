@@ -3,131 +3,173 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+         #
+#    By: pitran <pitran@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/27 14:35:02 by imeulema          #+#    #+#              #
-#    Updated: 2025/05/27 14:33:00 by imeulema         ###   ########.fr        #
+#    Created: 2025/03/06 11:50:43 by pitran            #+#    #+#              #
+#    Updated: 2025/06/11 11:58:33 by pitran           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CC = cc
-CFLAGS = -Wextra -Wall -Werror -g 
-LFLAGS = -lreadline
-RM = rm
-RMFLAGS = -f
-MAKE = make
-UNAME = $(shell uname)
-ifeq ($(UNAME), Darwin)
-	LFLAGS += -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include/readline
-endif
 
-# SOURCES
-SRCS = $(addprefix $(PATH_SRCS), $(SRCS_FILES))
-SRCS_FILES = main.c \
-			 $(EXEC) \
-			 $(PARSING) \
-			 $(DEBUG)
-PATH_SRCS = srcs/
-PATH_OBJS = objs/
-OBJS = $(patsubst $(PATH_SRCS)%.c, $(PATH_OBJS)%.o, $(SRCS))
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g
+LFLAGS = -lreadline -lncurses
 
-# SOURCE FILES
-# PSEUDO = $(addprefix pseudo_parsing/, $(PSEUDO_FILES))
-# PSEUDO_FILES = presets.c
-EXEC = $(addprefix exec/, $(EXEC_FILES))
-EXEC_FILES = exec.c \
-			 exec_utils.c \
-			 get_path.c \
-			 heredoc.c \
-			 pipe.c \
-			 pipe_utils.c \
-			 pipe_utils2.c \
-			 redirs.c \
-			 redirs_utils.c \
-			 subshell.c \
-			 $(BUILTINS) \
-			 $(UTILS)
-BUILTINS = $(addprefix builtins/, $(BLTIN_FILES))
-BLTIN_FILES = builtins.c \
-			  cd.c \
-			  echo.c \
-			  env.c \
-			  env_utils.c \
-			  export.c \
-			  pwd.c \
-			  unset.c
-UTILS = $(addprefix utils/, $(UTILS_FILES))
-UTILS_FILES = cleanup.c \
-			  cwd.c \
-			  env_cpy.c \
-			  errors.c \
-			  ft_split_path.c \
-			  general_utils.c
-PARSING = $(addprefix parsing/, $(PARS_FILES))
-PARS_FILES = caracter_type.c \
-			 caracter_type2.c \
-			 helpers.c \
-			 parse.c \
-			 retrieve.c \
-			 tokenize.c \
-			 tokenize2.c \
-			 tokens.c \
-			 $(AST) \
-			 $(SYNTAX)
-AST = $(addprefix ast/, $(AST_FILES))
-AST_FILES = ast_builder.c \
-			nodes.c \
-			parsing.c \
-			simple_command.c \
-			utils.c
-SYNTAX = $(addprefix syntax_check/, $(SYNT_FILES))
-SYNT_FILES = other_type_check.c \
-			 parenthesis_check.c \
-			 syntax_check.c
-DEBUG = $(addprefix debug/, $(DBG_FILES))
-DBG_FILES = ast_utils.c \
-			debug.c \
-			presets.c \
-			print.c
+# ========== LIBFT ==========
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
-# INCLUDES
-HEADERS = incl/minishell.h
-LIBFT = libft/libft.a
+# ========== SOURCE DIRECTORIES ==========
+PARSING_DIR = parsing
+SYNTAX_DIR = $(PARSING_DIR)/syntax_check
+AST_DIR = $(PARSING_DIR)/ast
+SIGNALS_DIR = signals
+EXEC_DIR = exec
+BUILTINS_DIR = $(EXEC_DIR)/builtins
+UTILS_DIR = $(EXEC_DIR)/utils
 
-# TERMINAL COLORS
-RED = \033[0;31m
-YELLOW = \033[0;33m
-GREEN = \033[0;32m
-RESET = \033[0m
+# ========== SOURCE FILES ==========
+SRC_MAIN = srcs/main.c
 
-# RULES
+SRC_PARSING = srcs/$(PARSING_DIR)/retrieve.c \
+              srcs/$(PARSING_DIR)/helpers.c \
+              srcs/$(PARSING_DIR)/caracter_type.c \
+              srcs/$(PARSING_DIR)/caracter_type2.c \
+              srcs/$(PARSING_DIR)/tokenize.c \
+              srcs/$(PARSING_DIR)/tokenize2.c \
+              srcs/$(PARSING_DIR)/tokens.c \
+              srcs/$(PARSING_DIR)/parse.c
+
+SRC_SYNTAX = srcs/$(SYNTAX_DIR)/syntax_check.c \
+             srcs/$(SYNTAX_DIR)/other_type_check.c \
+             srcs/$(SYNTAX_DIR)/parenthesis_check.c
+
+SRC_AST = srcs/$(AST_DIR)/ast_builder.c \
+          srcs/$(AST_DIR)/parsing.c \
+          srcs/$(AST_DIR)/nodes.c \
+          srcs/$(AST_DIR)/simple_command.c \
+          srcs/$(AST_DIR)/utils.c
+
+SRC_SIGNALS = srcs/$(SIGNALS_DIR)/signals_setup.c \
+              srcs/$(SIGNALS_DIR)/signals_handler.c
+
+SRC_DEBUG = srcs/debug/ast_utils.c \
+            srcs/debug/debug.c \
+            srcs/debug/print.c \
+            srcs/debug/presets.c
+
+SRC_EXEC = srcs/$(EXEC_DIR)/exec.c \
+           srcs/$(EXEC_DIR)/redirs.c \
+           srcs/$(EXEC_DIR)/heredoc.c \
+           srcs/$(EXEC_DIR)/exec_utils.c \
+           srcs/$(EXEC_DIR)/get_path.c \
+           srcs/$(EXEC_DIR)/pipe.c \
+           srcs/$(EXEC_DIR)/pipe_utils.c \
+           srcs/$(EXEC_DIR)/pipe_utils2.c \
+           srcs/$(EXEC_DIR)/redirs_utils.c \
+           srcs/$(EXEC_DIR)/subshell.c
+
+SRC_BUILTINS = srcs/$(BUILTINS_DIR)/builtins.c \
+               srcs/$(BUILTINS_DIR)/pwd.c \
+               srcs/$(BUILTINS_DIR)/cd.c \
+               srcs/$(BUILTINS_DIR)/echo.c \
+               srcs/$(BUILTINS_DIR)/env.c \
+				srcs/$(BUILTINS_DIR)/env_utils.c \
+               srcs/$(BUILTINS_DIR)/export.c \
+               srcs/$(BUILTINS_DIR)/unset.c
+
+SRC_UTILS = srcs/$(UTILS_DIR)/cwd.c \
+            srcs/$(UTILS_DIR)/env_cpy.c \
+            srcs/$(UTILS_DIR)/errors.c \
+            srcs/$(UTILS_DIR)/ft_split_path.c \
+            srcs/$(UTILS_DIR)/general_utils.c \
+            srcs/$(UTILS_DIR)/cleanup.c
+
+# ========== COMBINE ALL SOURCES ==========
+SRCS = $(SRC_MAIN) $(SRC_PARSING) $(SRC_SYNTAX) $(SRC_AST) $(SRC_SIGNALS) $(SRC_DEBUG) $(SRC_EXEC) $(SRC_BUILTINS) $(SRC_UTILS)
+
+# ========== OBJECT FILES ==========
+OBJS = $(SRCS:.c=.o)
+
+# ========== INCLUDE DIRECTORIES ==========
+INCLUDES = -I./incl -I./$(LIBFT_DIR)
+
+# ========== MAIN RULES ==========
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS)
-	echo "$(YELLOW)compiling $(NAME)$(RESET)"
-	$(CC) $(CFLAGS) $(OBJS) $(LFLAGS) $(LIBFT) -o $(NAME)
-	echo "$(GREEN)$(NAME) compiled!$(RESET)"
-
-$(PATH_OBJS)%.o: $(PATH_SRCS)%.c $(HEADERS) $(LIBFT)
-	echo "$(YELLOW)compiling $<$(RESET)"
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(OBJS) $(LIBFT) $(LFLAGS) -o $(NAME)
+	@echo "\033[32m✅ $(NAME) compiled successfully!\033[0m"
 
 $(LIBFT):
-	echo "$(YELLOW)compiling libft$(RESET)"
-	$(MAKE) -C libft --no-print-directory
+	@echo "\033[33m🔨 Compiling libft...\033[0m"
+	@make -C $(LIBFT_DIR)
 
+%.o: %.c
+	@echo "\033[36m🔧 Compiling $<...\033[0m"
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# ========== CLEANING RULES ==========
 clean:
-	$(RM) $(RMFLAGS) $(OBJS)
-	$(MAKE) clean -C libft --no-print-directory
+	@echo "\033[31m🗑️  Cleaning object files...\033[0m"
+	rm -f $(OBJS)
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	$(RM) $(RMFLAGS) $(NAME)
-	$(MAKE) fclean -C libft --no-print-directory
-	echo "$(GREEN)Full clean done.$(RESET)"
+	@echo "\033[31m🗑️  Removing $(NAME) and libft.a...\033[0m"
+	rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# ========== DEBUGGING TOOLS ==========
+valgrind: $(NAME)
+	valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			--verbose \
+			--log-file=valgrind-out.txt \
+			./$(NAME)
 
-.SILENT:
+# ========== TESTING ==========
+test: $(NAME)
+	@echo "\033[32m🧪 Testing minishell...\033[0m"
+	@echo "Type 'exit' to quit the test"
+	./$(NAME)
+
+test_signals: $(NAME)
+	@echo "\033[32m🧪 Testing signals...\033[0m"
+	@echo "Test Ctrl-C (interrupt), Ctrl-\\ (quit), Ctrl-D (EOF)"
+	@echo "Try: sleep 10 then press Ctrl-C or Ctrl-\\"
+	./$(NAME)
+
+# ========== NORMINETTE ==========
+norm:
+	@echo "\033[35m📏 Checking norminette...\033[0m"
+	@norminette $(SRCS) incl/ | grep -v "OK" || echo "\033[32m✅ All files are norm compliant!\033[0m"
+
+# ========== DEBUG INFO ==========
+debug:
+	@echo "\033[33m🐛 Debug info:\033[0m"
+	@echo "SRCS count: $(words $(SRCS))"
+	@echo "OBJS count: $(words $(OBJS))"
+	@echo "LIBFT: $(LIBFT)"
+	@echo "First 5 sources:"
+	@echo "$(wordlist 1,5,$(SRCS))"
+
+# ========== HELP ==========
+help:
+	@echo "\033[34m📖 Available targets:\033[0m"
+	@echo "  all        - Compile libft and minishell"
+	@echo "  clean      - Remove object files"
+	@echo "  fclean     - Remove object files and executables"
+	@echo "  re         - Full recompilation"
+	@echo "  test       - Run minishell"
+	@echo "  test_signals - Test signal handling"
+	@echo "  valgrind   - Run with valgrind"
+	@echo "  norm       - Check norminette"
+	@echo "  debug      - Show debug info"
+	@echo "  help       - Show this help"
+
+.PHONY: all clean fclean re valgrind test test_signals norm debug help

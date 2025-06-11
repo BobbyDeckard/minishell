@@ -6,17 +6,19 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:22:05 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:41:25 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:01:27 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-t_ast *parse_input(char *command)
+t_ast *parse_input(char *command, t_shell_data *shell)
 {
 	t_token	**token_list;
 	t_ast	*ast_root;
 	int		syntax_valid;
+
+	(void)shell;
 
 	if (!command)
 		return (NULL);

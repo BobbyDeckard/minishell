@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/10 13:15:31 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/10 17:36:08 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <signal.h>
+#include "structs.h"
+#include "signals.h"
 # include "parsing.h"
 # include "exec.h"
 # include "../libft/libft.h"
-#include "signals.h"
 
 extern volatile sig_atomic_t g_signal_received;
 
@@ -39,5 +40,6 @@ extern volatile sig_atomic_t g_signal_received;
 # ifndef FAILURE
 #  define FAILURE 1
 # endif
+
 
 #endif

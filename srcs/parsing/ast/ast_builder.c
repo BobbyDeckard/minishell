@@ -6,11 +6,12 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:30:21 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:52:22 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:37:19 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/minishell.h"
+#include "../../../incl/exec.h"
 
 /* Je retire la node root et renvoie la node tree à la place */
 t_ast	*create_ast(t_token **token_list)

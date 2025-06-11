@@ -37,7 +37,7 @@ static void	process_sigint(t_shell_data *shell)
 		handle_sigint_interactive();
 	else if (shell->state == EXECUTING)
 		handle_sigint_executing();
-	else if (shell->state == HEREDOC)
+	else if (shell->state == HEREDOC_MODE)
 		handle_sigint_heredoc(shell);
 }
 

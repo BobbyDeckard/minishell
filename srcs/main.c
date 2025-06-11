@@ -3,59 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
+/*   By: student <student@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 23:47:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/10 16:16:39 by pitran           ###   ########.fr       */
+/*   Created: 2024/XX/XX XX:XX:XX by student          #+#    #+#             */
+/*   Updated: 2024/XX/XX XX:XX:XX by student         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
+/* ========== NE PAS INCLURE minishell.h 2 fois ! ========== */
 
-void	run_debug(char **envp, char *command);
+/* ========== INITIALISATION COMPLÈTE ========== */
+t_shell_data g_shell = {
+	.envp = NULL,
+	.paths = NULL,
+	.exit_status = 0,
+	.state = INTERACTIVE    /* ← INITIALISER LE NOUVEAU CHAMP */
+};
 
-t_shell_data	g_shell = {NULL, NULL, 0};
-
-int main(int ac, char **av, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_ast	*ast;
-	char	**env_cpy;
 	char	*command;
-	char	*cwd;
 
-	(void) ac;
-	(void) av;
+	(void)argc;
+	(void)argv;
 	
-	g_shell.envp = envp;					// à retirer
-	g_shell.exit_status = 0;				// à retirer
-	env_cpy = copy_env(envp);
+	/* ========== INITIALISATION ========== */
+	g_shell.envp = envp;
+	g_shell.paths = NULL;
+	g_shell.exit_status = 0;
+	g_shell.state = INTERACTIVE;
+	
 	while (1)
 	{
-		cwd = make_cwd();
-		command = readline(cwd);
-		free(cwd);
-		if (command)
+		/* ========== MODE INTERACTIF ========== */
+		g_signal_received = 0;
+		g_shell.state = INTERACTIVE;
+		setup_interactive_signals();
+		
+		command = readline("Petit coquillage > ");
+		
+		/* ========== GESTION SIGNAUX ========== */
+		if (g_signal_received)
 		{
-			if (ft_isdigit(*command))
-				run_debug(envp, command);
-			else
-			{
-				add_history(command);
-				ast = parse_input(command);
+			handle_signal_in_context(&g_shell);
+			if (command)
 				free(command);
-				if (ast)
-				{
-					ast->paths = get_paths();
-					ast->envp = env_cpy;
-					exec_ast(ast);
-					env_cpy = ast->envp;
-					cleanup(ast->root);
-				}
-			}
+			continue;
 		}
-		else
-			break ;
+		
+		/* ========== GESTION EOF (Ctrl-D) ========== */
+		if (!command)
+		{
+			printf("exit\n");
+			break;
+		}
+		
+		if (*command)
+		{
+			add_history(command);
+			
+			/* ========== MODE EXÉCUTION ========== */
+			g_shell.state = EXECUTING;
+			setup_execution_signals();
+			
+			/* Fonction parse existante */
+			t_ast *ast = parse_input(command, &g_shell);
+			if (ast)
+			{
+				/* Fonction exec existante */
+				exec_ast(ast);  /* Ajouter &g_shell si nécessaire */
+				free_ast(ast);
+			}
+			
+			/* ========== VÉRIFIER SIGNAUX POST-EXEC ========== */
+			if (g_signal_received)
+				handle_signal_in_context(&g_shell);
+		}
+		free(command);
 	}
-	clean_env_cpy(env_cpy, -1);
-	return (0);
+	return (g_shell.exit_status);
 }
