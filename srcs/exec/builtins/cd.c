@@ -34,7 +34,7 @@ int	cd(t_ast *node)
 
 	// redirs with cd ? is that even possible ?
 	if (make_redirs(node) == FAILURE)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	if (chdir(node->cmd.args[1]) < 0)
 	{
 		error = cd_error(node);
@@ -42,9 +42,9 @@ int	cd(t_ast *node)
 		free(error);
 		close_redirs(node->cmd);
 		unlink_heredoc(node);
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	}
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

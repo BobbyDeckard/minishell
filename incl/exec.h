@@ -51,6 +51,7 @@ char	**copy_env(char **envp);
 char	*make_cwd(void);
 int		fork_error(void);
 int		ft_char_tab_len(char **tab);
+int	set_exit_status(t_ast *node, int status);
 
 /* Pipe functions */
 void	close_pipes(int fd[2][2], int i, int count);

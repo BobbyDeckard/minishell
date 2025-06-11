@@ -93,7 +93,7 @@ int	env(t_ast *node)
 	int		i;
 
 	if (make_redirs(node) == FAILURE)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	count = count_variables(node);
 	if (count)
 		variables = get_env_variables(node, count);
@@ -107,5 +107,5 @@ int	env(t_ast *node)
 		free(variables);
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

@@ -34,7 +34,7 @@ int	create_env_cpy(t_ast *node)
 	env_cpy[0] = node->cmd.args[1];
 	env_cpy[1] = NULL;
 	node->root->envp = env_cpy;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }
 
 char	**make_new_env(t_ast *node, int size)
@@ -120,7 +120,7 @@ int	export_print(t_ast *node, int size)
 	order(ordered);
 	print_export(node, ordered);
 	clean_env_cpy(ordered, -1);
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }
 
 int	has_equal(const char *str)
@@ -138,6 +138,7 @@ int	has_equal(const char *str)
 
 int	assign_var(t_ast *node, int size)
 {
+	// wtf is this shit
 	if (size)
 		return (FAILURE);
 	else if (node)
@@ -157,7 +158,7 @@ int	create_var(t_ast *node, int size)
 		malloc_error(node);
 	ft_strlcat(node->root->envp[size], node->cmd.args[1], len);
 	node->root->envp[++size] = NULL;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }
 
 int	export_bltn(t_ast *node)
@@ -168,7 +169,7 @@ int	export_bltn(t_ast *node)
 	if (node->cmd.args[1] && size == -1)
 		return (create_env_cpy(node));
 	else if (size == -1)
-		return (FAILURE);					// not sure this is the behaviour of export
+		return (set_exit_status(node, FAILURE));					// not sure this is the behaviour of export
 	else if (!node->cmd.args[1])
 		return (export_print(node, size));
 	else if (has_equal(node->cmd.args[1]))
@@ -181,5 +182,5 @@ int	export_bltn(t_ast *node)
 		malloc_error(node);
 	ft_strlcat(node->root->envp[size], node->cmd.args[1], ft_strlen(node->cmd.args[1]) + 1);
 	node->root->envp[size + 1] = NULL;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

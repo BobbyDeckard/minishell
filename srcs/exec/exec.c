@@ -30,7 +30,7 @@ int	run_cmd(t_ast *node)
 	if (is_builtin(node->cmd))
 		return (exec_builtin(node));
 	if (make_redirs(node) == FAILURE)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	pid = fork();
 	if (pid < 0)
 		return (fork_error());
@@ -45,8 +45,7 @@ int	run_cmd(t_ast *node)
 	unlink_heredoc(node);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	node->root->exit_status = status;
-	return (status);
+	return (set_exit_status(node, status));
 }
 
 int	exec_or_if(t_ast **child)
@@ -69,7 +68,7 @@ int	exec_and_if(t_ast **child)
 	i = -1;
 	while (child[++i])
 	{
-		if (exec_ast(child[i]) != SUCCESS)
+		if (exec_ast(child[i]) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);

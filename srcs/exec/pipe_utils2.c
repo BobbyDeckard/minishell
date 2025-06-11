@@ -52,7 +52,6 @@ void	link_pipe(t_ast *cmd1, t_ast *cmd2, int fd[2][2], int i)
 	}
 }
 
-
 void	exec_pipe_child(t_ast *node)
 {
 	int	status;
