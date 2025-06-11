@@ -54,6 +54,5 @@ void	exit_bltn(t_ast *node)
 		}
 	}
 	else
-		exit(SUCCESS);
-//		exit(node->exit_status);
+		exit(node->root->exit_status);
 }

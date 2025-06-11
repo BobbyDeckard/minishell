@@ -12,6 +12,7 @@
 
 #include "../../../incl/minishell.h"
 
+/*
 void	exec_pipe_builtin(t_ast *node, int *pids, int i)
 {
 	char	*name;
@@ -39,6 +40,7 @@ void	exec_pipe_builtin(t_ast *node, int *pids, int i)
 	else
 		pids[i] = FAILURE;
 }
+*/
 
 int	exec_builtin(t_ast *node)
 {

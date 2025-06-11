@@ -65,7 +65,7 @@ int		count_nodes(t_ast **children);
 int		make_fork(void);
 int		make_pipe(int fd[2]);
 int		pipe_error(int *pids, int fd[2][2], int i, int count);
-int		waitpids(int *pids, int count);
+int		waitpids(t_ast *root, int *pids, int count);
 
 /* Builtins functions */
 char	*get_str(const char *name);

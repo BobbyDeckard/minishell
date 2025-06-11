@@ -32,7 +32,7 @@ int	make_pipe(int fd[2])
 	return (1);
 }
 
-int	waitpids(int *pids, int cmd_count)
+int	waitpids(t_ast *root, int *pids, int cmd_count)
 {
 	int	status;
 	int	i;
@@ -51,6 +51,7 @@ int	waitpids(int *pids, int cmd_count)
 			if (WIFEXITED(status))
 				status = WEXITSTATUS(status);
 		}
+		root->exit_status = status;
 	}
 	return (status);
 }

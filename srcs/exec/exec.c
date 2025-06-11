@@ -45,6 +45,7 @@ int	run_cmd(t_ast *node)
 	unlink_heredoc(node);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
+	node->root->exit_status = status;
 	return (status);
 }
 
