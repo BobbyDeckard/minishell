@@ -113,7 +113,6 @@ int	run_pipe(t_ast **child, int *pids, int count)
 		if (child[i]->type == NODE_CMD && !is_builtin(child[i]->cmd))
 		{
 			close_redirs(child[i]->cmd);
-			printf("About to unlink heredoc for %s\n", child[i]->cmd.args[0]);
 			unlink_heredoc(child[i]);
 		}
 		close_pipes(fd, i, count);
