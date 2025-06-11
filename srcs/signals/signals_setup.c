@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 14:00:00 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/11 17:07:31 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:15:34 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,39 +94,6 @@ void	setup_child_signals(void)
 	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 	{
 		perror("child sigaction SIGQUIT");
-		exit(1);
-	}
-}
-
-void	signal_handler_heredoc(int signum)
-{
-	g_signal_received = signum;
-	if (signum == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		/* Forcer readline à retourner NULL */
-		rl_done = 1;
-	}
-}
-
-void	setup_heredoc_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = signal_handler_heredoc;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;  /* PAS de SA_RESTART pour forcer l'interruption */
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		perror("sigaction SIGINT heredoc");
-		exit(1);
-	}
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-	{
-		perror("sigaction SIGQUIT heredoc");
 		exit(1);
 	}
 }

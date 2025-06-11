@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:37:44 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:08:06 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:13:08 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,22 @@ int	file_namer_2000(t_ast *node, t_cmd *cmd)
 	return (FAILURE);
 }
 
+/* Signal handler spécial pour heredoc qui ferme STDIN */
+void	sigint_heredoc_handler(int sig)
+{
+	(void)sig;
+	g_signal_received = SIGINT;
+	close(STDIN_FILENO);
+}
+
 void	make_heredoc(t_ast *node, t_cmd *cmd)
 {
-	char	*line;
-	char	*delimiter;
-	int		len;
+	char				*line;
+	char				*delimiter;
+	int					len;
+	int					stdin_backup;
+	struct sigaction	old_action;
+	struct sigaction	new_action;
 
 	delimiter = node->file;
 	len = ft_strlen(delimiter);
@@ -66,29 +77,42 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	if (!check_and_open("temp", node, cmd))
 		return ;
 	
+	/* Backup STDIN et setup signal handler spécial */
+	stdin_backup = dup(STDIN_FILENO);
+	new_action.sa_handler = sigint_heredoc_handler;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_flags = 0;
+	sigaction(SIGINT, &new_action, &old_action);
+	
 	g_shell.state = HEREDOC_MODE;
-	setup_heredoc_signals();  /* Setup special heredoc signals */
 	
 	while (1)
 	{
 		line = readline("> ");
 		
-		/* Check for SIGINT or EOF */
-		if (g_signal_received == SIGINT || !line)
+		/* Si readline retourne NULL et STDIN n'est plus un terminal, 
+		   c'est qu'on a été interrompu par SIGINT */
+		if (!line)
 		{
-			if (line)
-				free(line);
-			/* Cleanup on interruption */
-			close(cmd->fd_in);
-			unlink(node->file);
-			cmd->fd_in = -1;
-			g_shell.state = INTERACTIVE;
-			g_signal_received = 0;
-			setup_interactive_signals();  /* Restore normal signals */
-			return ;
+			if (!isatty(STDIN_FILENO))
+			{
+				/* Interrupted by signal */
+				dup2(stdin_backup, STDIN_FILENO);
+				close(stdin_backup);
+				close(cmd->fd_in);
+				unlink(node->file);
+				cmd->fd_in = -1;
+				write(STDOUT_FILENO, "\n", 1);
+			}
+			else
+			{
+				/* Normal EOF (Ctrl-D) */
+				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
+			}
+			break ;
 		}
 		
-		/* Check delimiter */
+		/* Vérifier délimiteur */
 		if (!ft_strncmp(line, delimiter, len + 1))
 		{
 			free(line);
@@ -100,11 +124,20 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 		free(line);
 	}
 	
-	close(cmd->fd_in);
-	cmd->fd_in = open(node->file, O_RDONLY);
-	if (cmd->fd_in < 0)
-		perror(node->file);
+	/* Restore signal handler et STDIN */
+	sigaction(SIGINT, &old_action, NULL);
+	if (stdin_backup >= 0)
+		close(stdin_backup);
+	
+	/* Si pas interrompu, configurer le fd pour lecture */
+	if (cmd->fd_in != -1)
+	{
+		close(cmd->fd_in);
+		cmd->fd_in = open(node->file, O_RDONLY);
+		if (cmd->fd_in < 0)
+			perror(node->file);
+	}
 	
 	g_shell.state = INTERACTIVE;
-	setup_interactive_signals();  /* Restore normal signals */
+	g_signal_received = 0;
 }

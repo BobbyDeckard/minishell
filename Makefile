@@ -6,14 +6,14 @@
 #    By: pitran <pitran@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 11:50:43 by pitran            #+#    #+#              #
-#    Updated: 2025/06/11 16:10:23 by pitran           ###   ########.fr        #
+#    Updated: 2025/06/11 18:53:42 by pitran           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g3 -O0
 LFLAGS = -lreadline -lncurses
 
 # ========== LIBFT ==========
@@ -39,7 +39,7 @@ SRC_PARSING = srcs/$(PARSING_DIR)/retrieve.c \
               srcs/$(PARSING_DIR)/tokenize.c \
               srcs/$(PARSING_DIR)/tokenize2.c \
               srcs/$(PARSING_DIR)/tokens.c \
-              srcs/$(PARSING_DIR)/parse.c
+              srcs/$(PARSING_DIR)/parse.c \
 
 SRC_SYNTAX = srcs/$(SYNTAX_DIR)/syntax_check.c \
              srcs/$(SYNTAX_DIR)/other_type_check.c \

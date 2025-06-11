@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/10 17:36:23 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:56:20 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*content;
+	int				needs_expansion;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -124,5 +125,10 @@ int			redir_syntax_is_valid(t_token **token_list);
 int			syntax_is_valid(t_token **token_list);
 void 		set_root_node(t_ast *node, t_ast *root);
 char 		*get_str(const char *name);
+int			token_should_expand(t_token *token);
+void		mark_tokens_for_expansion(t_token **token_list);
+
+
+
 
 #endif
