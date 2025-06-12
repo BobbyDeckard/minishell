@@ -45,6 +45,7 @@ typedef struct s_ast
 	char			**paths;
 	char			**envp;
 	char			*file;
+	int				exit_status;
 }	t_ast;
 
 #endif
