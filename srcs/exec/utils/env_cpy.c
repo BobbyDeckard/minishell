@@ -40,9 +40,10 @@ int	count_digits(int lvl)
 
 void	set_shlvl(char **env_cpy)
 {
-	int	len;
-	int	lvl;
-	int	i;
+	char	*level;
+	int		len;
+	int		lvl;
+	int		i;
 
 	i = -1;
 	while (env_cpy[++i])
@@ -56,7 +57,9 @@ void	set_shlvl(char **env_cpy)
 			if (!env_cpy[i])
 				malloc_error(NULL);
 			ft_strlcat(env_cpy[i], "SHLVL=", len);
-			ft_strlcat(env_cpy[i], ft_itoa(lvl), len);
+			level = ft_itoa(lvl);
+			ft_strlcat(env_cpy[i], level, len);
+			free(level);
 		}
 	}
 }
