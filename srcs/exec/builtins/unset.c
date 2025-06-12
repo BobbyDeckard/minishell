@@ -36,7 +36,7 @@ int	unset(t_ast *node)
 
 	i = ft_char_tab_len(node->root->envp);
 	if (i == -1)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	new_env = (char **) malloc(i * sizeof(char *));
 	if (!new_env)
 		malloc_error(node);
@@ -58,5 +58,5 @@ int	unset(t_ast *node)
 	new_env[++j] = NULL;
 	clean_envp(node->root->envp);
 	node->root->envp = new_env;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

@@ -12,6 +12,21 @@
 
 #include "../../incl/minishell.h"
 
+void	redir_error(t_ast *node)
+{
+	char	*str;
+	int		len;
+
+	len = ft_strlen(node->file) + 12;
+	str = (char *) malloc(len * sizeof(char));
+	if (!str)
+		malloc_error(node);
+	ft_strlcat(str, "minishell: ", len);
+	ft_strlcat(str, node->file, len);
+	perror(str);
+	free(str);
+}
+
 void	make_redir_in(t_ast *node, t_cmd *cmd)
 {
 	if (access(node->file, F_OK) != 0 || access(node->file, R_OK) != 0)
@@ -19,7 +34,7 @@ void	make_redir_in(t_ast *node, t_cmd *cmd)
 	else
 		cmd->fd_in = open(node->file, O_RDONLY);
 	if (cmd->fd_in < 0)
-		perror(node->file);
+		redir_error(node);
 }
 
 void	make_redir_out(t_ast *node, t_cmd *cmd)
@@ -29,7 +44,7 @@ void	make_redir_out(t_ast *node, t_cmd *cmd)
 	else
 		cmd->fd_out = open(node->file, O_TRUNC | O_WRONLY | O_CREAT, 0644);
 	if (cmd->fd_out < 0)
-		perror(node->file);
+		redir_error(node);
 }
 
 void	make_redir_append(t_ast *node, t_cmd *cmd)
@@ -39,7 +54,7 @@ void	make_redir_append(t_ast *node, t_cmd *cmd)
 	else
 		cmd->fd_out = open(node->file, O_APPEND | O_WRONLY | O_CREAT, 0644);
 	if (cmd->fd_out < 0)
-		perror(node->file);
+		redir_error(node);
 }
 
 int	make_redirs(t_ast *node)

@@ -18,7 +18,7 @@ int	echo(t_ast	*node)
 	int	i;
 
 	if (make_redirs(node) == FAILURE)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	flag = 0;
 	if (!ft_strncmp(node->cmd.args[1], "-n", node->cmd.fd_out))
 		flag++;
@@ -33,5 +33,5 @@ int	echo(t_ast	*node)
 		ft_putchar_fd('\n', node->cmd.fd_out);
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

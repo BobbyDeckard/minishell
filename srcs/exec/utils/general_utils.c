@@ -12,6 +12,12 @@
 
 #include "../../../incl/minishell.h"
 
+int	set_exit_status(t_ast *node, int status)
+{
+	node->root->exit_status = status;
+	return (status);
+}
+
 int	ft_char_tab_len(char **tab)
 {
 	int	i;

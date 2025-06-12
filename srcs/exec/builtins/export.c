@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:15:47 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 17:37:29 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 23:14:53 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	create_env_cpy(t_ast *node)
 	env_cpy[0] = node->cmd.args[1];
 	env_cpy[1] = NULL;
 	node->root->envp = env_cpy;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }
 
 char	**make_new_env(t_ast *node, int size)
@@ -120,7 +120,7 @@ int	export_print(t_ast *node, int size)
 	order(ordered);
 	print_export(node, ordered);
 	clean_env_cpy(ordered, -1);
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }
 
 int	has_equal(const char *str)
@@ -136,15 +136,23 @@ int	has_equal(const char *str)
 	return (0);
 }
 
-int	assign_var(t_ast *node, int size)
+char	*get_var_name(t_ast *node)
 {
-	if (size)
-		return (FAILURE);
-	else if (node)
-		return (FAILURE);
-	else
-		return (FAILURE);
+	char	*name;
+	int		i;
+
+	i = 0;
+	while (node->cmd.args[1][i] != '=')
+		i++;
+	name = (char *) malloc((i + 1) * sizeof(char));
+	if (!name)
+		malloc_error(node);
+	i++;
+	while (--i >= 0)
+		name[i] = node->cmd.args[1][i];
+	return (name);
 }
+
 
 int	create_var(t_ast *node, int size)
 {
@@ -157,18 +165,43 @@ int	create_var(t_ast *node, int size)
 		malloc_error(node);
 	ft_strlcat(node->root->envp[size], node->cmd.args[1], len);
 	node->root->envp[++size] = NULL;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
+}
+
+int	assign_var(t_ast *node, int size)
+{
+	char	*name;
+	int		i;
+
+	name = get_var_name(node);
+	i = -1;
+	while (node->root->envp[++i])
+	{
+		if (!ft_strncmp(name, node->root->envp[i], ft_strlen(name)))
+			break ;
+	}
+	if (node->root->envp[i])
+	{
+		free(node->root->envp[i]);
+		node->root->envp[i] = (char *) malloc((ft_strlen(node->cmd.args[1]) + 1) * sizeof(char));
+		if (!node->root->envp[i])
+			malloc_error(node);
+		ft_strlcat(node->root->envp[i], node->cmd.args[1], ft_strlen(node->cmd.args[1]) + 1);
+	}
+	else
+		return (create_var(node, size));
+	return (set_exit_status(node, SUCCESS));
 }
 
 int	export_bltn(t_ast *node)
 {
 	int		size;
 
-	size = ft_char_tab_len(node->root->envp);
+	size = ft_char_tab_len(node->root->envp);		// superflu (plus possible d'avoir un env vide)(sauf si on unset tout manuellement)
 	if (node->cmd.args[1] && size == -1)
 		return (create_env_cpy(node));
 	else if (size == -1)
-		return (FAILURE);					// not sure this is the behaviour of export
+		return (set_exit_status(node, FAILURE));					// not sure this is the behaviour of export
 	else if (!node->cmd.args[1])
 		return (export_print(node, size));
 	else if (has_equal(node->cmd.args[1]))
@@ -181,5 +214,5 @@ int	export_bltn(t_ast *node)
 		malloc_error(node);
 	ft_strlcat(node->root->envp[size], node->cmd.args[1], ft_strlen(node->cmd.args[1]) + 1);
 	node->root->envp[size + 1] = NULL;
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

@@ -17,19 +17,19 @@ int	pwd(t_ast *node)
 	char	*cwd;
 
 	if (make_redirs(node) == FAILURE)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
 		perror("getcwd");
 		close_redirs(node->cmd);
 		unlink_heredoc(node);
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	}
 	ft_putstr_fd(cwd, node->cmd.fd_out);
 	ft_putchar_fd('\n', node->cmd.fd_out);
 	free(cwd);
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
-	return (SUCCESS);
+	return (set_exit_status(node, SUCCESS));
 }

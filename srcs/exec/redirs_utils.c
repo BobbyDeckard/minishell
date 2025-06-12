@@ -22,6 +22,7 @@ void	close_redirs(t_cmd cmd)
 
 int	check_redirs(t_ast *node, t_cmd cmd)
 {
+	(void) node;
 	if (cmd.fd_in < 0 || cmd.fd_out < 0)
 	{
 		close_redirs(cmd);

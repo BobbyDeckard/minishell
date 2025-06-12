@@ -12,6 +12,36 @@
 
 #include "../../../incl/minishell.h"
 
+/*
+void	exec_pipe_builtin(t_ast *node, int *pids, int i)
+{
+	char	*name;
+
+	if (!node->cmd.args)
+		pids[i] = FAILURE;
+	name = node->cmd.args[0];
+	if (!ft_strncmp(name, "echo", 5))
+		pids[i] = echo(node);
+	else if (!ft_strncmp(name, "cd", 3))
+		pids[i] = cd(node);
+	else if (!ft_strncmp(name, "pwd", 4))
+		pids[i] = pwd(node);
+	else if (!ft_strncmp(name, "export", 7))
+		pids[i] = export_bltn(node);
+	else if (!ft_strncmp(name, "unset", 6))
+		pids[i] = unset(node);
+	else if (!ft_strncmp(name, "env", 4))
+		pids[i] = env(node);
+	else if (!ft_strncmp(name, "exit", 5))
+	{
+		pids[i] = SUCCESS;
+		exit(42);
+	}
+	else
+		pids[i] = FAILURE;
+}
+*/
+
 int	exec_builtin(t_ast *node)
 {
 	char	*name;
@@ -32,7 +62,7 @@ int	exec_builtin(t_ast *node)
 	else if (!ft_strncmp(name, "env", 4))
 		return (env(node));
 	else if (!ft_strncmp(name, "exit", 5))
-		return (exit(1), FAILURE);
+		return (exit_bltn(node), SUCCESS);
 	return (FAILURE);
 }
 

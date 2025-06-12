@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:51:47 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/27 14:51:48 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:38:47 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	dup2_error(void)
 int	pipe_error(int *pids, int fd[2][2], int i, int count)
 {
 	close_pipes(fd, i, count);
-	waitpids(pids, count);
+	waitpids(NULL, pids, count);	// pass node here still ?
 	return (FAILURE);
 }
 

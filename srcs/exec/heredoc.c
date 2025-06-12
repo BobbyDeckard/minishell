@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
+/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:37:44 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:13:08 by pitran           ###   ########.fr       */
+/*   Updated: 2025/05/13 20:12:18 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-extern t_shell_data	g_shell;
+// << word
+// reads input until it finds a line containing only word with no trailing blanks
 
 void	unlink_heredoc(t_ast *node)
 {
@@ -43,7 +44,7 @@ int	file_namer_2000(t_ast *node, t_cmd *cmd)
 	i = -1;
 	while (++i < 128)
 	{
-		j = 32;
+		j = 64;
 		while (++j < 128)
 		{
 			name[i] = j;
@@ -64,6 +65,38 @@ void	sigint_heredoc_handler(int sig)
 
 void	make_heredoc(t_ast *node, t_cmd *cmd)
 {
+	char	*line;
+	char	*delimiter;
+	int		len;
+
+	delimiter = node->file;
+	len = ft_strlen(delimiter) + 1;
+//	if (file_namer_2000(node, cmd) == FAILURE)
+//		return ;
+	if (!check_and_open("temp", node, cmd))
+	{
+		if (!check_and_open("am1itlakjndlejbgfoaknmifubpqms", node, cmd))
+			return ;
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!ft_strncmp(line, delimiter, len))
+			break ;
+		ft_putstr_fd(line, cmd->fd_in);
+		ft_putchar_fd('\n', cmd->fd_in);
+		free(line);
+	}
+	free(line);
+	close(cmd->fd_in);
+	cmd->fd_in = open(node->file, O_RDONLY);
+	if (cmd->fd_in < 0)
+		perror(node->file);
+}
+
+/*
+void	make_heredoc(t_ast *node, t_cmd *cmd)
+{
 	char				*line;
 	char				*delimiter;
 	int					len;
@@ -77,7 +110,7 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	if (!check_and_open("temp", node, cmd))
 		return ;
 	
-	/* Backup STDIN et setup signal handler spécial */
+	*//* Backup STDIN et setup signal handler spécial *//*
 	stdin_backup = dup(STDIN_FILENO);
 	new_action.sa_handler = sigint_heredoc_handler;
 	sigemptyset(&new_action.sa_mask);
@@ -90,13 +123,13 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	{
 		line = readline("> ");
 		
-		/* Si readline retourne NULL et STDIN n'est plus un terminal, 
-		   c'est qu'on a été interrompu par SIGINT */
+		*//* Si readline retourne NULL et STDIN n'est plus un terminal, 
+		   c'est qu'on a été interrompu par SIGINT *//*
 		if (!line)
 		{
 			if (!isatty(STDIN_FILENO))
 			{
-				/* Interrupted by signal */
+				*//* Interrupted by signal *//*
 				dup2(stdin_backup, STDIN_FILENO);
 				close(stdin_backup);
 				close(cmd->fd_in);
@@ -106,13 +139,13 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 			}
 			else
 			{
-				/* Normal EOF (Ctrl-D) */
+				*//* Normal EOF (Ctrl-D) *//*
 				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 			}
 			break ;
 		}
 		
-		/* Vérifier délimiteur */
+		*//* Vérifier délimiteur *//*
 		if (!ft_strncmp(line, delimiter, len + 1))
 		{
 			free(line);
@@ -124,12 +157,12 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 		free(line);
 	}
 	
-	/* Restore signal handler et STDIN */
+	*//* Restore signal handler et STDIN *//*
 	sigaction(SIGINT, &old_action, NULL);
 	if (stdin_backup >= 0)
 		close(stdin_backup);
 	
-	/* Si pas interrompu, configurer le fd pour lecture */
+	*//* Si pas interrompu, configurer le fd pour lecture *//*
 	if (cmd->fd_in != -1)
 	{
 		close(cmd->fd_in);
@@ -141,3 +174,4 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	g_shell.state = INTERACTIVE;
 	g_signal_received = 0;
 }
+*/

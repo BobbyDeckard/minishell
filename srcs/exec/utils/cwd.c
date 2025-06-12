@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
+/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:06:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:06:47 by pitran           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:51:30 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,30 @@
 
 char	*trunc_cwd(char *full)
 {
-	char	*cwd;
-	char	*ptr;
-	int		len;
-	int		i;
+    char    *cwd;
+    char    *ptr;
+    int     len;
+    int     i;
 	int		j;
 
-	ptr = full;
-	while (*ptr)
-		ptr++;
-	while (*ptr != '/')
-		ptr--;
-	ptr++;
-	len = ft_strlen(ptr);
-	cwd = (char *) malloc(256 * sizeof(char));
-	if (!cwd)
-	{
-		exit(1);
-	}
+    ptr = full;
+    while (*ptr)
+        ptr++;
+    while (*ptr != '/')
+        ptr--;
+    ptr++;
+    len = ft_strlen(ptr);
+    cwd = (char *) malloc(256 * sizeof(char));
+    if (!cwd)
+        exit (1);
 	i = 0;
 	while (i < len + 19)
 		cwd[i++] = 0;
 	ft_strlcat(cwd, "\e[1;36m", 256);
-	i = 0;
+    i = 0;
 	j = ft_strlen(cwd);
-	while (i < len)
-	{
-		cwd[j++] = ptr[i++];
-	}
+    while (i < len)
+        cwd[j++] = ptr[i++];
 	ft_strlcat(cwd, "\x1b[0m", 256);
 //	j = ft_strlen(cwd);
 //	cwd[j] = ' ';
@@ -50,9 +46,9 @@ char	*trunc_cwd(char *full)
 //	cwd[j] = '>';
 //	ft_strlcat(cwd, "\x1b[0m", 256);
 	j = ft_strlen(cwd);
-	cwd[j] = ' ';
-	free(full);
-	return (cwd);
+    cwd[j] = ' ';
+    free(full);
+    return (cwd);
 }
 
 // permet d'afficher le directoire de travail
@@ -63,7 +59,7 @@ char	*make_cwd(void)
 {
 	char	*cwd;
 
-	cwd = getcwd(NULL, 0);
-	cwd = trunc_cwd(cwd);
-	return (cwd);
+    cwd = getcwd(NULL, 0);
+    cwd = trunc_cwd(cwd);
+    return (cwd);
 }

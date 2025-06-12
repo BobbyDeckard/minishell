@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
+/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 00:30:32 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/10 16:12:13 by pitran           ###   ########.fr       */
+/*   Updated: 2025/05/13 20:09:55 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	run_cmd(t_ast *node)
 	if (is_builtin(node->cmd))
 		return (exec_builtin(node));
 	if (make_redirs(node) == FAILURE)
-		return (FAILURE);
+		return (set_exit_status(node, FAILURE));
 	pid = fork();
 	if (pid < 0)
 		return (fork_error());
@@ -38,7 +38,6 @@ int	run_cmd(t_ast *node)
 	{
 		dup_fds(*node);
 		exec_cmd(node, node->cmd);
-		unlink_heredoc(node);
 		clean_exit(node->root, FAILURE);
 	}
 	close_redirs(node->cmd);
@@ -46,7 +45,7 @@ int	run_cmd(t_ast *node)
 	unlink_heredoc(node);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	return (status);
+	return (set_exit_status(node, status));
 }
 
 int	exec_or_if(t_ast **child)
@@ -69,7 +68,7 @@ int	exec_and_if(t_ast **child)
 	i = -1;
 	while (child[++i])
 	{
-		if (exec_ast(child[i]) != SUCCESS)
+		if (exec_ast(child[i]) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -85,7 +84,5 @@ int	exec_ast(t_ast *node)
 		return (exec_and_if(node->children));
 	else if (node->type == NODE_PIPE && node->children)
 		return (exec_pipe(node->children));
-	else if (node->type == NODE_SUBSHELL)
-		return (exec_subshell(node));
 	return (FAILURE);
 }

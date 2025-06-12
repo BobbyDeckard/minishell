@@ -33,3 +33,26 @@
  * When exit is executed in a trap action, the last command is
  * considered to be the command that executed immediately preceding
  * the trap action. */
+
+void	exit_bltn(t_ast *node)
+{
+	unsigned int	i;
+
+	printf("exit\n");
+	if (node->cmd.args[1])
+	{
+		i = -1;
+		while (node->cmd.args[1][++i])
+		{
+			if (!ft_isdigit(node->cmd.args[1][i]))
+			{
+				printf("minishell: exit: %s: numeric argument required\n", node->cmd.args[1]);
+				exit(255);
+			}
+			if (++i == ft_strlen(node->cmd.args[1]))
+				exit(ft_atoi(node->cmd.args[1]));
+		}
+	}
+	else
+		exit(node->root->exit_status);
+}
