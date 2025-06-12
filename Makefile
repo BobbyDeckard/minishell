@@ -62,31 +62,31 @@ SRC_SIGNALS = srcs/$(SIGNALS_DIR)/signals_setup.c \
 SRC_DEBUG = srcs/debug/ast_utils.c
 
 SRC_EXEC = srcs/$(EXEC_DIR)/exec.c \
-           srcs/$(EXEC_DIR)/redirs.c \
-           srcs/$(EXEC_DIR)/heredoc.c \
            srcs/$(EXEC_DIR)/exec_utils.c \
            srcs/$(EXEC_DIR)/get_path.c \
+           srcs/$(EXEC_DIR)/heredoc.c \
            srcs/$(EXEC_DIR)/pipe.c \
            srcs/$(EXEC_DIR)/pipe_utils.c \
            srcs/$(EXEC_DIR)/pipe_utils2.c \
+           srcs/$(EXEC_DIR)/redirs.c \
            srcs/$(EXEC_DIR)/redirs_utils.c \
-           srcs/$(EXEC_DIR)/subshell.c
 
 SRC_BUILTINS = srcs/$(BUILTINS_DIR)/builtins.c \
-               srcs/$(BUILTINS_DIR)/pwd.c \
                srcs/$(BUILTINS_DIR)/cd.c \
                srcs/$(BUILTINS_DIR)/echo.c \
                srcs/$(BUILTINS_DIR)/env.c \
                srcs/$(BUILTINS_DIR)/env_utils.c \
+               srcs/$(BUILTINS_DIR)/exit.c \
                srcs/$(BUILTINS_DIR)/export.c \
+               srcs/$(BUILTINS_DIR)/pwd.c \
                srcs/$(BUILTINS_DIR)/unset.c
 
-SRC_UTILS = srcs/$(UTILS_DIR)/cwd.c \
+SRC_UTILS = srcs/$(UTILS_DIR)/cleanup.c \
+			srcs/$(UTILS_DIR)/cwd.c \
             srcs/$(UTILS_DIR)/env_cpy.c \
             srcs/$(UTILS_DIR)/errors.c \
             srcs/$(UTILS_DIR)/ft_split_path.c \
-            srcs/$(UTILS_DIR)/general_utils.c \
-            srcs/$(UTILS_DIR)/cleanup.c
+            srcs/$(UTILS_DIR)/general_utils.c
 
 # ========== COMBINE ALL SOURCES ==========
 SRCS = $(SRC_MAIN) $(SRC_PARSING) $(SRC_SYNTAX) $(SRC_AST) $(SRC_SIGNALS) $(SRC_EXEC) $(SRC_BUILTINS) $(SRC_UTILS)
