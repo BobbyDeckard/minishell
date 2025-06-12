@@ -22,6 +22,7 @@
 16. Check redirs in builtins
 17. Finish export ? (assigning value to variables)
 18. Check oldpwd values when unsetting pwd (first empty, then still tracks the old pwd)
+19. Check builtins errors
 
 Pour Pierre:
 -	parse les paths comme des strings séparées (fait une sorte de ft_split en utilisant les / comme séparateurs), ce qui fait que les commandes ne peuvent pas s'exécuter correctement (/bin/echo sera passé comme "bin", "echo" et une erreur indiquera bin: command not found)
