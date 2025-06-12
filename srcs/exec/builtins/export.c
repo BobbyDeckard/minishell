@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:15:47 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 17:37:29 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:03:06 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,16 +136,23 @@ int	has_equal(const char *str)
 	return (0);
 }
 
-int	assign_var(t_ast *node, int size)
+char	*get_var_name(t_ast *node)
 {
-	// wtf is this shit
-	if (size)
-		return (FAILURE);
-	else if (node)
-		return (FAILURE);
-	else
-		return (FAILURE);
+	char	*name;
+	int		i;
+
+	i = 0;
+	while (node->cmd.args[1][i] != '=')
+		i++;
+	name = (char *) malloc((i + 1) * sizeof(char));
+	if (!name)
+		malloc_error(node);
+	i++;
+	while (--i >= 0)
+		name[i] = node->cmd.args[1][i];
+	return (name);
 }
+
 
 int	create_var(t_ast *node, int size)
 {
@@ -161,11 +168,35 @@ int	create_var(t_ast *node, int size)
 	return (set_exit_status(node, SUCCESS));
 }
 
+int	assign_var(t_ast *node, int size)
+{
+	char	*name;
+	int		i;
+
+	name = get_var_name(node);
+	i = -1;
+	while (node->root->envp[++i])
+	{
+		if (!ft_strncmp(name, node->root->envp[i], ft_strlen(name)))
+			break ;
+	}
+	if (node->root->envp[i])
+	{
+		free(node->root->envp[i]);
+		node->root->envp[i] = (char *) malloc((ft_strlen(node->cmd.args[1]) + 1) * sizeof(char));
+		if (!node->root->envp[i])
+			malloc_error(node);
+		ft_strlcat(node->root->envp[i], node->cmd.args[1], ft_strlen(node->cmd.args[1]) + 1);
+	}
+	else
+		return (create_var(node, size));
+	return (set_exit_status(node, SUCCESS));
+}
 int	export_bltn(t_ast *node)
 {
 	int		size;
 
-	size = ft_char_tab_len(node->root->envp);
+	size = ft_char_tab_len(node->root->envp);		// superflu (plus possible d'avoir un env vide)(sauf si on unset tout manuellement)
 	if (node->cmd.args[1] && size == -1)
 		return (create_env_cpy(node));
 	else if (size == -1)
