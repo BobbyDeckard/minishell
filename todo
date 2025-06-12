@@ -16,3 +16,4 @@ Checks to be sure:
 To be implemented:
 -	Solo redirs
 -	PWD and OLDPWD values in different scenarios
+-	Replace macroes by existing ones
