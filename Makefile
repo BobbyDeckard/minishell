@@ -15,6 +15,10 @@ NAME = minishell
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3 -O0
 LFLAGS = -lreadline -lncurses
+UNAME = $(shell uname)
+ifeq ($(UNAME), Darwin)
+	LFLAGS += -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include/readline
+endif
 
 # ========== LIBFT ==========
 LIBFT_DIR = libft

@@ -33,6 +33,8 @@
 
 extern volatile sig_atomic_t g_signal_received;
 
+extern void	rl_replace_line(const char *str, int i);
+
 # ifndef SUCCESS
 #  define SUCCESS 0 /*pas sur que cela respecte les contraintes du sujet */
 # endif
