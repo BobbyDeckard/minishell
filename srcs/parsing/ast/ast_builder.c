@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:30:21 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/12 15:39:28 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:43:35 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ t_ast	*create_ast(t_token **token_list)
 
 	if (!token_list || !*token_list)
 		return (NULL);
-
 	// jsp si c'est nécessaire de garder la node root
 	root = create_ast_node(NODE_CMD, NULL);
 	if (!root)
 		return (NULL);
 	root->root = root;
 //	root->envp = g_shell.envp;
-
 	token_count = count_tokens(token_list);
 	tree = parse_command_line(token_list, 0, token_count - 1, root);
 	if (!tree)
@@ -84,7 +82,7 @@ t_ast	*create_ast(t_token **token_list)
 	root->children[1] = NULL;
 	return (root);
 }
-*/
+	*/
 
 t_token	*get_token_at_index(t_token **token_list, int index)
 {
@@ -163,6 +161,7 @@ int	find_matching_parenthesis(t_token **tokens, int open_pos, int end)
 	}
 	return (-1);
 }
+
 void	set_root_node(t_ast *ast, t_ast *root)
 {
 	int	i;

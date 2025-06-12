@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:40:29 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:52 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:48:56 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ void	free_string_array(char **array)
 
 static void	print_ast_type(t_ast *node)
 {
+	int j;
 	if (node->type == NODE_CMD)
 	{
 		printf("COMMAND:");
 		if (node->cmd.args)
 		{
-			int j = 0;
+			j = 0;
 			while (node->cmd.args[j])
 			{
 				printf(" %s", node->cmd.args[j]);

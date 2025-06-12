@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:59:05 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/12 15:22:46 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:19:06 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_token	*create_token(void)
 	new_token->prev = NULL;
 	return (new_token);
 }
-
 
 //Link node 
 void	link_token(t_token *token, t_token **token_list)

@@ -6,17 +6,17 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 15:51:19 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:57 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:38:01 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/minishell.h"
 
-int quote_syntax_is_valid(t_token **token_list)
+int	quote_syntax_is_valid(t_token **token_list)
 {
-	int in_single_quote;
-	int in_double_quote;
-	t_token *current;
+	int		in_single_quote;
+	int		in_double_quote;
+	t_token	*current;
 
 	in_single_quote = 0;
 	in_double_quote = 0;
@@ -34,12 +34,13 @@ int quote_syntax_is_valid(t_token **token_list)
 
 int	redir_syntax_is_valid(t_token **token_list)
 {
-	t_token *current;
+	t_token	*current;
 
 	current = *token_list;
 	while (current)
 	{
-		if (current->type == REDIR_IN || current->type == REDIR_OUT || current->type == REDIR_APPEND || current->type == HEREDOC)
+		if (current->type == REDIR_IN || current->type == REDIR_OUT
+			|| current->type == REDIR_APPEND || current->type == HEREDOC)
 		{
 			if (!current->next || current->next->type != WORD)
 				return (0);
@@ -56,13 +57,16 @@ int	operator_syntax_is_valid(t_token **token_list)
 	current = *token_list;
 	while (current)
 	{
-		if (current->type == PIPE || current->type == AND || current->type == OR)
+		if (current->type == PIPE || current->type == AND
+			|| current->type == OR)
 		{
 			if (!current->prev || !current->next)
-				return (0);			
-			if (current->prev->type != WORD && current->prev->type != PAREN_CLOSE)
 				return (0);
-			if (current->next->type != WORD && current->next->type != PAREN_OPEN)
+			if (current->prev->type != WORD
+				&& current->prev->type != PAREN_CLOSE)
+				return (0);
+			if (current->next->type != WORD
+				&& current->next->type != PAREN_OPEN)
 				return (0);
 		}
 		current = current->next;

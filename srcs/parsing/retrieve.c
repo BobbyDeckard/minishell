@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:00:23 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/12 15:19:19 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:20:09 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_token_type	get_token_type(char c)
 
 t_token	**tokenize_input(char *command)
 {
-	t_token		**token_list;
-	t_token		**result;
+	t_token			**token_list;
+	t_token			**result;
 	t_token_type	type;
 
 	token_list = malloc(sizeof(t_token *));
@@ -49,10 +49,7 @@ t_token	**tokenize_input(char *command)
 		}
 		result = extract_token(&command, type, token_list);
 		if (!result)
-		{
-			free(token_list);
-			return (NULL);
-		}
+			return (free(token_list), NULL);
 		token_list = result;
 	}
 	mark_tokens_for_expansion(token_list);
@@ -74,7 +71,8 @@ t_token	**extract_token(char **command, t_token_type type, t_token **token_list)
 	return (token_list);
 }
 
-t_token	*handle_token_type(char **command, t_token_type type, t_token *new_token)
+t_token	*handle_token_type(char **command, t_token_type type,
+							t_token *new_token)
 {
 	if (type == WORD)
 		new_token = tokenize_word(command, new_token);

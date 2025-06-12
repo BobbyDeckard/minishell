@@ -1,5 +1,3 @@
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -8,13 +6,13 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 14:34:27 by pitran            #+#    #+#             */
-/*   Updated: 2025/03/21 16:25:15 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:42:11 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/minishell.h"
 
-int count_tokens(t_token **token_list)
+int	count_tokens(t_token **token_list)
 {
 	t_token	*current;
 	int		count;
@@ -53,6 +51,7 @@ int	paren_syntax_is_valid(t_token **token_list)
 	t_token	**stack;
 	int		top;
 	t_token	*cur;
+	t_token	*temp;
 	int		res;
 
 	if (!token_list || !*token_list)
@@ -60,12 +59,9 @@ int	paren_syntax_is_valid(t_token **token_list)
 	stack = (t_token **)malloc(sizeof(t_token *) * count_tokens(token_list));
 	if (!stack)
 		return (0);
-
-	t_token *temp = *token_list;
-	while (temp) {
-//    printf("Token type: %d, content: %s\n", temp->type, temp->content);
-    temp = temp->next;
-}
+	temp = *token_list;
+	while (temp)
+		temp = temp->next;
 	top = -1;
 	cur = *token_list;
 	res = 1;
@@ -76,6 +72,5 @@ int	paren_syntax_is_valid(t_token **token_list)
 	}
 	if (top >= 0)
 		res = 0;
-	free(stack);
-	return (res);
+	return (free(stack), res);
 }

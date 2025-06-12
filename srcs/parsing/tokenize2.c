@@ -6,18 +6,13 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:37:08 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/12 15:22:43 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:18:37 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-/*
-** ========================================================================
-** FONCTION PRINCIPALE : tokenize_special_caracter
-** ========================================================================
-** Détecte et stocke les variables d'environnement pour l'expander
-*/
+//NORMINETTE 
 t_token	*tokenize_special_caracter(char **command, t_token *token)
 {
 	char	*start;

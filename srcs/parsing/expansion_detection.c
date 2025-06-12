@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:00:00 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/12 15:22:24 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:24:01 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	word_contains_variables(char *content)
 			in_single_quotes = 0;
 		else if (content[i] == '$' && !in_single_quotes)
 		{
-			if (content[i + 1] == '?' || ft_isalpha(content[i + 1]) 
+			if (content[i + 1] == '?' || ft_isalpha(content[i + 1])
 				|| content[i + 1] == '_')
 				return (1);
 		}
@@ -44,12 +44,6 @@ int	word_contains_variables(char *content)
 	return (0);
 }
 
-/*
-** ========================================================================
-** VÉRIFICATION SI TOKEN DOIT ÊTRE EXPANDÉ
-** ========================================================================
-** Détermine si un token a besoin d'expansion
-*/
 int	token_needs_expansion(t_token *token)
 {
 	if (!token)
@@ -61,12 +55,6 @@ int	token_needs_expansion(t_token *token)
 	return (0);
 }
 
-/*
-** ========================================================================
-** MARQUAGE DES TOKENS POUR EXPANSION
-** ========================================================================
-** Parcourt la liste et marque les tokens qui nécessitent une expansion
-*/
 void	mark_tokens_for_expansion(t_token **token_list)
 {
 	t_token	*current;
@@ -82,11 +70,6 @@ void	mark_tokens_for_expansion(t_token **token_list)
 }
 
 /*
-** ========================================================================
-** FONCTION DE DEBUG : AFFICHAGE DES VARIABLES DÉTECTÉES
-** ========================================================================
-** Utile pour vérifier que la détection fonctionne
-*/
 void	print_detected_variables(t_token **token_list)
 {
 	t_token	*current;
@@ -115,3 +98,4 @@ void	print_detected_variables(t_token **token_list)
 		count++;
 	}
 }
+	*/
