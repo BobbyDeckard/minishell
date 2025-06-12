@@ -6,13 +6,12 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:00:23 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/11 18:56:26 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:19:19 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-//Token type assignment
 t_token_type	get_token_type(char c)
 {
 	if (is_command_char(c))
@@ -30,7 +29,6 @@ t_token_type	get_token_type(char c)
 	return (DEFAULT);
 }
 
-//Token list management 
 t_token	**tokenize_input(char *command)
 {
 	t_token		**token_list;
@@ -57,11 +55,10 @@ t_token	**tokenize_input(char *command)
 		}
 		token_list = result;
 	}
-	mark_tokens_for_expansion(token_list);  
+	mark_tokens_for_expansion(token_list);
 	return (token_list);
 }
 
-//Token malloc + link
 t_token	**extract_token(char **command, t_token_type type, t_token **token_list)
 {
 	t_token	*new_token;
@@ -70,14 +67,13 @@ t_token	**extract_token(char **command, t_token_type type, t_token **token_list)
 		return (NULL);
 	new_token = create_token();
 	if (!new_token)
-		return (token_list);//Message d'erreur
+		return (token_list);
 	new_token = handle_token_type(command, type, new_token);
 	if (new_token)
-		link_token(new_token, token_list);//If/ else avec free 
+		link_token(new_token, token_list);
 	return (token_list);
 }
 
-//Mother function to call type handlers
 t_token	*handle_token_type(char **command, t_token_type type, t_token *new_token)
 {
 	if (type == WORD)
@@ -93,51 +89,4 @@ t_token	*handle_token_type(char **command, t_token_type type, t_token *new_token
 	else if (type == SPECIAL_CARACTER)
 		new_token = tokenize_special_caracter(command, new_token);
 	return (new_token);
-}
-
-int	token_should_expand(t_token *token)
-{
-	char	*content;
-	int		has_variables;
-	int		in_single_quotes;
-	int		len;
-	int		i;
-
-	if (!token || !token->content || token->type != WORD)
-		return (0);
-	content = token->content;
-	len = ft_strlen(content);
-	in_single_quotes = (len >= 2 && content[0] == '\'' 
-		&& content[len - 1] == '\'');
-	if (in_single_quotes)
-		return (0);
-	has_variables = 0;
-	i = 0;
-	while (content[i])
-	{
-		if (content[i] == '$')
-		{
-			has_variables = 1;
-			break;
-		}
-		i++;
-	}
-	return (has_variables);
-}
-
-void	mark_tokens_for_expansion(t_token **token_list)
-{
-	t_token	*current;
-
-	if (!token_list || !*token_list)
-		return;
-	current = *token_list;
-	while (current)
-	{
-		if (current->type == WORD)
-			current->needs_expansion = token_should_expand(current);
-		else
-			current->needs_expansion = 0;
-		current = current->next;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/11 18:56:20 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:24:07 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,13 @@ t_ast		*create_subshell_node(t_ast *child, t_ast *root);
 t_ast		*parse_command_line(t_token **tokens, int start, int end, t_ast *root);
 t_ast 		*parse_input(char *command, t_shell_data *shell);
 t_ast		*parse_simple_command(t_token **tokens, int start, int end, t_ast *root);
+int			word_contains_variables(char *content);
+void		mark_tokens_for_expansion(t_token **token_list);
+void		print_detected_variables(t_token **token_list);
+int			token_needs_expansion(t_token *token);
+
+
+
 
 char		**extract_args(t_token **tokens, int start, int end);
 //	char		*ft_strdup(const char *s);

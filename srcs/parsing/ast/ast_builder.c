@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:30:21 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/10 17:37:19 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:39:28 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,16 @@ int	find_matching_parenthesis(t_token **tokens, int open_pos, int end)
 		i++;
 	}
 	return (-1);
+}
+void	set_root_node(t_ast *ast, t_ast *root)
+{
+	int	i;
+
+	ast->root = root;
+	if (ast->children)
+	{
+		i = -1;
+		while (ast->children[++i])
+			set_root_node(ast->children[i], root);
+	}
 }
