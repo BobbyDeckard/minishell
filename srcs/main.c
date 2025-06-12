@@ -24,21 +24,22 @@ static char	*get_prompt(void)
 	return (ft_strdup("minishell> "));
 }
 
-static void	process_command(char *command)
+static char	**process_command(char *command, char **envp)
 {
 	t_ast	*ast;
 
 	if (!command || !*command)
-		return ;
+		return (envp);
 	add_history(command);
 	g_shell.state = EXECUTING;
 	setup_execution_signals();
 	ast = parse_input(command, &g_shell);
 	if (ast)
 	{
-		ast->envp = g_shell.envp;
+		ast->envp = envp;
 		ast->paths = get_paths();
 		g_shell.exit_status = exec_ast(ast);
+		envp = ast->envp;
 		free_ast(ast);
 	}
 	/* Gérer les signaux reçus pendant l'exécution */
@@ -53,6 +54,7 @@ static void	process_command(char *command)
 		g_shell.exit_status = 131;/* Code de sortie standard pour SIGQUIT */
 		g_signal_received = 0;
 	}
+	return (envp);
 }
 
 static int	handle_eof(void)
@@ -63,6 +65,7 @@ static int	handle_eof(void)
 
 int	main(int argc, char **argv, char **envp)
 {
+	char	**env_cpy;
 	char	*command;
 	char	*prompt;
 	int		should_exit;
@@ -74,6 +77,7 @@ int	main(int argc, char **argv, char **envp)
 	g_shell.exit_status = 0;
 	g_shell.state = INTERACTIVE;
 	should_exit = 0;
+	env_cpy = copy_env(envp);
 	while (!should_exit)
 	{
 		g_shell.state = INTERACTIVE;
@@ -87,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		if (*command)
-			process_command(command);
+			env_cpy = process_command(command, env_cpy);
 		free(command);
 	}
 	if (g_shell.envp)
