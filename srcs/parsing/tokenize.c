@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:36:36 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/11 17:48:15 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/11 19:34:42 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,11 @@ t_token	*tokenize_word(char **command, t_token *token)
 
 	token->type = WORD;
 	len = find_word_len(*command);
-	
-	if (len == 0)
-		return (NULL);
-	
 	token->content = (char *)malloc(sizeof(char) * (len + 1));
 	if (!token->content)
 		return (NULL);
-	
 	i = 0;
-	while (i < len)
+	while (is_command_char((*command)[i]))
 	{
 		token->content[i] = (*command)[i];
 		i++;
