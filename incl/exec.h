@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
+/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:14 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/10 17:36:27 by pitran           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:53:28 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
+# include "structs.h"
 
 /* Functions */
 /* Pseudo parsing functions */
@@ -50,10 +51,12 @@ char	**copy_env(char **envp);
 char	*make_cwd(void);
 int		fork_error(void);
 int		ft_char_tab_len(char **tab);
+int	set_exit_status(t_ast *node, int status);
 
 /* Pipe functions */
 void	close_pipes(int fd[2][2], int i, int count);
 void	exec_pipe_and(t_ast *node);
+void	exec_pipe_builtin(t_ast *node, int *pid, int i);
 void	exec_pipe_child(t_ast *child);
 void	exec_pipe_cmd(t_ast *node);
 void	exec_pipe_or(t_ast *node);
@@ -63,10 +66,11 @@ int		count_nodes(t_ast **children);
 int		make_fork(void);
 int		make_pipe(int fd[2]);
 int		pipe_error(int *pids, int fd[2][2], int i, int count);
-int		waitpids(int *pids, int count);
+int		waitpids(t_ast *root, int *pids, int count);
 
 /* Builtins functions */
 char	*get_str(const char *name);
+void	exit_bltn(t_ast *node);
 int		cd(t_ast *node);
 int		echo(t_ast	*node);
 int		env(t_ast *node);
