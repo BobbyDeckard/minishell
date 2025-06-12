@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:57:09 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/12 15:42:00 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:27:30 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,22 @@ char	**create_envp(void)
 	free(cwd);
 	envp[1] = (char *) malloc(8 * sizeof(char));
 	if (!envp[1])
+	{
+		free(envp[0]);
+		free(envp);
 		malloc_error(NULL);
+	}
 	ft_strlcat(envp[1], "SHLVL=1", 8);
-	envp[2] = NULL;	// still need to set _ var
+	envp[2] = (char *) malloc(15 * sizeof(char));
+	if (!envp[2])
+	{
+		free(envp[0]);
+		free(envp[1]);
+		free(envp);
+		malloc_error(NULL);
+	}
+	ft_strlcat(envp[2], "_=/usr/bin/env", 15);
+	envp[3] = NULL;
 	return (envp);
 }
 

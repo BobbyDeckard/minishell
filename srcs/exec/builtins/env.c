@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:51:08 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/12 15:42:14 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:30:44 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ int	env(t_ast *node)
 	i = -1;
 	while (node->root->envp[++i])
 	{
+		if (!ft_strncmp(node->root->envp[i], "_=", 2))
+		{
+			free(node->root->envp[i]);
+			node->root->envp[i] = (char *) malloc(15 * sizeof(char));
+			if (!node->root->envp[i])
+				malloc_error(node);
+			ft_strlcat(node->root->envp[i], "_=/usr/bin/env", 15);
+		}
 		ft_putstr_fd(node->root->envp[i], node->cmd.fd_out);
 		ft_putchar_fd('\n', node->cmd.fd_out);
 	}
