@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:40:29 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:52 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:39:52 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static void	print_ast_type(t_ast *node)
 		printf("AND &&\n");
 	else if (node->type == NODE_OR_IF)
 		printf("OR ||\n");
-	else if (node->type == NODE_SUBSHELL)
-		printf("SUBSHELL ()\n");
+//	else if (node->type == NODE_SUBSHELL)
+//		printf("SUBSHELL ()\n");
 	else if (node->type == NODE_REDIR_IN)
 		printf("REDIRECTION < %s\n", node->file ? node->file : "NULL");
 	else if (node->type == NODE_REDIR_OUT)

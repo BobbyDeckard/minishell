@@ -45,7 +45,6 @@ EXEC_FILES = exec.c \
 			 pipe_utils2.c \
 			 redirs.c \
 			 redirs_utils.c \
-			 subshell.c \
 			 $(BUILTINS) \
 			 $(UTILS)
 BUILTINS = $(addprefix builtins/, $(BLTIN_FILES))

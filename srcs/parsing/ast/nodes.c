@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:34:09 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:43 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:41:12 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,28 @@ t_ast	*create_operator_node(t_node_type type, t_ast *left, t_ast *right,
 	return (node);
 }
 
+
 t_ast	*create_subshell_node(t_ast *child, t_ast *root)
 {
-	t_ast	*node;
+//	t_ast	*node;
 
-	node = create_ast_node(NODE_SUBSHELL, root);
-	if (!node)
-		return (NULL);
-	node->children = (t_ast **)malloc(sizeof(t_ast *) * 2);
-	if (!node->children)
-	{
-		free(node);
-		return (NULL);
-	}
-	node->children[0] = child;
-	node->children[1] = NULL;
-	return (node);
+//	node = create_ast_node(NODE_SUBSHELL, root);
+//	if (!node)
+//		return (NULL);
+//	node->children = (t_ast **)malloc(sizeof(t_ast *) * 2);
+//	if (!node->children)
+//	{
+//		free(node);
+//		return (NULL);
+//	}
+//	node->children[0] = child;
+//	node->children[1] = NULL;
+//	return (node);
+	(void) child;
+	(void) root;
+	return (NULL);
 }
+
 
 t_ast	*create_redirection_node(t_node_type type, char *file, t_ast *root)
 {
