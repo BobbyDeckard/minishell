@@ -55,6 +55,8 @@ int	file_namer_2000(t_ast *node, t_cmd *cmd)
 	return (FAILURE);
 }
 
+extern t_shell_data	g_shell;
+
 /* Signal handler spécial pour heredoc qui ferme STDIN */
 void	sigint_heredoc_handler(int sig)
 {
@@ -63,6 +65,7 @@ void	sigint_heredoc_handler(int sig)
 	close(STDIN_FILENO);
 }
 
+/*
 void	make_heredoc(t_ast *node, t_cmd *cmd)
 {
 	char	*line;
@@ -93,8 +96,8 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	if (cmd->fd_in < 0)
 		perror(node->file);
 }
+*/
 
-/*
 void	make_heredoc(t_ast *node, t_cmd *cmd)
 {
 	char				*line;
@@ -110,7 +113,7 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	if (!check_and_open("temp", node, cmd))
 		return ;
 	
-	*//* Backup STDIN et setup signal handler spécial *//*
+	/* Backup STDIN et setup signal handler spécial */
 	stdin_backup = dup(STDIN_FILENO);
 	new_action.sa_handler = sigint_heredoc_handler;
 	sigemptyset(&new_action.sa_mask);
@@ -123,13 +126,13 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	{
 		line = readline("> ");
 		
-		*//* Si readline retourne NULL et STDIN n'est plus un terminal, 
-		   c'est qu'on a été interrompu par SIGINT *//*
+		/* Si readline retourne NULL et STDIN n'est plus un terminal, 
+		   c'est qu'on a été interrompu par SIGINT */
 		if (!line)
 		{
 			if (!isatty(STDIN_FILENO))
 			{
-				*//* Interrupted by signal *//*
+				/* Interrupted by signal */
 				dup2(stdin_backup, STDIN_FILENO);
 				close(stdin_backup);
 				close(cmd->fd_in);
@@ -139,13 +142,13 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 			}
 			else
 			{
-				*//* Normal EOF (Ctrl-D) *//*
+				/* Normal EOF (Ctrl-D) */
 				printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 			}
 			break ;
 		}
 		
-		*//* Vérifier délimiteur *//*
+		/* Vérifier délimiteur */
 		if (!ft_strncmp(line, delimiter, len + 1))
 		{
 			free(line);
@@ -157,12 +160,12 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 		free(line);
 	}
 	
-	*//* Restore signal handler et STDIN *//*
+	/* Restore signal handler et STDIN */
 	sigaction(SIGINT, &old_action, NULL);
 	if (stdin_backup >= 0)
 		close(stdin_backup);
 	
-	*//* Si pas interrompu, configurer le fd pour lecture *//*
+	/* Si pas interrompu, configurer le fd pour lecture */
 	if (cmd->fd_in != -1)
 	{
 		close(cmd->fd_in);
@@ -174,4 +177,3 @@ void	make_heredoc(t_ast *node, t_cmd *cmd)
 	g_shell.state = INTERACTIVE;
 	g_signal_received = 0;
 }
-*/
