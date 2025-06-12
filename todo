@@ -1,28 +1,18 @@
-1. Remove temp file from heredoc in pipes without breaking everything that's working now
-2. Check leaks for existing builtins
-3. Make remaining builtins
-4. Check error management and leaks on errors
-5. It should be possible to call a command using it's absolute path.
-	For example: < file /usr/bin/grep foo is a valid command.
-	+ calling a command this way should bypass the removal of the PATH env variable.
-6. Modify command arguments parsing to not split when encountering '=', or at least make it stick for the export command
-7. Make sure we correctly free the new_env tab
-	At the end of the program
-	In case of an error in related builtins and functions
-8. Change $PWD in case of cd
-9. Investigate and handle $SHLVL and $BASH_SUBSHELL
-10. Implement solo redirs
-11. Check builtin args for unexpected scenarios (example export without any argument prints env in alphabetical order)
-12. Make sure we free envp when an error occurs
-	Maybe distinguish between a full_clean func and a partial_clean func
-13. Subshell
-14. Check incorrect file name errors
-15. Check the transmission of the exit status within pipes
-	Maybe ask about the global variable we're using ? Seems like it shares the use and could be very useful
-16. Check redirs in builtins
-17. Finish export ? (assigning value to variables)
-18. Check oldpwd values when unsetting pwd (first empty, then still tracks the old pwd)
-19. Check builtins errors
+Parsing problems:
+-	absolute paths are split around the slashes
+	=> needed to run commands using their absolute path (which should work even without the paths)
+-	arguments containing = are split around the equal
+	=> needed to assign variable values with export
 
-Pour Pierre:
--	parse les paths comme des strings séparées (fait une sorte de ft_split en utilisant les / comme séparateurs), ce qui fait que les commandes ne peuvent pas s'exécuter correctement (/bin/echo sera passé comme "bin", "echo" et une erreur indiquera bin: command not found)
+Checks to be sure:
+-	Builtins args and errors
+-	Redirs in builtins
+-	Leaks in builtins
+-	Error management and leaks on error
+-	env_cpy tab is freed 1) at the end of the program, 2) in case of error
+-	File error messages
+-	Exit status transmission (especially in pipes)
+
+To be implemented:
+-	Solo redirs
+-	PWD and OLDPWD values in different scenarios
