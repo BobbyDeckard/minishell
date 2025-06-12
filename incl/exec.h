@@ -70,11 +70,11 @@ int		waitpids(t_ast *root, int *pids, int count);
 
 /* Builtins functions */
 char	*get_str(const char *name);
+void	exit_bltn(t_ast *node);
 int		cd(t_ast *node);
 int		echo(t_ast	*node);
 int		env(t_ast *node);
 int		exec_builtin(t_ast *node);
-void	exit_bltn(t_ast *node);
 int		export_bltn(t_ast *node);
 int		is_builtin(t_cmd cmd);
 int		pwd(t_ast *node);

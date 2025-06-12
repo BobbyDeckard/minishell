@@ -5,106 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:37:39 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 15:00:42 by imeulema         ###   ########.fr       */
+/*   Created: 2025/06/12 14:51:08 by imeulema          #+#    #+#             */
+/*   Updated: 2025/06/12 15:07:16 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/minishell.h"
 
-void	print_variable(t_ast *node, const char *name)
+int	create_envp(t_ast *node)
 {
-	char	*var;
-	char	*str;
-	int		str_len;
+	char	*cwd;
 	int		len;
 
-	str = get_str(name);
-	if (str)
-	{
-		str_len = ft_strlen(str);
-		len = str_len + ft_strlen(name) + 2;	// + 2 accounts for the added '=' and the NULL-termination of the string
-		var = (char *) malloc(len * sizeof(char));
-		if (!var)
-			malloc_error(node);
-		ft_strlcat(var, name, len);
-		ft_strlcat(var, "=", len);
-		ft_strlcat(var, str, len);
-		ft_putstr_fd(var, node->cmd.fd_out);
-		ft_putchar_fd('\n', node->cmd.fd_out);
-		free(var);
-	}
-}
-
-int	count_variables(t_ast *node)
-{
-	int	count;
-
+	free(node->root->envp);
+	node->root->envp = (char **) malloc(4 * sizeof(char *));
 	if (!node->root->envp)
-		return (0);
-	count = 0;
-	while (node->root->envp[count])
-		count++;
-	return (count);
-}
-
-char	*get_variable(t_ast *node, char *full)
-{
-	char	*var;
-	int		i;
-
-	if (!full)
-		return (NULL);
-	i = 0;
-	while (full[i] && full[i] != '=')
-		i++;
-	var = (char *) malloc(++i * sizeof(char));
-	if (!var)
 		malloc_error(node);
-	i = -1;
-	while (full[++i] && full[i] != '=')
-		var[i] = full[i];
-	var[i] = 0;
-	return (var);
-}
-
-char	**get_env_variables(t_ast *node, int count)
-{
-	char	**variables;
-	int		i;
-
-	variables = (char **) malloc(count * sizeof(char *));
-	if (!variables)
+	cwd = getcwd(NULL, 0);
+	len = ft_strlen(cwd) + 5;
+	node->root->envp[0] = (char *) malloc(len * sizeof(char));
+	if (!node->root->envp[0])
 		malloc_error(node);
-	i = -1;
-	while (node->root->envp[++i])
-	{
-		variables[i] = get_variable(node, node->root->envp[i]);
-		if (!variables[i])
-			break ;
-	}
-	return (variables);
+	ft_strlcat(node->root->envp[0], "PWD=", len);
+	ft_strlcat(node->root->envp[0], cwd, len);
+	free(cwd);
+	node->root->envp[1] = NULL;	// need to address the two other variables too
+	return (SUCCESS);
 }
 
+// env -i bash still prints PWD, _ and SHLVL...
 int	env(t_ast *node)
 {
-	char	**variables;
-	int		count;
-	int		i;
+	int	i;
 
 	if (make_redirs(node) == FAILURE)
 		return (set_exit_status(node, FAILURE));
-	count = count_variables(node);
-	if (count)
-		variables = get_env_variables(node, count);
+	if (!*node->root->envp)
+		return (create_envp(node));
 	i = -1;
-	while (++i < count && variables[i])
+	while (node->root->envp[++i])
 	{
-		print_variable(node, variables[i]);
-		free(variables[i]);
+		ft_putstr_fd(node->root->envp[i], node->cmd.fd_out);
+		ft_putchar_fd('\n', node->cmd.fd_out);
 	}
-	if (count)
-		free(variables);
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
 	return (set_exit_status(node, SUCCESS));

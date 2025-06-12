@@ -42,10 +42,26 @@ int main(int ac, char **av, char **envp)
 				free(command);
 				if (ast)
 				{
+//					printf("\nenv_cpy at beginning of loop:\n");
+//					int x = -1;
+//					while (env_cpy[++x])
+//						printf("env_cpy[%d]: %s\n", x, env_cpy[x]);
 					ast->paths = get_paths();
 					ast->envp = env_cpy;
+//					printf("\nast->envp after copying env_cpy:\n");
+//					x = -1;
+//					while (ast->envp[++x])
+//						printf("ast->envp[%d]: %s\n", x, ast->envp[x]);
 					exec_ast(ast);
+//					printf("\nenvp right after execution:\n");
+//					x = -1;
+//					while (ast->envp[++x])
+//						printf("envp[%d]: %s\n", x, ast->envp[x]);
 					env_cpy = ast->envp;
+//					printf("\nenv_cpy in preparation for next command:\n");
+//					x = -1;
+//					while (env_cpy[++x])
+//						printf("env_cpy[%d]: %s\n", x, env_cpy[x]);
 					cleanup(ast->root);
 				}
 			}

@@ -118,7 +118,7 @@ int	run_pipe(t_ast **child, int *pids, int count)
 		}
 		close_pipes(fd, i, count);
 	}
-	return (waitpids(child[i]->root, pids, count));
+	return (waitpids((*child)->root, pids, count));
 }
 
 /*
