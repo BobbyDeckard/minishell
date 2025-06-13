@@ -29,6 +29,7 @@ int	env(t_ast *node)
 				malloc_error(node);
 			ft_strlcat(node->root->envp[i], "_=/usr/bin/env", 15);
 		}
+		// ajouter condition si variable a été assignée ou non, surtout pour OLDPWD
 		ft_putstr_fd(node->root->envp[i], node->cmd.fd_out);
 		ft_putchar_fd('\n', node->cmd.fd_out);
 	}
