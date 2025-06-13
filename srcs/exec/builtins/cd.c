@@ -54,6 +54,19 @@ void	update_both(t_ast *node, int i, int j)
 	free(cwd);
 }
 
+void	update_pwd_create_old(t_ast *node, int i)
+{
+	char	**new_env;
+	char	*cwd;
+	int		len;
+
+	len = ft_char_tab_len(node->root->envp) + 2;
+	new_env = (char **) malloc(len * sizeof(char *));
+	if (!new_env)
+		malloc_error(node);
+
+}
+
 void	update_pwd(t_ast *node)
 {
 	int	i;
@@ -73,6 +86,12 @@ void	update_pwd(t_ast *node)
 	}
 	if (node->root->envp[i] && node->root->envp[j])
 		update_both(node, i, j);
+	else if (node->root->envp[i])
+		update_pwd_create_old(node, i);
+	else if (node->root->envp[j])
+		update_old_create_pwd(node, j);
+	else
+		create_both(node);
 }
 
 int	cd(t_ast *node)

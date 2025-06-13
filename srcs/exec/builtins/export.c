@@ -193,13 +193,14 @@ int	assign_var(t_ast *node, int size)
 	return (set_exit_status(node, SUCCESS));
 }
 
+//	
 int	export_bltn(t_ast *node)
 {
 	int		size;
 
-	size = ft_char_tab_len(node->root->envp);		// superflu (plus possible d'avoir un env vide)(sauf si on unset tout manuellement)
+	size = ft_char_tab_len(node->root->envp);
 	if (node->cmd.args[1] && size == -1)
-		return (create_env_cpy(node));
+		return (create_env_cpy(node));		// plus nécessaire ?
 	else if (size == -1)
 		return (set_exit_status(node, FAILURE));					// not sure this is the behaviour of export
 	else if (!node->cmd.args[1])
