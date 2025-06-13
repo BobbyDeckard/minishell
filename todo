@@ -1,18 +1,24 @@
-1. Remove temp file from heredoc in pipes without breaking everything that's working now
-2. Check leaks for existing builtins
-3. Make remaining builtins
-4. Check error management and leaks on errors
-5. It should be possible to call a command using it's absolute path.
-	For example: < file /usr/bin/grep foo is a valid command.
-	+ calling a command this way should bypass the removal of the PATH env variable.
-6. Modify command arguments parsing to not split when encountering '=', or at least make it stick for the export command
-7. Make sure we correctly free the new_env tab
-	At the end of the program
-	In case of an error in related builtins and functions
-8. Change $PWD in case of cd
-9. Investigate and handle $SHLVL and $BASH_SUBSHELL
-10. Implement solo redirs
-11. Check builtin args for unexpected scenarios (example export without any argument prints env in alphabetical order)
-12. Make sure we free envp when an error occurs
-	Maybe distinguish between a full_clean func and a partial_clean func
-13. Subshell
+Parsing problems:
+-	absolute paths are split around the slashes
+	=> needed to run commands using their absolute path (which should work even without the paths)
+-	arguments containing = are split around the equal
+	=> needed to assign variable values with export
+
+Execution problems:
+-	cat file | (grep foo && grep bar) leads to a dup2: Bad file descriptor error
+	=> closing fd too soon ?
+
+Checks to be sure:
+-	Builtins args and errors
+-	Redirs in builtins
+-	Leaks in builtins
+-	Error management and leaks on error
+-	env_cpy tab is freed 1) at the end of the program, 2) in case of error
+-	File error messages
+-	Exit status transmission (especially in pipes)
+
+To be implemented:
+-	Solo redirs
+-	PWD and OLDPWD values in different scenarios
+-	Replace macroes by existing ones
+-	Expander
