@@ -37,6 +37,7 @@
 void	exit_bltn(t_ast *node)
 {
 	unsigned int	i;
+	int				n;
 
 	printf("exit\n");
 	if (node->cmd.args[1])
@@ -47,12 +48,18 @@ void	exit_bltn(t_ast *node)
 			if (!ft_isdigit(node->cmd.args[1][i]))
 			{
 				printf("minishell: exit: %s: numeric argument required\n", node->cmd.args[1]);
+				cleanup(node);
 				exit(255);
 			}
-			if (++i == ft_strlen(node->cmd.args[1]))
-				exit(ft_atoi(node->cmd.args[1]));
 		}
+		n = ft_atoi(node->cmd.args[1]);
+		cleanup(node);
+		exit(n);
 	}
 	else
-		exit(node->root->exit_status);
+	{
+		n = node->root->exit_status;
+		cleanup(node);
+		exit(n);
+	}
 }
