@@ -1,0 +1,9 @@
+=== Résultats des Tests de Parsing Minishell ===
+Date: Fri Jun 13 02:27:59 PM CEST 2025
+
+
+=== RÉSUMÉ ===
+Total: 49
+Réussis: 40
+Échoués: 9
+Taux de réussite: 81%

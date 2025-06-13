@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 23:06:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/27 14:51:30 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:31:26 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ char	*trunc_cwd(char *full)
     len = ft_strlen(ptr);
     cwd = (char *) malloc(256 * sizeof(char));
     if (!cwd)
+    {
         exit (1);
+    }
 	i = 0;
 	while (i < len + 19)
 		cwd[i++] = 0;
@@ -37,7 +39,9 @@ char	*trunc_cwd(char *full)
     i = 0;
 	j = ft_strlen(cwd);
     while (i < len)
+    {
         cwd[j++] = ptr[i++];
+    }
 	ft_strlcat(cwd, "\x1b[0m", 256);
 //	j = ft_strlen(cwd);
 //	cwd[j] = ' ';

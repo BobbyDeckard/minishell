@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:33:22 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 15:54:32 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:42:07 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	exec_pipe_child(t_ast *node)
 {
 	int	status;
 
+	setup_child_signals();
 	status = FAILURE;
 	if (node->type == NODE_CMD)
 		exec_pipe_cmd(node);

@@ -1,0 +1,6 @@
+=== Tests de Compilation ===
+Compilation avec flags norminette                 [[0;32mPASS[0m]
+Vérification norminette                          [[0;31mFAIL[0m]
+Test de base - pwd                                [[0;32mPASS[0m]
+
+Résultats: 2 réussis, 1 échoués
