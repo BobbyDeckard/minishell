@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 00:30:32 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 20:09:55 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:38:02 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	exec_cmd(t_ast *node, t_cmd cmd)
 {
+	if (!cmd.args[0])
+		exit(0);
 	get_cmd_path(&cmd, node->root->paths);
 	if (!cmd.path)
 		exit(1);
@@ -84,5 +86,13 @@ int	exec_ast(t_ast *node)
 		return (exec_and_if(node->children));
 	else if (node->type == NODE_PIPE && node->children)
 		return (exec_pipe(node->children));
+	else if (node->type == NODE_REDIR_IN)
+		return (exec_solo_redir_in(node));
+	else if (node->type == NODE_REDIR_OUT)
+		return (exec_solo_redir_out(node));
+	else if (node->type == NODE_REDIR_APPEND)
+		return (exec_solo_redir_append(node));
+	else if (node->type == NODE_HEREDOC)
+		return (exec_solo_heredoc(node));
 	return (FAILURE);
 }
