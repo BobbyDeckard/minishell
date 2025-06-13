@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:28:59 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/13 15:04:18 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:25:27 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,19 @@ char	*get_var_name(t_ast *node)
 	return (name);
 }
 
-char	**make_new_env(t_ast *node, int size)
+int	var_exists(t_ast *node)
 {
-	char	**new;
+	char	*name;
 	int		i;
 
-	new = (char **) malloc(size * sizeof(char *));
-	if (!new)
-		malloc_error(node);
+	name = get_var_name(node);
 	i = -1;
 	while (node->root->envp[++i])
-		new[i] = node->root->envp[i];
-	new[i] = NULL;
-	free(node->root->envp);
-	return (new);
+	{
+		if (!ft_strncmp(name, node->root->envp[i], ft_strlen(name)))
+			return (1);
+	}
+	return (0);
 }
 
 void	order(char **cpy)

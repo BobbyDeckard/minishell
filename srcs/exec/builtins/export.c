@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:05:28 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/13 15:15:58 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:25:39 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		assign_var(t_ast *node, int size);
 int		create_var(t_ast *node, int size);
 int		has_equal(const char *str);
 int		replace_var_value(t_ast *node, int i);
+int		var_exists(t_ast *node);
 
 int	export_print(t_ast *node, char **cpy)
 {
@@ -73,6 +74,7 @@ int	export_bltn(t_ast *node)
 		return (export_wo_args(node, size));
 	else if (has_equal(node->cmd.args[1]))
 		return (assign_var(node, size));
-	else
-		return (create_var(node, size));	// si la variable n'existe pas, est créée, autrement, n'est pas modifiée
+	else if (!var_exists(node))
+		return (create_var(node, size));
+	return (set_exit_status(node, SUCCESS));
 }
