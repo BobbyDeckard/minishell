@@ -6,7 +6,7 @@
 #    By: pitran <pitran@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 11:50:43 by pitran            #+#    #+#              #
-#    Updated: 2025/06/12 15:38:45 by pitran           ###   ########.fr        #
+#    Updated: 2025/06/13 16:20:43 by pitran           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,11 @@ SRC_PARSING = srcs/$(PARSING_DIR)/retrieve.c \
               srcs/$(PARSING_DIR)/expansion_detection.c
 
 SRC_SYNTAX = srcs/$(SYNTAX_DIR)/syntax_check.c \
-             srcs/$(SYNTAX_DIR)/other_type_check.c \
-             srcs/$(SYNTAX_DIR)/parenthesis_check.c
+             srcs/$(SYNTAX_DIR)/operator_check.c \
+             srcs/$(SYNTAX_DIR)/parenthesis_check.c \
+			 srcs/$(SYNTAX_DIR)/quote_check.c \
+			 srcs/$(SYNTAX_DIR)/redir_check.c \
+			 
 
 SRC_AST = srcs/$(AST_DIR)/ast_builder.c \
           srcs/$(AST_DIR)/parsing.c \

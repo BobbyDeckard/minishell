@@ -6,17 +6,13 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:00:00 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:49 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:29:56 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/minishell.h"
 
-int	is_redirection_token(t_token_type type)
-{
-	return (type == REDIR_IN || type == REDIR_OUT
-		|| type == REDIR_APPEND || type == HEREDOC);
-}
+
 
 t_node_type	token_to_node_type(t_token_type type)
 {
@@ -46,7 +42,7 @@ int	count_args(t_token **tokens, int start, int end)
 			break ;
 		if (current->type == WORD)
 			count++;
-		else if (is_redirection_token(current->type))
+		else if (is_redirection_token(current))
 			i++;
 		i++;
 	}
@@ -76,7 +72,7 @@ t_ast	**extract_redirections(t_token **tokens, int start, int end,
 		current = get_token_at_index(tokens, i);
 		if (!current)
 			break ;
-		if (is_redirection_token(current->type) && i + 1 <= end)
+		if (is_redirection_token(current) && i + 1 <= end)
 		{
 			target = get_token_at_index(tokens, i + 1);
 			if (target && target->type == WORD)
@@ -152,7 +148,7 @@ char	**extract_args(t_token **tokens, int start, int end)
 			}
 			arg_idx++;
 		}
-		else if (is_redirection_token(current->type))
+		else if (is_redirection_token(current))
 			i++;
 		i++;
 	}
@@ -173,7 +169,7 @@ int	count_redirections(t_token **tokens, int start, int end)
 		current = get_token_at_index(tokens, i);
 		if (!current)
 			break ;
-		if (is_redirection_token(current->type) && i + 1 <= end)
+		if (is_redirection_token(current) && i + 1 <= end)
 		{
 			current = get_token_at_index(tokens, i + 1);
 			if (current && current->type == WORD)

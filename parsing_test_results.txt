@@ -1,5 +1,5 @@
 === Résultats des Tests de Parsing Minishell ===
-Date: Fri Jun 13 02:27:59 PM CEST 2025
+Date: Fri Jun 13 05:03:27 PM CEST 2025
 
 
 === RÉSUMÉ ===

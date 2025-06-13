@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:16 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/12 15:24:07 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:37:11 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,17 @@ int			find_matching_parenthesis(t_token **tokens, int open_pos, int end);
 int			find_word_len(char *content);
 int			get_operator_precedence(t_token_type type);
 int			is_command_char(char c);
+int			is_operator_token(t_token *token);
+int			is_valid_operand(t_token *token);
+int			count_quote_tokens(t_token **token_list, t_token_type quote_type);
+int			is_valid_filename(t_token *token);
+int			has_content_tokens(t_token **token_list);
 int			is_in_subshell(t_token **token_list, int index);
 int			is_operator(char c);
 int			is_parenthesis(char c);
 int			is_quote(char c);
 int			is_redirection(char c);
-int			is_redirection_token(t_token_type type);
+int			is_redirection_token(t_token *token);
 int			is_space(char c);
 int			is_special_caracter(char c);
 int			matching_parentheses(t_token **tokens, int start, int end);
@@ -134,6 +139,13 @@ void 		set_root_node(t_ast *node, t_ast *root);
 char 		*get_str(const char *name);
 int			token_should_expand(t_token *token);
 void		mark_tokens_for_expansion(t_token **token_list);
+//
+int			check_quote_pairs(t_token **token_list);
+int			check_redir_target(t_token **token_list);
+int			check_pipe_position(t_token **token_list);
+int			syntax_is_valid(t_token **token_list);
+
+
 
 
 

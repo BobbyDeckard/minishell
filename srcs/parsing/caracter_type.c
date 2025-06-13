@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:58:57 by pitran            #+#    #+#             */
-/*   Updated: 2025/05/27 14:41:16 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:16:49 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	is_command_char(char c)
 	else if (c >= '0' && c <= '9')
 		return (1);
 	else if (c == '_' || c == '-' || c == '.')
+		return (1);
+	else if (c == '/' || c == '=' || c == '+' || c == ':')
 		return (1);
 	return (0);
 }
