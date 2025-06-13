@@ -49,14 +49,14 @@ static unsigned int	count_elements(const char *s, char c)
 
 	i = 0;
 	count = 1;
-	while (s[i] == c && c)
+	while (c && s[i] == c)
 		i++;
 	while (s[i])
 	{
 		count++;
 		while (s[i] && s[i] != c)
 			i++;
-		while (s[i] == c && c)
+		while (c && s[i] == c)
 			i++;
 	}
 	return (count);
