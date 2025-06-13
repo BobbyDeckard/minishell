@@ -55,15 +55,15 @@ void	clean_ast(t_ast *ast)
 }
 
 //	cleans up the pointers allocated for the AST and for the paths
-void	cleanup(t_ast *root)
+void	cleanup(t_ast *node)
 {
-	clean_paths(root->paths);
+	clean_paths(node->root->paths);
 //	clean_envp(root->envp);
-	clean_ast(root);
+	clean_ast(node->root);
 }
 
-void	clean_exit(t_ast *root, int status)
+void	clean_exit(t_ast *node, int status)
 {
-	cleanup(root);
+	cleanup(node->root);
 	exit(status);
 }
