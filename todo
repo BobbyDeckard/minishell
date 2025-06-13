@@ -20,6 +20,12 @@ Checks to be sure:
 To be implemented:
 -	Solo redirs
 -	PWD and OLDPWD values in different scenarios
+	=> seems like with env -i bash, OLDPWD exists as a variable but is unset until cd is called
+		=> which then seems to mean env only prints assigned variables while export without arguments
+		prints unassigned variables too
+	=> also seems like export doesn't print the _= variable
+		=> it actually does when the env has not been withheld from the bash
+		=> rather it prints the variable when it isn't equal to /usr/bin/env
 -	Replace macroes by existing ones
 -	Exit should free allocated memory ?
 -	Expander
