@@ -75,7 +75,6 @@ SRC_BUILTINS = srcs/$(BUILTINS_DIR)/builtins.c \
                srcs/$(BUILTINS_DIR)/cd.c \
                srcs/$(BUILTINS_DIR)/echo.c \
                srcs/$(BUILTINS_DIR)/env.c \
-               srcs/$(BUILTINS_DIR)/env_utils.c \
                srcs/$(BUILTINS_DIR)/exit.c \
                srcs/$(BUILTINS_DIR)/export.c \
                srcs/$(BUILTINS_DIR)/pwd.c \
