@@ -40,7 +40,7 @@ static char	**process_command(char *command, char **envp)
 		ast->paths = get_paths();
 		g_shell.exit_status = exec_ast(ast);
 		envp = ast->envp;
-		free_ast(ast);
+		cleanup(ast);
 	}
 	/* Gérer les signaux reçus pendant l'exécution */
 	if (g_signal_received == SIGINT)
