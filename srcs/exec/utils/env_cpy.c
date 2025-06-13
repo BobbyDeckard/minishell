@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 10:57:09 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/12 16:27:30 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:08:19 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**create_envp(void)
 	char	*cwd;
 	int		len;
 
-	envp = (char **) malloc(4 * sizeof(char *));
+	envp = (char **) malloc(5 * sizeof(char *));
 	if (!envp)
 		malloc_error(NULL);
 	cwd = getcwd(NULL, 0);
@@ -98,7 +98,17 @@ char	**create_envp(void)
 		malloc_error(NULL);
 	}
 	ft_strlcat(envp[2], "_=/usr/bin/env", 15);
-	envp[3] = NULL;
+	envp[3] = (char *) malloc(8 * sizeof(char));
+	if (!envp[3])
+	{
+		free(envp[0]);
+		free(envp[1]);
+		free(envp[2]);
+		free(envp);
+		malloc_error(NULL);
+	}
+	ft_strlcat(envp[3], "OLDPWD=", 8);
+	envp[4] = NULL;
 	return (envp);
 }
 
