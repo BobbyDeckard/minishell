@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:21:14 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/27 14:53:28 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:56:58 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	unlink_heredoc(t_ast *child);
 int		check_redirs(t_ast *child, t_cmd cmd);
 int		exec_ast(t_ast *ast);
 int		exec_pipe(t_ast **children);
-int		exec_subshell(t_ast *node);
+int		exec_solo_redir_append(t_ast *node);
+int		exec_solo_heredoc(t_ast *node);
+int		exec_solo_redir_in(t_ast *node);
+int		exec_solo_redir_out(t_ast *node);
 int		make_redirs(t_ast *ast);
 
 /* Utilities functions */

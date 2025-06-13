@@ -6,7 +6,7 @@
 #    By: pitran <pitran@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 11:50:43 by pitran            #+#    #+#              #
-#    Updated: 2025/06/13 15:14:18 by imeulema         ###   ########.fr        #
+#    Updated: 2025/06/13 17:23:46 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC_EXEC = srcs/$(EXEC_DIR)/exec.c \
            srcs/$(EXEC_DIR)/pipe_utils2.c \
            srcs/$(EXEC_DIR)/redirs.c \
            srcs/$(EXEC_DIR)/redirs_utils.c \
+		   srcs/$(EXEC_DIR)/solo_redirs.c
 
 SRC_BUILTINS = srcs/$(BUILTINS_DIR)/builtins.c \
                srcs/$(BUILTINS_DIR)/cd.c \
