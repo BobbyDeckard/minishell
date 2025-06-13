@@ -21,4 +21,5 @@ To be implemented:
 -	Solo redirs
 -	PWD and OLDPWD values in different scenarios
 -	Replace macroes by existing ones
+-	Exit should free allocated memory ?
 -	Expander
