@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:34:18 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 20:13:45 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:15:35 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	update_both(t_ast *node, int i, int j)
 	free(cwd);
 }
 
+/*
 void	update_pwd_create_old(t_ast *node, int i)
 {
 	char	**new_env;
@@ -66,6 +67,7 @@ void	update_pwd_create_old(t_ast *node, int i)
 		malloc_error(node);
 
 }
+*/
 
 void	update_pwd(t_ast *node)
 {
@@ -86,12 +88,12 @@ void	update_pwd(t_ast *node)
 	}
 	if (node->root->envp[i] && node->root->envp[j])
 		update_both(node, i, j);
-	else if (node->root->envp[i])
-		update_pwd_create_old(node, i);
-	else if (node->root->envp[j])
-		update_old_create_pwd(node, j);
-	else
-		create_both(node);
+//	else if (node->root->envp[i])
+//		update_pwd_create_old(node, i);
+//	else if (node->root->envp[j])
+//		update_old_create_pwd(node, j);
+//	else
+//		create_both(node);
 }
 
 int	cd(t_ast *node)

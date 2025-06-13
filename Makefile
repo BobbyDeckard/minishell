@@ -6,7 +6,7 @@
 #    By: pitran <pitran@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 11:50:43 by pitran            #+#    #+#              #
-#    Updated: 2025/06/12 15:38:45 by pitran           ###   ########.fr        #
+#    Updated: 2025/06/13 15:14:18 by imeulema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,8 @@ SRC_BUILTINS = srcs/$(BUILTINS_DIR)/builtins.c \
                srcs/$(BUILTINS_DIR)/env.c \
                srcs/$(BUILTINS_DIR)/exit.c \
                srcs/$(BUILTINS_DIR)/export.c \
+			   srcs/$(BUILTINS_DIR)/export_utils.c \
+			   srcs/$(BUILTINS_DIR)/export_var.c \
                srcs/$(BUILTINS_DIR)/pwd.c \
                srcs/$(BUILTINS_DIR)/unset.c
 

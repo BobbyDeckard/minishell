@@ -28,4 +28,5 @@ To be implemented:
 		=> rather it prints the variable when it isn't equal to /usr/bin/env
 -	Replace macroes by existing ones
 -	Exit should free allocated memory ?
+-	set pointers to NULL after freeing them to avoid double frees ?
 -	Expander
