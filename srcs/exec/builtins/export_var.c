@@ -6,13 +6,12 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:13:23 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/13 15:25:26 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:59:58 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../incl/minishell.h"
 
-char	**make_new_env(t_ast *node, int size);
 char	*get_var_name(t_ast *node);
 
 int	replace_var_value(t_ast *node, int i)
@@ -30,6 +29,8 @@ int	replace_var_value(t_ast *node, int i)
 
 char	**make_new_env(t_ast *node, int size)
 {
+	// substantially simplified, used to copy each string in the array
+	// may generate bugs, be alert
 	char	**new;
 	int		i;
 
