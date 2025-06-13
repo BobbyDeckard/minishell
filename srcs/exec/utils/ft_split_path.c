@@ -25,6 +25,23 @@ static unsigned int	get_len(const char *s, unsigned int i, char c)
 	return (len);
 }
 
+//			Note to self:
+//
+//	while (s[i] == c && c)
+//		...
+//
+//			is the simplification of
+//
+//	while (s[i] == c && c != 0)
+//		...
+//
+//			or even more overburdenned
+//
+//	if (c != 0)
+//	{
+//		while (s[i] == c)
+//			...
+//	}
 static unsigned int	count_elements(const char *s, char c)
 {
 	unsigned int	i;
