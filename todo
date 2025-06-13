@@ -7,14 +7,18 @@ Parsing problems:
 Execution problems:
 -	cat file | (grep foo && grep bar) leads to a dup2: Bad file descriptor error
 	=> closing fd too soon ?
+	=> may have somehting to do with the fact I replaced and_pipe and or_pipe by exec_ast
 
 Checks to be sure:
+BUILTINS
 -	Builtins args and errors
 -	Redirs in builtins
 -	Leaks in builtins
+ERROR MANAGEMENT
 -	Error management and leaks on error
 -	env_cpy tab is freed 1) at the end of the program, 2) in case of error
 -	File error messages
+EXECUTION PROCESS
 -	Exit status transmission (especially in pipes)
 
 To be implemented:
