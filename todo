@@ -23,6 +23,7 @@ EXECUTION PROCESS
 
 To be implemented:
 -	Solo redirs
+	=> need to combine no cmd.args[0] verification with a fd verification, if the fd is valid, exit with 0, else exit with 1
 -	PWD and OLDPWD values in different scenarios
 	=> seems like with env -i bash, OLDPWD exists as a variable but is unset until cd is called
 		=> which then seems to mean env only prints assigned variables while export without arguments
