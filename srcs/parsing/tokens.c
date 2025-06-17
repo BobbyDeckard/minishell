@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:59:05 by pitran            #+#    #+#             */
-/*   Updated: 2025/06/12 16:19:06 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/17 14:42:51 by pitran           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,29 @@ void	free_token(t_token *token)
 void	free_token_list(t_token **token_list)
 {
 	t_token	*current;
+	t_token	*next;
 
+	if (!token_list || !*token_list)
+		return ;
+		
 	current = *token_list;
 	while (current)
 	{
-		free_token(current);
-		current = current->next;
+		next = current->next;
+		
+		if (current->content)
+		{
+			free(current->content);
+			current->content = NULL;
+		}
+		current->type = 0;
+		current->needs_expansion = 0;
+		current->next = NULL;
+		current->prev = NULL;
+		free(current);
+		current = next;
 	}
+	
+	*token_list = NULL;
 }
+

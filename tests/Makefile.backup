@@ -1,0 +1,504 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    test_Makefile                                      :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: test <test@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/13 10:00:00 by test            #+#    #+#              #
+#    Updated: 2025/06/13 10:00:00 by test           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# ========== CONFIGURATION ==========
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g3 -O0 -DTEST_MODE
+INCLUDES = -I./incl -I./libft
+
+# ========== COULEURS ==========
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[1;33m
+BLUE = \033[0;34m
+PURPLE = \033[0;35m
+CYAN = \033[0;36m
+NC = \033[0m
+
+# ========== FICHIERS DE TEST ==========
+TEST_UNIT_NAME = test_parsing_unit
+TEST_INTEGRATION_NAME = test_parsing_integration
+TEST_SCRIPT = test_parsing.sh
+
+# ========== SOURCES PRINCIPALES ==========
+PARSING_SOURCES = srcs/parsing/retrieve.c \
+                  srcs/parsing/helpers.c \
+                  srcs/parsing/caracter_type.c \
+                  srcs/parsing/caracter_type2.c \
+                  srcs/parsing/tokenize.c \
+                  srcs/parsing/tokenize2.c \
+                  srcs/parsing/tokens.c \
+                  srcs/parsing/parse.c \
+                  srcs/parsing/expansion_detection.c
+
+SYNTAX_SOURCES = srcs/parsing/syntax_check/syntax_check.c \
+                 srcs/parsing/syntax_check/other_type_check.c \
+                 srcs/parsing/syntax_check/parenthesis_check.c
+
+AST_SOURCES = srcs/parsing/ast/ast_builder.c \
+              srcs/parsing/ast/parsing.c \
+              srcs/parsing/ast/nodes.c \
+              srcs/parsing/ast/simple_command.c \
+              srcs/parsing/ast/utils.c
+
+UTILS_SOURCES = srcs/exec/utils/general_utils.c \
+                srcs/exec/utils/cleanup.c \
+                srcs/exec/utils/env_cpy.c
+
+# Toutes les sources nécessaires pour les tests
+TEST_SOURCES = $(PARSING_SOURCES) $(SYNTAX_SOURCES) $(AST_SOURCES) $(UTILS_SOURCES)
+
+# ========== LIBFT ==========
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+# ========== RÈGLES PRINCIPALES ==========
+
+all: info
+
+info:
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    TESTS DE PARSING MINISHELL$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@echo ""
+	@echo "$(CYAN)Targets disponibles:$(NC)"
+	@echo "  $(GREEN)test-unit$(NC)        - Tests unitaires (fonctions individuelles)"
+	@echo "  $(GREEN)test-integration$(NC) - Tests d'intégration (shell complet)"
+	@echo "  $(GREEN)test-all$(NC)         - Tous les tests"
+	@echo "  $(GREEN)test-memory$(NC)      - Tests de fuites mémoire avec valgrind"
+	@echo "  $(GREEN)test-performance$(NC) - Tests de performance"
+	@echo "  $(GREEN)test-stress$(NC)      - Tests de stress et robustesse"
+	@echo ""
+	@echo "  $(YELLOW)clean-tests$(NC)      - Nettoyer les fichiers de tests"
+	@echo "  $(YELLOW)re-test$(NC)          - Refaire tous les tests"
+	@echo ""
+	@echo "$(CYAN)Exemple d'utilisation:$(NC)"
+	@echo "  make test-unit"
+	@echo "  make test-integration"
+	@echo "  make test-all"
+
+# ========== COMPILATION DES TESTS ==========
+
+$(LIBFT):
+	@echo "$(YELLOW)🔨 Compilation de libft...$(NC)"
+	@make -C $(LIBFT_DIR) -s
+
+$(TEST_UNIT_NAME): parsing_unit_tests.c $(TEST_SOURCES) $(LIBFT)
+	@echo "$(YELLOW)🔧 Compilation des tests unitaires...$(NC)"
+	@$(CC) $(CFLAGS) $(INCLUDES) parsing_unit_tests.c $(TEST_SOURCES) $(LIBFT) -o $(TEST_UNIT_NAME)
+	@echo "$(GREEN)✅ Tests unitaires compilés: ./$(TEST_UNIT_NAME)$(NC)"
+
+# ========== EXÉCUTION DES TESTS ==========
+
+test-unit: $(TEST_UNIT_NAME)
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    EXÉCUTION DES TESTS UNITAIRES$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@./$(TEST_UNIT_NAME)
+
+test-integration: ../minishell $(TEST_SCRIPT)
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    EXÉCUTION DES TESTS D'INTÉGRATION$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@chmod +x $(TEST_SCRIPT)
+	@./$(TEST_SCRIPT)
+
+test-all: test-unit test-integration
+	@echo "$(GREEN)========================================$(NC)"
+	@echo "$(GREEN)    TOUS LES TESTS TERMINÉS$(NC)"
+	@echo "$(GREEN)========================================$(NC)"
+
+# ========== TESTS SPÉCIALISÉS ==========
+
+test-memory: $(TEST_UNIT_NAME)
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    TESTS DE FUITES MÉMOIRE$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@if command -v valgrind >/dev/null 2>&1; then \
+		echo "$(CYAN)🔍 Exécution avec valgrind...$(NC)"; \
+		valgrind --leak-check=full \
+		         --show-leak-kinds=all \
+		         --track-origins=yes \
+		         --verbose \
+		         --error-exitcode=1 \
+		         ./$(TEST_UNIT_NAME); \
+		if [ $$? -eq 0 ]; then \
+			echo "$(GREEN)✅ Aucune fuite mémoire détectée$(NC)"; \
+		else \
+			echo "$(RED)❌ Fuites mémoire détectées$(NC)"; \
+		fi \
+	else \
+		echo "$(YELLOW)⚠️  Valgrind non disponible, tests de mémoire ignorés$(NC)"; \
+	fi
+
+test-performance: $(TEST_UNIT_NAME)
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    TESTS DE PERFORMANCE$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(CYAN)🚀 Test de vitesse d'exécution...$(NC)"
+	@time ./$(TEST_UNIT_NAME) > /dev/null
+	@echo "$(CYAN)🔄 Test de répétition (10 fois)...$(NC)"
+	@for i in {1..10}; do \
+		./$(TEST_UNIT_NAME) > /dev/null 2>&1; \
+		if [ $$? -ne 0 ]; then \
+			echo "$(RED)❌ Échec au test $$i$(NC)"; \
+			break; \
+		fi; \
+		echo -n "$(GREEN).$(NC)"; \
+	done
+	@echo ""
+	@echo "$(GREEN)✅ Tests de performance terminés$(NC)"
+
+test-stress: ../minishell
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    TESTS DE STRESS ET ROBUSTESSE$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(CYAN)🔨 Test de résistance aux crashs...$(NC)"
+	@chmod +x stress_test.sh 2>/dev/null || true
+	@if [ -f stress_test.sh ]; then \
+		./stress_test.sh; \
+	else \
+		echo "$(YELLOW)⚠️  Script stress_test.sh non trouvé$(NC)"; \
+		echo "$(CYAN)Tests de base à la place:$(NC)"; \
+		echo "Commande vide" | timeout 3s ../minishell || true; \
+		echo "| | |" | timeout 3s ../minishell || true; \
+		echo "(((" | timeout 3s ../minishell || true; \
+		echo "echo unclosed quote '" | timeout 3s ../minishell || true; \
+		echo "$(GREEN)✅ Tests de résistance terminés$(NC)"; \
+	fi
+
+# ========== TESTS SPÉCIFIQUES ==========
+
+test-tokenization: $(TEST_UNIT_NAME)
+	@echo "$(CYAN)🔤 Tests de tokenisation uniquement...$(NC)"
+	@./$(TEST_UNIT_NAME) | grep -A 20 "TESTS DE TOKENISATION"
+
+test-syntax: $(TEST_UNIT_NAME)
+	@echo "$(CYAN)✓ Tests de syntaxe uniquement...$(NC)"
+	@./$(TEST_UNIT_NAME) | grep -A 20 "TESTS DE VALIDATION SYNTAXIQUE"
+
+test-ast: $(TEST_UNIT_NAME)
+	@echo "$(CYAN)🌳 Tests AST uniquement...$(NC)"
+	@./$(TEST_UNIT_NAME) | grep -A 20 "TESTS DE CONSTRUCTION AST"
+
+test-variables: $(TEST_UNIT_NAME)
+	@echo "$(CYAN)💲 Tests de variables uniquement...$(NC)"
+	@./$(TEST_UNIT_NAME) | grep -A 20 "TESTS DE GESTION DES VARIABLES"
+
+# ========== CRÉATION DES SCRIPTS DE TEST ==========
+
+create-test-script:
+	@echo "$(CYAN)📝 Création du script de test d'intégration...$(NC)"
+	@cat > $(TEST_SCRIPT) << 'EOF'
+#!/bin/bash
+# Script généré automatiquement pour les tests d'intégration
+echo "Tests d'intégration pour minishell"
+echo "Ce script teste le programme complet"
+
+# Vérifier que minishell existe
+if [ ! -f "../minishell" ]; then
+    echo "Erreur: ../minishell non trouvé"
+    echo "Compilez d'abord votre projet principal"
+    exit 1
+fi
+
+# Tests basiques
+echo "Test 1: Commande simple"
+echo "echo hello" | timeout 3s ../minishell
+
+echo "Test 2: Pipe simple"
+echo "echo hello | cat" | timeout 3s ../minishell
+
+echo "Test 3: Variables"
+echo "echo \$$USER" | timeout 3s ../minishell
+
+echo "Tests d'intégration terminés"
+EOF
+	@chmod +x $(TEST_SCRIPT)
+	@echo "$(GREEN)✅ Script $(TEST_SCRIPT) créé$(NC)"
+
+create-stress-script:
+	@echo "$(CYAN)📝 Création du script de stress...$(NC)"
+	@cat > stress_test.sh << 'EOF'
+#!/bin/bash
+echo "=== TESTS DE STRESS MINISHELL ==="
+
+MINISHELL="../minishell"
+if [ ! -f "$MINISHELL" ]; then
+	echo "Erreur: minishell non trouvé"
+	exit 1
+fi
+
+# Tests de résistance aux crashs
+stress_tests=(
+	""
+	"   "
+	"echo unclosed quote '"
+	"echo unclosed quote \""
+	"echo hello | | echo world"
+	"echo hello && && echo world"
+	"((("
+	")))"
+	"echo hello >"
+	"< echo hello"
+	"| echo hello"
+	"echo hello |"
+	"&& echo hello"
+	"echo hello &&"
+)
+
+passed=0
+total=0
+
+for test in "${stress_tests[@]}"; do
+    ((total++))
+    echo -n "Test $total: "
+    echo "$test" | timeout 3s "$MINISHELL" &>/dev/null
+    exit_code=$?
+    
+    # 139 = SIGSEGV, 11 = SEGFAULT
+    if [ $exit_code -eq 139 ] || [ $exit_code -eq 11 ]; then
+        echo "❌ CRASH (input: '$test')"
+    else
+        echo "✅ OK"
+        ((passed++))
+    fi
+done
+
+echo ""
+echo "Résultats: $passed/$total tests passés"
+if [ $passed -eq $total ]; then
+    echo "🎉 Tous les tests de stress sont réussis !"
+else
+    echo "⚠️  Certains tests ont causé des crashs"
+fi
+EOF
+	@chmod +x stress_test.sh
+	@echo "$(GREEN)✅ Script stress_test.sh créé$(NC)"
+
+# ========== GÉNÉRATION DE RAPPORTS ==========
+
+generate-report: test-all
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    GÉNÉRATION DU RAPPORT$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "Génération du rapport de tests..." > test_report.txt
+	@echo "Date: $(date)" >> test_report.txt
+	@echo "" >> test_report.txt
+	@echo "=== TESTS UNITAIRES ===" >> test_report.txt
+	@./$(TEST_UNIT_NAME) >> test_report.txt 2>&1 || true
+	@echo "" >> test_report.txt
+	@echo "=== TESTS D'INTÉGRATION ===" >> test_report.txt
+	@./$(TEST_SCRIPT) >> test_report.txt 2>&1 || true
+	@echo "$(GREEN)✅ Rapport généré: test_report.txt$(NC)"
+
+benchmark: $(TEST_UNIT_NAME)
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    BENCHMARK DE PERFORMANCE$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(CYAN)Mesure des performances...$(NC)"
+	@echo "Benchmark du parsing - $(date)" > benchmark_results.txt
+	@echo "" >> benchmark_results.txt
+	@echo "=== Tests de vitesse ===" >> benchmark_results.txt
+	@for i in {1..5}; do \
+		echo "Run $i:" >> benchmark_results.txt; \
+		{ time ./$(TEST_UNIT_NAME) > /dev/null; } 2>> benchmark_results.txt; \
+		echo "" >> benchmark_results.txt; \
+	done
+	@echo "$(GREEN)✅ Benchmark terminé: benchmark_results.txt$(NC)"
+
+# ========== TESTS DE COMPATIBILITÉ ==========
+
+test-bash-comparison: ../minishell create-test-script
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    COMPARAISON AVEC BASH$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(CYAN)Comparaison des comportements...$(NC)"
+	@echo "Comparaison minishell vs bash - $(date)" > bash_comparison.txt
+	@echo "" >> bash_comparison.txt
+	@test_commands=("echo hello" "echo hello world" "echo \$USER" "pwd"); \
+	for cmd in "${test_commands[@]}"; do \
+		echo "=== Commande: $cmd ===" >> bash_comparison.txt; \
+		echo "--- Bash ---" >> bash_comparison.txt; \
+		bash -c "$cmd" >> bash_comparison.txt 2>&1 || true; \
+		echo "--- Minishell ---" >> bash_comparison.txt; \
+		echo "$cmd" | timeout 3s ../minishell >> bash_comparison.txt 2>&1 || true; \
+		echo "" >> bash_comparison.txt; \
+	done
+	@echo "$(GREEN)✅ Comparaison terminée: bash_comparison.txt$(NC)"
+
+# ========== TESTS AUTOMATISÉS CI/CD ==========
+
+test-ci: clean-tests
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    TESTS AUTOMATISÉS CI/CD$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@$(MAKE) test-unit -s
+	@$(MAKE) test-memory -s
+	@$(MAKE) test-stress -s
+	@echo "$(GREEN)✅ Tous les tests CI sont terminés$(NC)"
+
+test-coverage: $(TEST_UNIT_NAME)
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    ANALYSE DE COUVERTURE$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@if command -v gcov >/dev/null 2>&1; then \
+		echo "$(CYAN)📊 Compilation avec couverture...$(NC)"; \
+		$(CC) $(CFLAGS) --coverage $(INCLUDES) parsing_unit_tests.c $(TEST_SOURCES) $(LIBFT) -o $(TEST_UNIT_NAME)_coverage; \
+		echo "$(CYAN)🧪 Exécution des tests...$(NC)"; \
+		./$(TEST_UNIT_NAME)_coverage > /dev/null; \
+		echo "$(CYAN)📈 Génération du rapport...$(NC)"; \
+		gcov *.gcno > coverage_report.txt 2>&1; \
+		echo "$(GREEN)✅ Rapport de couverture: coverage_report.txt$(NC)"; \
+		rm -f *.gcda *.gcno $(TEST_UNIT_NAME)_coverage; \
+	else \
+		echo "$(YELLOW)⚠️  gcov non disponible, analyse de couverture ignorée$(NC)"; \
+	fi
+
+# ========== NETTOYAGE ==========
+
+clean-tests:
+	@echo "$(YELLOW)🗑️  Nettoyage des fichiers de tests...$(NC)"
+	@rm -f $(TEST_UNIT_NAME) $(TEST_INTEGRATION_NAME)
+	@rm -f $(TEST_SCRIPT) stress_test.sh
+	@rm -f test_report.txt benchmark_results.txt bash_comparison.txt coverage_report.txt
+	@rm -f *.gcda *.gcno *.gcov
+	@rm -f *_coverage
+	@echo "$(GREEN)✅ Nettoyage terminé$(NC)"
+
+clean: clean-tests
+	@make -C $(LIBFT_DIR) clean -s
+
+fclean: clean-tests
+	@make -C $(LIBFT_DIR) fclean -s
+
+re-test: clean-tests test-all
+
+# ========== AIDE ET DOCUMENTATION ==========
+
+help: info
+
+help-advanced:
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    AIDE AVANCÉE - TESTS PARSING$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@echo ""
+	@echo "$(CYAN)Tests spécialisés:$(NC)"
+	@echo "  $(GREEN)test-tokenization$(NC)    - Tests de tokenisation uniquement"
+	@echo "  $(GREEN)test-syntax$(NC)          - Tests de validation syntaxique"
+	@echo "  $(GREEN)test-ast$(NC)             - Tests de construction AST"
+	@echo "  $(GREEN)test-variables$(NC)       - Tests de gestion des variables"
+	@echo ""
+	@echo "$(CYAN)Analyse et rapports:$(NC)"
+	@echo "  $(GREEN)generate-report$(NC)      - Rapport complet de tous les tests"
+	@echo "  $(GREEN)benchmark$(NC)            - Tests de performance détaillés"
+	@echo "  $(GREEN)test-coverage$(NC)        - Analyse de couverture de code"
+	@echo "  $(GREEN)test-bash-comparison$(NC) - Comparaison avec bash"
+	@echo ""
+	@echo "$(CYAN)Outils de développement:$(NC)"
+	@echo "  $(GREEN)create-test-script$(NC)   - Créer des scripts de test"
+	@echo "  $(GREEN)create-stress-script$(NC) - Créer des tests de stress"
+	@echo "  $(GREEN)test-ci$(NC)              - Tests pour intégration continue"
+	@echo ""
+	@echo "$(CYAN)Utilisation typique:$(NC)"
+	@echo "  1. $(YELLOW)make test-unit$(NC)        # Tests de base"
+	@echo "  2. $(YELLOW)make test-memory$(NC)      # Vérifier les fuites"
+	@echo "  3. $(YELLOW)make test-integration$(NC) # Tests d'intégration"
+	@echo "  4. $(YELLOW)make generate-report$(NC)  # Rapport final"
+
+debug-tests: $(TEST_UNIT_NAME)
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(PURPLE)    MODE DEBUG DES TESTS$(NC)"
+	@echo "$(PURPLE)========================================$(NC)"
+	@echo "$(CYAN)🐛 Compilation en mode debug...$(NC)"
+	@$(CC) $(CFLAGS) -DDEBUG_MODE $(INCLUDES) parsing_unit_tests.c $(TEST_SOURCES) $(LIBFT) -o $(TEST_UNIT_NAME)_debug
+	@echo "$(CYAN)🔍 Exécution en mode debug...$(NC)"
+	@./$(TEST_UNIT_NAME)_debug
+	@rm -f $(TEST_UNIT_NAME)_debug
+
+# ========== TESTS INTERACTIFS ==========
+
+test-interactive:
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    MODE INTERACTIF$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(CYAN)Lancement de minishell pour tests manuels...$(NC)"
+	@echo "$(YELLOW)Tapez 'exit' pour quitter$(NC)"
+	@../minishell
+
+test-step-by-step: $(TEST_UNIT_NAME)
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(BLUE)    TESTS PAS À PAS$(NC)"
+	@echo "$(BLUE)========================================$(NC)"
+	@echo "$(CYAN)Voulez-vous exécuter les tests un par un ? (y/n)$(NC)"
+	@read -p "" answer; \
+	if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then \
+		echo "$(YELLOW)Mode pas à pas activé$(NC)"; \
+		./$(TEST_UNIT_NAME) | while read line; do \
+			echo "$line"; \
+			if echo "$line" | grep -q "Testing:"; then \
+				echo "$(CYAN)Appuyez sur Entrée pour continuer...$(NC)"; \
+				read; \
+			fi; \
+		done; \
+	else \
+		echo "$(YELLOW)Exécution normale$(NC)"; \
+		./$(TEST_UNIT_NAME); \
+	fi
+
+# ========== PHONY TARGETS ==========
+
+.PHONY: all info clean clean-tests fclean re-test help help-advanced
+.PHONY: test-unit test-integration test-all test-memory test-performance test-stress
+.PHONY: test-tokenization test-syntax test-ast test-variables
+.PHONY: test-ci test-coverage test-bash-comparison test-interactive test-step-by-step
+.PHONY: generate-report benchmark debug-tests
+.PHONY: create-test-script create-stress-script
+
+# ========== RÈGLES SPÉCIALES ==========
+
+# Vérifier que minishell principal existe
+../minishell:
+	@echo "$(RED)❌ Minishell principal non trouvé$(NC)"
+	@echo "$(YELLOW)Veuillez d'abord compiler votre projet principal:$(NC)"
+	@echo "  cd .. && make"
+	@exit 1
+
+# Créer le fichier de test unitaire s'il n'existe pas
+parsing_unit_tests.c:
+	@echo "$(RED)❌ Fichier parsing_unit_tests.c non trouvé$(NC)"
+	@echo "$(YELLOW)Veuillez créer ce fichier ou le copier depuis les artifacts$(NC)"
+	@exit 1
+
+# Installation des dépendances (si nécessaire)
+install-deps:
+	@echo "$(CYAN)📦 Vérification des dépendances...$(NC)"
+	@if ! command -v valgrind >/dev/null 2>&1; then \
+		echo "$(YELLOW)⚠️  Valgrind non installé (recommandé pour les tests mémoire)$(NC)"; \
+		echo "$(CYAN)Pour installer: sudo apt-get install valgrind (Ubuntu/Debian)$(NC)"; \
+	fi
+	@if ! command -v gcov >/dev/null 2>&1; then \
+		echo "$(YELLOW)⚠️  gcov non installé (recommandé pour la couverture)$(NC)"; \
+		echo "$(CYAN)Pour installer: sudo apt-get install gcc (Ubuntu/Debian)$(NC)"; \
+	fi
+	@echo "$(GREEN)✅ Vérification des dépendances terminée$(NC)"
+
+# ========== CONFIGURATION RAPIDE ==========
+
+quick-setup: install-deps create-test-script create-stress-script $(LIBFT)
+	@echo "$(GREEN)========================================$(NC)"
+	@echo "$(GREEN)    CONFIGURATION RAPIDE TERMINÉE$(NC)"
+	@echo "$(GREEN)========================================$(NC)"
+	@echo "$(CYAN)Vous pouvez maintenant utiliser:$(NC)"
+	@echo "  make test-all"
+	@echo "  make test-unit"
+	@echo "  make test-integration"

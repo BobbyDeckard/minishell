@@ -1,0 +1,84 @@
+==2167935== Memcheck, a memory error detector
+==2167935== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2167935== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==2167935== Command: ./minishell
+==2167935== Parent PID: 2167934
+==2167935== 
+==2167935== Conditional jump or move depends on uninitialised value(s)
+==2167935==    at 0x111094: ft_strlen (ft_strlen.c:22)
+==2167935==    by 0x110F2E: ft_strlcat (ft_strlcat.c:24)
+==2167935==    by 0x11038D: copy_env (env_cpy.c:129)
+==2167935==    by 0x10964F: main (main.c:75)
+==2167935==  Uninitialised value was created by a heap allocation
+==2167935==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2167935==    by 0x1102F7: copy_env (env_cpy.c:123)
+==2167935==    by 0x10964F: main (main.c:75)
+==2167935== 
+==2167935== Conditional jump or move depends on uninitialised value(s)
+==2167935==    at 0x111094: ft_strlen (ft_strlen.c:22)
+==2167935==    by 0x110F2E: ft_strlcat (ft_strlcat.c:24)
+==2167935==    by 0x10FFE4: set_shlvl (env_cpy.c:59)
+==2167935==    by 0x1103D8: copy_env (env_cpy.c:132)
+==2167935==    by 0x10964F: main (main.c:75)
+==2167935==  Uninitialised value was created by a heap allocation
+==2167935==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2167935==    by 0x10FF8C: set_shlvl (env_cpy.c:56)
+==2167935==    by 0x1103D8: copy_env (env_cpy.c:132)
+==2167935==    by 0x10964F: main (main.c:75)
+==2167935== 
+==2167935== Conditional jump or move depends on uninitialised value(s)
+==2167935==    at 0x111094: ft_strlen (ft_strlen.c:22)
+==2167935==    by 0x110F2E: ft_strlcat (ft_strlcat.c:24)
+==2167935==    by 0x11038D: copy_env (env_cpy.c:129)
+==2167935==    by 0x109689: main (main.c:80)
+==2167935==  Uninitialised value was created by a heap allocation
+==2167935==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2167935==    by 0x1102F7: copy_env (env_cpy.c:123)
+==2167935==    by 0x109689: main (main.c:80)
+==2167935== 
+==2167935== Syscall param exit_group(status) contains uninitialised byte(s)
+==2167935==    at 0x49B1C31: _Exit (_exit.c:30)
+==2167935==    by 0x490C551: __run_exit_handlers (exit.c:136)
+==2167935==    by 0x490C60F: exit (exit.c:143)
+==2167935==    by 0x10EC87: exit_bltn (exit.c:63)
+==2167935==    by 0x10E19C: exec_builtin (builtins.c:65)
+==2167935==    by 0x10CA47: run_cmd (exec.c:31)
+==2167935==    by 0x10CC65: exec_ast (exec.c:80)
+==2167935==    by 0x109591: process_command (main.c:41)
+==2167935==    by 0x1096F2: main (main.c:94)
+==2167935==  Uninitialised value was created by a heap allocation
+==2167935==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2167935==    by 0x10B8A2: create_ast_node (nodes.c:19)
+==2167935==    by 0x10B952: create_command_node (nodes.c:39)
+==2167935==    by 0x10BDF8: parse_simple_command (simple_command.c:110)
+==2167935==    by 0x10B7E5: parse_command_line (parsing.c:94)
+==2167935==    by 0x10B2A8: create_ast (ast_builder.c:32)
+==2167935==    by 0x10A736: parse_input (parse.c:33)
+==2167935==    by 0x109561: process_command (main.c:36)
+==2167935==    by 0x1096F2: main (main.c:94)
+==2167935== 
+==2167935== 
+==2167935== HEAP SUMMARY:
+==2167935==     in use at exit: 214,997 bytes in 379 blocks
+==2167935==   total heap usage: 651 allocs, 272 frees, 240,140 bytes allocated
+==2167935== 
+==2167935== 24 bytes in 1 blocks are definitely lost in loss record 17 of 76
+==2167935==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2167935==    by 0x10B9BE: create_operator_node (nodes.c:54)
+==2167935==    by 0x10B87F: parse_command_line (parsing.c:100)
+==2167935==    by 0x10B2A8: create_ast (ast_builder.c:32)
+==2167935==    by 0x10A736: parse_input (parse.c:33)
+==2167935==    by 0x109561: process_command (main.c:36)
+==2167935==    by 0x1096F2: main (main.c:94)
+==2167935== 
+==2167935== LEAK SUMMARY:
+==2167935==    definitely lost: 24 bytes in 1 blocks
+==2167935==    indirectly lost: 0 bytes in 0 blocks
+==2167935==      possibly lost: 0 bytes in 0 blocks
+==2167935==    still reachable: 214,973 bytes in 378 blocks
+==2167935==         suppressed: 0 bytes in 0 blocks
+==2167935== Reachable blocks (those to which a pointer was found) are not shown.
+==2167935== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==2167935== 
+==2167935== For lists of detected and suppressed errors, rerun with: -s
+==2167935== ERROR SUMMARY: 138 errors from 5 contexts (suppressed: 0 from 0)

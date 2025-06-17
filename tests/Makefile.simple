@@ -1,0 +1,38 @@
+# **************************************************************************** #
+#                         MAKEFILE SIMPLIFIÉ POUR TESTS                       #
+# **************************************************************************** #
+
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g3
+INCLUDES = -I../incl -I../libft
+
+# Sources nécessaires (adaptez selon votre structure)
+PARSING_SOURCES = ../srcs/parsing/retrieve.c \
+                  ../srcs/parsing/tokenize.c \
+                  ../srcs/parsing/tokens.c \
+                  ../srcs/parsing/syntax_check/syntax_check.c \
+                  ../srcs/parsing/ast/ast_builder.c
+
+LIBFT = ../libft/libft.a
+
+# Tests unitaires
+test_parsing_unit: parsing_unit_tests.c $(PARSING_SOURCES) $(LIBFT)
+	@echo "Compilation des tests unitaires..."
+	$(CC) $(CFLAGS) $(INCLUDES) parsing_unit_tests.c $(PARSING_SOURCES) $(LIBFT) -o test_parsing_unit
+
+# Tests d'intégration
+test-integration:
+	@echo "Lancement des tests d'intégration..."
+	@chmod +x test_parsing.sh
+	@./test_parsing.sh
+
+# Test principal
+test: test_parsing_unit
+	@echo "Exécution des tests..."
+	@./test_parsing_unit
+
+# Nettoyage
+clean:
+	@rm -f test_parsing_unit
+
+.PHONY: test test-integration clean
