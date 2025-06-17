@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 13:34:18 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/13 16:14:56 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:04:08 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*cd_error(t_ast	*node)
 	len = ft_strlen(cmd.args[1]);
 	msg = (char *) malloc((len + 5) * sizeof(char));
 	if (!msg)
-		clean_exit(node->root, FAILURE);
+		clean_exit(node->root, EXIT_FAILURE);
 	ft_strlcpy(msg, "cd: ", len + 5);
 	ft_strlcat(msg, cmd.args[1], len + 5);
 	return (msg);
@@ -186,8 +186,8 @@ int	cd(t_ast *node)
 	char	*cwd;
 
 	// redirs with cd ? is that even possible ?
-	if (make_redirs(node) == FAILURE)
-		return (set_exit_status(node, FAILURE));
+	if (make_redirs(node) == EXIT_FAILURE)
+		return (set_exit_status(node, EXIT_FAILURE));
 	cwd = getcwd(NULL, 0);
 	if (chdir(node->cmd.args[1]) < 0)
 	{
@@ -197,11 +197,11 @@ int	cd(t_ast *node)
 		free(cwd);
 		close_redirs(node->cmd);
 		unlink_heredoc(node);
-		return (set_exit_status(node, FAILURE));
+		return (set_exit_status(node, EXIT_FAILURE));
 	}
 	update_pwd(node, cwd);
 	free(cwd);
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
-	return (set_exit_status(node, SUCCESS));
+	return (set_exit_status(node, EXIT_SUCCESS));
 }

@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 21:22:44 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/21 13:03:26 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:09:05 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec_pipe_cmd(t_ast *node)
 {
 	dup_fds(*node);
 	exec_cmd(node, node->cmd);
-	clean_exit(node->root, FAILURE);
+	clean_exit(node->root, EXIT_FAILURE);
 }
 
 /*
@@ -110,14 +110,14 @@ int	run_pipe(t_ast **child, int *pids, int count)
 		}
 		if (child[i]->type == NODE_CMD && is_builtin(child[i]->cmd))
 		{
-			if (exec_builtin(child[i]) == FAILURE)
+			if (exec_builtin(child[i]) == EXIT_FAILURE)
 				pids[i] = -2;
 		}
 		else
 		{
 			if (child[i]->type == NODE_CMD)
 			{
-				if (make_redirs(child[i]) == FAILURE)
+				if (make_redirs(child[i]) == EXIT_FAILURE)
 					pids[i] = -2;
 			}
 			if (pids[i] != -2)
@@ -183,7 +183,7 @@ int	exec_pipe(t_ast **children)
 	count = count_nodes(children);
 	pids = init_pids(count);
 	if (!pids)
-		return (FAILURE);
+		return (EXIT_FAILURE);
 	status = run_pipe(children, pids, count);
 	free(pids);
 	return (status);

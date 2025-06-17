@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:18:00 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/22 14:58:23 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:06:57 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	unset(t_ast *node)
 
 	i = ft_char_tab_len(node->root->envp);
 	if (i == -1)
-		return (set_exit_status(node, FAILURE));
+		return (set_exit_status(node, EXIT_FAILURE));
 	new_env = (char **) malloc(i * sizeof(char *));
 	if (!new_env)
 		malloc_error(node);
@@ -58,5 +58,5 @@ int	unset(t_ast *node)
 	new_env[++j] = NULL;
 	clean_envp(node->root->envp);
 	node->root->envp = new_env;
-	return (set_exit_status(node, SUCCESS));
+	return (set_exit_status(node, EXIT_SUCCESS));
 }

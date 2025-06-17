@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 09:56:56 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 15:53:53 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:09:16 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	waitpids(t_ast *root, int *pids, int cmd_count)
 	while (++i < cmd_count)
 	{
 		if (pids[i] < -1)
-			status = FAILURE;
+			status = EXIT_FAILURE;
 		else if (pids[i] == -1)
-			status = SUCCESS;
+			status = EXIT_SUCCESS;
 		else
 		{
 			waitpid(pids[i], &status, 0);

@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:37:44 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 20:12:18 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:08:37 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	file_namer_2000(t_ast *node, t_cmd *cmd)
 		{
 			name[i] = j;
 			if (check_and_open(name, node, cmd))
-				return (SUCCESS);
+				return (EXIT_SUCCESS);
 		}
 	}
-	return (FAILURE);
+	return (EXIT_FAILURE);
 }
 
 extern t_shell_data	g_shell;

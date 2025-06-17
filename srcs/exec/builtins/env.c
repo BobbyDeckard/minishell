@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:51:08 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/12 16:30:44 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:04:52 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	env(t_ast *node)
 {
 	int	i;
 
-	if (make_redirs(node) == FAILURE)
-		return (set_exit_status(node, FAILURE));
+	if (make_redirs(node) == EXIT_FAILURE)
+		return (set_exit_status(node, EXIT_FAILURE));
 	i = -1;
 	while (node->root->envp[++i])
 	{
@@ -35,5 +35,5 @@ int	env(t_ast *node)
 	}
 	close_redirs(node->cmd);
 	unlink_heredoc(node);
-	return (set_exit_status(node, SUCCESS));
+	return (set_exit_status(node, EXIT_SUCCESS));
 }

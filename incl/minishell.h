@@ -6,7 +6,7 @@
 /*   By: pitran <pitran@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 23:54:26 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/10 17:36:08 by pitran           ###   ########.fr       */
+/*   Updated: 2025/06/16 21:12:16 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,6 @@
 
 extern volatile sig_atomic_t g_signal_received;
 
-extern void	rl_replace_line(const char *str, int i);
-
-# ifndef SUCCESS
-#  define SUCCESS 0 /*pas sur que cela respecte les contraintes du sujet */
-# endif
-
-# ifndef FAILURE
-#  define FAILURE 1
-# endif
-
+extern void	rl_replace_line(const char *str, int i);	// potentiellement à enlever pour l'eval, étant donné qu'on sera sur linux
 
 #endif

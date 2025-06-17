@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:33:22 by imeulema          #+#    #+#             */
-/*   Updated: 2025/05/13 15:54:32 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:09:24 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	exec_pipe_child(t_ast *node)
 {
 	int	status;
 
-	status = FAILURE;
+	status = EXIT_FAILURE;
 	if (node->type == NODE_CMD)
 		exec_pipe_cmd(node);
 	else

@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 00:30:32 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/13 17:38:02 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:08:17 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	run_cmd(t_ast *node)
 	status = -1;
 	if (is_builtin(node->cmd))
 		return (exec_builtin(node));
-	if (make_redirs(node) == FAILURE)
-		return (set_exit_status(node, FAILURE));
+	if (make_redirs(node) == EXIT_FAILURE)
+		return (set_exit_status(node, EXIT_FAILURE));
 	pid = fork();
 	if (pid < 0)
 		return (fork_error());
@@ -40,7 +40,7 @@ int	run_cmd(t_ast *node)
 	{
 		dup_fds(*node);
 		exec_cmd(node, node->cmd);
-		clean_exit(node->root, FAILURE);
+		clean_exit(node->root, EXIT_FAILURE);
 	}
 	close_redirs(node->cmd);
 	waitpid(pid, &status, 0);
@@ -57,10 +57,10 @@ int	exec_or_if(t_ast **child)
 	i = -1;
 	while (child[++i])
 	{
-		if (exec_ast(child[i]) == SUCCESS)
-			return (SUCCESS);
+		if (exec_ast(child[i]) == EXIT_SUCCESS)
+			return (EXIT_SUCCESS);
 	}
-	return (FAILURE);
+	return (EXIT_FAILURE);
 }
 
 int	exec_and_if(t_ast **child)
@@ -70,10 +70,10 @@ int	exec_and_if(t_ast **child)
 	i = -1;
 	while (child[++i])
 	{
-		if (exec_ast(child[i]) == FAILURE)
-			return (FAILURE);
+		if (exec_ast(child[i]) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	exec_ast(t_ast *node)
@@ -94,5 +94,5 @@ int	exec_ast(t_ast *node)
 		return (exec_solo_redir_append(node));
 	else if (node->type == NODE_HEREDOC)
 		return (exec_solo_heredoc(node));
-	return (FAILURE);
+	return (EXIT_FAILURE);
 }

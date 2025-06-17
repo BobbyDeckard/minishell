@@ -6,7 +6,7 @@
 /*   By: imeulema <imeulema@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:05:28 by imeulema          #+#    #+#             */
-/*   Updated: 2025/06/13 15:25:39 by imeulema         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:05:10 by imeulema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	export_print(t_ast *node, char **cpy)
 		}
 	}
 	clean_env_cpy(cpy, -1);
-	return (set_exit_status(node, SUCCESS));
+	return (set_exit_status(node, EXIT_SUCCESS));
 }
 
 int	export_wo_args(t_ast *node, int size)
@@ -76,5 +76,5 @@ int	export_bltn(t_ast *node)
 		return (assign_var(node, size));
 	else if (!var_exists(node))
 		return (create_var(node, size));
-	return (set_exit_status(node, SUCCESS));
+	return (set_exit_status(node, EXIT_SUCCESS));
 }
